@@ -46,7 +46,7 @@ RUN sudo curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.ke
   python3-argcomplete \
   && apt-get install -y --no-install-recommends \
    ros-${ROS_DISTRO}-desktop \
-   python3-colcon-common-extensions \
+   ros-dev-tools \
   && rm -rf /var/lib/apt-get/lists/*
 
 
