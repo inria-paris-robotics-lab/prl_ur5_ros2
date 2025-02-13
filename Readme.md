@@ -19,7 +19,7 @@ You can download and install Docker from the [official website](https://docs.doc
 #### 1) Clone this repository
 Clone this Git repository to your local machine:
 ```bash
-$ git clone 
+$ git clone https://gitlab.inria.fr/tcarecch/docker-ros2.git
 ```
 
 #### 2) Build the Docker image
