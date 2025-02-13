@@ -110,6 +110,8 @@ RUN sudo apt-get update && apt-get install -y ca-certificates curl \
 
 RUN sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 
+RUN sudo groupmod -g 137 docker 
+
 # Install dev tools
 RUN apt-get update && apt-get install -y --no-install-recommends\
   byobu \
