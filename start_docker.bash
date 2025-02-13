@@ -11,9 +11,9 @@ user="${3:-ros}"
 
 
 # Set the working directory based on the user
-if [ "$user" == "root" ]; then
+if [ "$user" = "root" ]; then
   workdir="/root"
-elif [ "$user" == "ros" ]; then
+elif [ "$user" = "ros" ]; then
   workdir="/home/ros"
 else
   echo "Invalid user"
