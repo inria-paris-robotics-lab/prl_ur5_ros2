@@ -28,7 +28,7 @@ $ git clone https://gitlab.inria.fr/tcarecch/docker-ros2.git
 
 Build the Docker image by running the following command in the project directory:
 ```bash
-$ docker build -t ros2 .
+$ docker build -t prl_ros2:jazzy . --build-arg USER_UID=$(id -u) --build-arg USER_GID=$(id -g)
 ```
 This will download the base ROS 2 image and install all the necessary dependencies, tools, and the ROS 2 Universal Robot driver.
 
