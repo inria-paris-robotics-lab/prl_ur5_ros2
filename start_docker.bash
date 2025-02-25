@@ -10,6 +10,7 @@ storage=$2
 user="${3:-ros}"
 
 
+
 # Set the working directory based on the user
 if [ "$user" = "root" ]; then
   workdir="/root"
@@ -34,7 +35,7 @@ docker run -it --rm \
 --user="$user" \
 --workdir="$workdir" \
 --volume $storage:"$workdir/share" \
-ros2 \
+ros2-jazzy \
 bash
 
 xhost -local:docker > /dev/null 2>&1

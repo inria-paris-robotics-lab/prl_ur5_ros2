@@ -11,6 +11,8 @@ Ready-to-use environment to test and develop ROS 2 applications with UR cobots o
 
 ## Prerequisites
 
+#### Tested on linux/amd64, but not supported on ARM 
+
 Before starting, make sure you have Docker installed on your machine.\
 You can download and install Docker from the [official website](https://docs.docker.com/engine/install/).
 

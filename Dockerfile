@@ -2,16 +2,18 @@
 # Base image
 ################################
 
-FROM ubuntu:22.04 AS base
+FROM ubuntu:24.04 AS base
 
 # Here you can choose your ros distro
-ENV ROS_DISTRO=humble 
+ENV ROS_DISTRO=jazzy 
+
+ARG DOCKERGRP=999
 
 # Prevents any interaction during installation by selecting the default response
 ENV DEBIAN_FRONTEND=noninteractive
 
 # Check language (compatible ros2)
-RUN apt-get update && apt-get install locales \
+RUN apt-get update && apt-get install -y locales \
     && locale-gen en_US en_US.UTF-8 \
     && update-locale LC_ALL=en_US.UTF-8 LANG=en_US.UTF-8 \
     && rm -rf /var/lib/apt-get/lists/*
@@ -19,7 +21,7 @@ ENV LANG=en_US.UTF-8
 ENV TERM=xterm-256color
 ENV SHELL=/bin/bash
 
-RUN apt-get update && apt-get -y upgrade 
+RUN apt-get -y update && apt-get -y upgrade 
 
 # Install timezone
 RUN ln -fs /usr/share/zoneinfo/UTC /etc/localtime \
@@ -47,6 +49,9 @@ RUN sudo curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.ke
   && apt-get install -y --no-install-recommends \
    ros-${ROS_DISTRO}-desktop \
    ros-dev-tools \
+   ros-${ROS_DISTRO}-ros2-control \
+   ros-${ROS_DISTRO}-ros2-controllers \
+   ros-${ROS_DISTRO}-ur \
   && rm -rf /var/lib/apt-get/lists/*
 
 
@@ -58,6 +63,9 @@ ENV PYTHONPATH=/opt/ros/${ROS_DISTRO}/local/lib/python3.10/dist-packages:/opt/ro
 
 #Source ros
 RUN echo "source /opt/ros/${ROS_DISTRO}/setup.bash" >> ~/.bashrc
+
+RUN rosdep init \
+  &&rosdep update 
 
 
 ################################
@@ -80,7 +88,7 @@ RUN wget https://packages.osrfoundation.org/gazebo.gpg -O /usr/share/keyrings/pk
   && echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/pkgs-osrf-archive-keyring.gpg] http://packages.osrfoundation.org/gazebo/ubuntu-stable $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/gazebo-stable.list > /dev/null \
   && apt-get update && apt-get install -q -y --no-install-recommends \
     ros-${ROS_DISTRO}-ros-gz \
-    ros-${ROS_DISTRO}-gazebo-ros-pkgs \
+    ros-${ROS_DISTRO}-gz-ros2-control\
   && rm -rf /var/lib/apt/lists/*
 
 
@@ -110,7 +118,7 @@ RUN sudo apt-get update && apt-get install -y ca-certificates curl \
 
 RUN sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 
-RUN sudo groupmod -g 137 docker 
+# RUN sudo groupmod -g ${DOCKERGRP} docker 
 
 # Install dev tools
 RUN apt-get update && apt-get install -y --no-install-recommends\
@@ -126,7 +134,7 @@ RUN byobu-enable
 # Add non root user 
 
 ARG USERNAME=ros
-ARG USER_UID=1000
+ARG USER_UID=1001
 ARG USER_GID=$USER_UID
 
 # Create new user and his home directory
