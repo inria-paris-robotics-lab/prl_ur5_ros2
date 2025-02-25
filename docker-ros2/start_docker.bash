@@ -35,7 +35,7 @@ docker run -it --rm \
 --user="$user" \
 --workdir="$workdir" \
 --volume $storage:"$workdir/share" \
-ros2-jazzy \
+prl_ros2:jazzy \
 bash
 
 xhost -local:docker > /dev/null 2>&1
