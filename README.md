@@ -1,93 +1,89 @@
-# Docker ROS2 
 
+# Docker ROS 2 & UR Driver
 
+This Dockerfile sets up a ROS 2 development environment with the ability to interface with UR-type cobots (ur3, ur3e, ur5, ur5e, ur10, ur10e, ur16e, ur20, ur30) using the `ur_driver`.
 
-## Getting started
+## Features
 
-To make it easy for you to get started with GitLab, here's a list of recommended next steps.
+Ubuntu 22.04 preinstalled with ROS 2 (humble), these versions are fully replaceable if you require others.\
+UR Driver (`ur_driver`) for communication with Universal Robots.\
+Ready-to-use environment to test and develop ROS 2 applications with UR cobots or others.
 
-Already a pro? Just edit this README.md and make it your own. Want to make it easy? [Use the template at the bottom](#editing-this-readme)!
+## Prerequisites
 
-## Add your files
+#### Tested on linux/amd64, but not supported on ARM 
 
-- [ ] [Create](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#create-a-file) or [upload](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#upload-a-file) files
-- [ ] [Add files using the command line](https://docs.gitlab.com/ee/gitlab-basics/add-file.html#add-a-file-using-the-command-line) or push an existing Git repository with the following command:
-
-```
-cd existing_repo
-git remote add origin https://gitlab.inria.fr/tcarecch/docker-ros2.git
-git branch -M main
-git push -uf origin main
-```
-
-## Integrate with your tools
-
-- [ ] [Set up project integrations](https://gitlab.inria.fr/tcarecch/docker-ros2/-/settings/integrations)
-
-## Collaborate with your team
-
-- [ ] [Invite team members and collaborators](https://docs.gitlab.com/ee/user/project/members/)
-- [ ] [Create a new merge request](https://docs.gitlab.com/ee/user/project/merge_requests/creating_merge_requests.html)
-- [ ] [Automatically close issues from merge requests](https://docs.gitlab.com/ee/user/project/issues/managing_issues.html#closing-issues-automatically)
-- [ ] [Enable merge request approvals](https://docs.gitlab.com/ee/user/project/merge_requests/approvals/)
-- [ ] [Set auto-merge](https://docs.gitlab.com/ee/user/project/merge_requests/merge_when_pipeline_succeeds.html)
-
-## Test and Deploy
-
-Use the built-in continuous integration in GitLab.
-
-- [ ] [Get started with GitLab CI/CD](https://docs.gitlab.com/ee/ci/quick_start/index.html)
-- [ ] [Analyze your code for known vulnerabilities with Static Application Security Testing (SAST)](https://docs.gitlab.com/ee/user/application_security/sast/)
-- [ ] [Deploy to Kubernetes, Amazon EC2, or Amazon ECS using Auto Deploy](https://docs.gitlab.com/ee/topics/autodevops/requirements.html)
-- [ ] [Use pull-based deployments for improved Kubernetes management](https://docs.gitlab.com/ee/user/clusters/agent/)
-- [ ] [Set up protected environments](https://docs.gitlab.com/ee/ci/environments/protected_environments.html)
-
-***
-
-# Editing this README
-
-When you're ready to make this README your own, just edit this file and use the handy template below (or feel free to structure it however you want - this is just a starting point!). Thanks to [makeareadme.com](https://www.makeareadme.com/) for this template.
-
-## Suggestions for a good README
-
-Every project is different, so consider which of these sections apply to yours. The sections used in the template are suggestions for most open source projects. Also keep in mind that while a README can be too long and detailed, too long is better than too short. If you think your README is too long, consider utilizing another form of documentation rather than cutting out information.
-
-## Name
-Choose a self-explaining name for your project.
-
-## Description
-Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
-
-## Badges
-On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
-
-## Visuals
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
+Before starting, make sure you have Docker installed on your machine.\
+You can download and install Docker from the [official website](https://docs.docker.com/engine/install/).
 
 ## Installation
-Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
+
+#### 1) Clone this repository
+Clone this Git repository to your local machine:
+```bash
+$ git clone https://gitlab.inria.fr/tcarecch/docker-ros2.git
+```
+
+#### 2) Build the Docker image
+
+Build the Docker image by running the following command in the project directory:
+```bash
+$ docker build -t ros2 .
+```
+This will download the base ROS 2 image and install all the necessary dependencies, tools, and the ROS 2 Universal Robot driver.
+
+#### 3) Run the Docker container
+
+Once the image is built, you can run a container from it using the provided shell script:
+
+Before you start the container, create a volume with Docker to hold the files used in the container.
+```bash
+$ docker volume create <volume_name>
+```
+Anything created in the user's folder `share` will be stored on this volume.
+
+If you want to retrieve your files or add some to a container, use the following command
+```bash
+$ docker cp <SRC> <DEST>
+```
+
+You can now start your container:
+
+```bash
+$ ./start_docker.bash <container_name> <user(optional)>
+```
+The container name is flexible and allows you to run multiple containers with the same image simultaneously.
+There are by default two users: **root** and **ros**. It is recommended to use the **ros** user (non-root) to avoid creating root-owned files in the directory linked to the container on your machine.\
+**ros** is the default user.
 
 ## Usage
-Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
 
-## Support
-Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
+Once inside the Docker container, you can use ROS 2 to interact with your UR robot. Here are some useful commands:
 
-## Roadmap
-If you have ideas for releases in the future, it is a good idea to list them in the README.
+#### Run a UR simulation:
+```bash
+$ ros2 run ur_client_library start_ursim.sh -m <ur_type>
+```
+You can access the GUI of the emulated UR robot via the following link: http://192.168.56.101:6080/vnc.html 
 
-## Contributing
-State if you are open to contributions and what your requirements are for accepting them.
+If you are having difficulty accessing the port provided by the emulation node, please check your firewall and enable the port:
+```bash
+$ sudo ufw allow <port>/tcp
+$ sudo ufw reload 
+```
 
-For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
+#### Run the driver for a physical robot:
 
-You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
+Make sure your UR robot is connected to your network and that you can communicate with it using its IP.
 
-## Authors and acknowledgment
-Show your appreciation to those who have contributed to the project.
+Launch the UR driver in your ROS 2 environment with the following command:
+```bash
+$ ros2 launch ur_robot_driver ur_control.launch.py ur_type:=ur5e robot_ip:=192.168.56.101
+```
+Allowed `ur_type` strings: ur3, ur3e, ur5, ur5e, ur10, ur10e, ur16e, ur20, ur30.
 
-## License
-For open source projects, say how it is licensed.
+For more details, follow the official [UR driver guide](https://docs.universal-robots.com/Universal_Robots_ROS2_Documentation/index.html).
 
-## Project status
-If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
+###
+You can add any desired development tools by modifying the `# Dev image with tools and non-root user` section of the Dockerfile.
+###
