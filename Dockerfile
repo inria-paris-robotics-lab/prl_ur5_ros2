@@ -5,7 +5,7 @@
 FROM ubuntu:24.04 AS base
 
 # Here you can choose your ros distro
-ENV ROS_DISTRO=jazzy 
+ENV ROS_DISTRO=jazzy
 
 ARG DOCKERGRP=999
 
@@ -153,6 +153,7 @@ RUN sudo usermod -aG docker $USERNAME
 USER ${USERNAME}
 # RUN echo "export XDG_RUNTIME_DIR=/tmp/runtime-circleci" >> /home/${USERNAME}/.bashrc
 RUN echo "source /opt/ros/${ROS_DISTRO}/setup.bash " >> /home/${USERNAME}/.bashrc
+RUN echo 'export PS1="\[\e]0;\u@$ROS_DISTRO-container: \w\a\]${debian_chroot:+($debian_chroot)}\[\033[01;34m\]\u@$ROS_DISTRO-container\[\033[00m\]:\[\033[01;35m\]\w\[\033[00m\]\$ "' >> /home/${USERNAME}/.bashrc
 # Set default working directory
 WORKDIR /home/${USERNAME}
 
