@@ -34,7 +34,7 @@ Follow the steps below to set up the Docker environment with ROS 2.
 Clone the `docker-ros2` repository to your local machine:
 
 ```bash
-git clone https://gitlab.inria.fr/tcarecch/docker-ros2.git
+git clone git@github.com:inria-paris-robotics-lab/prl_ur5_ros2.git
 ```
 
 #### Build the Docker Image
@@ -71,7 +71,7 @@ git clone https://github.com/inria-paris-robotics-lab/prl_ur5_description.git
 
 The **prl_ur5_description** package requires the following dependencies:
 
-- [prl_ur5_configuration](https://github.com/inria-paris-robotics-lab/prl_ur5_robot_configuration)  
+- [prl_ur5_robot_configuration](https://github.com/inria-paris-robotics-lab/prl_ur5_robot_configuration)  
 - [universal_robot_description](https://github.com/UniversalRobots/Universal_Robots_ROS2_Description)  
 - [universal_robot_gazebo](https://github.com/UniversalRobots/Universal_Robots_ROS2_GZ_Simulation/tree/ros2)  
 - [rq_fts_ros2_driver](https://github.com/panagelak/rq_fts_ros2_driver)  
@@ -82,10 +82,11 @@ To install these dependencies, clone them into your workspace using the followin
 
 ```bash
 cd ~/ws/src
-git clone https://github.com/inria-paris-robotics-lab/prl_ur5_configuration.git
+git clone -b ros2 https://github.com/inria-paris-robotics-lab/prl_ur5_robot_configuration.git
 git clone https://github.com/UniversalRobots/Universal_Robots_ROS2_Description.git
 git clone https://github.com/UniversalRobots/Universal_Robots_ROS2_GZ_Simulation.git
 git clone https://github.com/panagelak/rq_fts_ros2_driver.git
+git clone -b ros2 https://github.com/inria-paris-robotics-lab/onrobot_ros.git
 ```
 
 #### Install Workspace dependencies
@@ -96,7 +97,7 @@ After cloning the dependencies, check and install others dependencies linked to 
 cd ~/ws
 rosdep init
 rosdep update
-rosdep install -r --from-paths . --ignore-src --rosdistro $ROS_DISTRO -y
+rosdep install -r --from-paths . --ignore-src --rosdistro $ROS_DISTRO -y --packages-skip onrobot_control onrobot_gazebo onrobot_ros robotiq_ft_sensor_hardware
 ```
 
 #### Build and source the Workspace
