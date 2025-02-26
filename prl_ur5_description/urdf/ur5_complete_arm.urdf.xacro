@@ -4,11 +4,10 @@
   <!-- ur5 -->
   <xacro:include filename="$(find prl_ur5_description)/urdf/ur5_macro.xacro" />
   <!-- Force sensor -->
-  <xacro:include filename="$(find prl_ur5_description)/urdf/_force_sensor.urdf.xacro"/>
+  <xacro:include filename="$(find robotiq_ft_sensor_description)/urdf/robotiq_ft300.urdf.xacro" />
+
   <!-- gripper -->
   <xacro:include filename="$(find prl_ur5_description)/urdf/_gripper.urdf.xacro"/>
-  <!-- camera -->
-  <!-- <xacro:include filename="$(find prl_ur5_description)/urdf/_camera_sensor.urdf.xacro"/> -->
 
   <xacro:macro name="ur5" params="
       prefix
@@ -21,6 +20,9 @@
       gripper_pose:=None
       camera:=None
       camera_pose:=None
+      joint_limits_parameters_file:='$(find ur_description)/config/ur5/joint_limits.yaml'
+      kinematics_parameters_file:='$(find ur_description)/config/ur5/default_kinematics.yaml'
+      transmission_hw_interface:=hardware_interface/PositionJointInterface
     ">
     <!-- ur5 -->
     <xacro:ur5_robot 
@@ -29,9 +31,13 @@
       pose="${pose}"
       transmission_hw_interface="${hardware_interface}"
       gz_sim="${gz_sim}"
+      joint_limits_parameters_file="${joint_limits_parameters_file}"
+      kinematics_parameters_file="${kinematics_parameters_file}"
       />
     <!-- force sensor -->
-    <xacro:force_sensor prefix='${prefix}' parent="tool0"/>
+    <xacro:robotiq_ft300 tf_prefix="${prefix}" parent="tool0">
+      <origin rpy="0 0 ${-pi/2}" xyz="0 0 -0.004"/>
+    </xacro:robotiq_ft300>
 
     <!-- tool frame -->
     <link name="${prefix}tool"/>

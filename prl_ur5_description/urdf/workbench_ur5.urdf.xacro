@@ -2,15 +2,11 @@
 <robot name="ur5" xmlns:xacro="http://wiki.ros.org/xacro">
 
   <!-- Load the setup file -->
-  <xacro:property name="setup_file" value="${xacro.load_yaml('$(find prl_ur5_robot_configuration)/config/standart_setup.yaml')}"/>
+  <xacro:property name="setup_file" value="${xacro.load_yaml('$(find prl_ur5_configuration)/config/standart_setup.yaml')}"/>
 
   <!-- ur5 arm -->
   <xacro:include filename="$(find prl_ur5_description)/urdf/ur5_complete_arm.urdf.xacro"/>
   
-  <!-- Fixed cameras -->
-  <!-- <xacro:include filename="$(find prl_ur5_description)/urdf/_fixed_cameras.urdf.xacro"/> -->
-
-
   <!-- Global frame -->
   <link name="prl_ur5_base"/>
    
@@ -88,7 +84,10 @@
                  gripper="${left.get('gripper')}"
                  gripper_pose="${left.get('gripper_pose')}"
                  hardware_interface="hardware_interface/PositionJointInterface"
+                 joint_limits_parameters_file="$(find prl_ur5_configuration)/config/${left.get('arm_joint_limits')}"
+                 kinematics_parameters_file="$(find prl_ur5_configuration)/config/${left.get('arm_kinematics')}"
                  />
+                 
   <!-- Right Arm -->
   <xacro:property name="right" value="${setup_file.get('right')}"/>
   <xacro:ur5 prefix="right_"
@@ -98,6 +97,8 @@
                  gripper="onrobot-rg6"
                  gripper_pose="${right.get('gripper_pose')}"
                  hardware_interface="hardware_interface/PositionJointInterface"
+                 joint_limits_parameters_file="$(find prl_ur5_configuration)/config/${left.get('arm_joint_limits')}"
+                 kinematics_parameters_file="$(find prl_ur5_configuration)/config/${left.get('arm_kinematics')}"
                  />
 
   

@@ -4,7 +4,7 @@ project(prl_ur5_description)
 find_package(ament_cmake REQUIRED)
 
 install(
-  DIRECTORY launch rviz urdf model config world
+  DIRECTORY launch rviz urdf model
   DESTINATION share/${PROJECT_NAME}
 )
 
