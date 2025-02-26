@@ -97,8 +97,8 @@
                  gripper="onrobot-rg6"
                  gripper_pose="${right.get('gripper_pose')}"
                  hardware_interface="hardware_interface/PositionJointInterface"
-                 joint_limits_parameters_file="$(find prl_ur5_configuration)/config/${left.get('arm_joint_limits')}"
-                 kinematics_parameters_file="$(find prl_ur5_configuration)/config/${left.get('arm_kinematics')}"
+                 joint_limits_parameters_file="$(find prl_ur5_configuration)/config/${right.get('arm_joint_limits')}"
+                 kinematics_parameters_file="$(find prl_ur5_configuration)/config/${right.get('arm_kinematics')}"
                  />
 
   
