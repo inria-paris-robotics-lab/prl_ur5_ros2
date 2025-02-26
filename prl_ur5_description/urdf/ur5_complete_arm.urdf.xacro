@@ -4,8 +4,7 @@
   <!-- ur5 -->
   <xacro:include filename="$(find prl_ur5_description)/urdf/ur5_macro.xacro" />
   <!-- Force sensor -->
-  <xacro:include filename="$(find robotiq_ft_sensor_description)/urdf/robotiq_ft300.urdf.xacro" />
-
+  <xacro:include filename="$(find prl_ur5_description)/urdf/_force_sensor.urdf.xacro" />
   <!-- gripper -->
   <xacro:include filename="$(find prl_ur5_description)/urdf/_gripper.urdf.xacro"/>
 
@@ -35,9 +34,10 @@
       kinematics_parameters_file="${kinematics_parameters_file}"
       />
     <!-- force sensor -->
-    <xacro:robotiq_ft300 tf_prefix="${prefix}" parent="tool0">
-      <origin rpy="0 0 ${-pi/2}" xyz="0 0 -0.004"/>
-    </xacro:robotiq_ft300>
+    <xacro:force_sensor 
+        prefix='${prefix}' 
+        parent="tool0"
+    />
 
     <!-- tool frame -->
     <link name="${prefix}tool"/>
@@ -70,10 +70,6 @@
       <parent link="${prefix}wrist_3_link"/>
       <child link="${prefix}wrist_connector_link"/>
     </joint>
-    <!-- hand-eye camera
-    <xacro:unless value="${camera is None}">
-      <xacro:camera_sensor camera="${camera}" prefix='${prefix}' parent="${prefix}tool" pose="${camera_pose}" turn_on="${sensor}"/>
-    </xacro:unless> -->
 
   </xacro:macro>
 
