@@ -100,16 +100,7 @@
                 </geometry>
             </collision>
         </link>
-        <gazebo reference="fixed_camera_${number}_bb">
-            <visual>
-            <material>
-                <ambient>0.1 0.5 0.5 0.2</ambient>
-                <diffuse>0.1 0.5 0.1 0.2</diffuse>
-                <specular>0.1 0.1 0.1 0.2</specular>
-                <emissive>0.0 0.0 0.0 0.0</emissive>
-            </material>
-            </visual>
-        </gazebo>
+        
         <joint name="fixed_camera_${number}_bb_joint" type="fixed">
             <parent link = "${parent}"/>
             <child link="fixed_camera_${number}_bb"/>
@@ -130,9 +121,7 @@
                 </geometry>
             </collision>
         </link>
-        <gazebo reference="fixed_camera_${number}_sj">
-                <material>Gazebo/BlueGlow</material>
-        </gazebo>
+        
         <joint name="fixed_camera_${number}_sj_joint" type="fixed">
             <parent link = "fixed_camera_${number}_bb"/>
             <child link="fixed_camera_${number}_sj"/>
@@ -153,9 +142,7 @@
                 </geometry>
             </collision>
         </link>
-        <gazebo reference="fixed_camera_${number}_vt">
-                <material>Gazebo/BlueGlow</material>
-        </gazebo>
+        
         <joint name="fixed_camera_${number}_vt_joint" type="fixed">
             <parent link = "fixed_camera_${number}_sj"/>
             <child link="fixed_camera_${number}_vt"/>
@@ -176,9 +163,7 @@
                 </geometry>
             </collision>
         </link>
-        <gazebo reference="fixed_hr_${number}">
-                <material>Gazebo/BlueGlow</material>
-        </gazebo>
+        
         <joint name="fixed_hr_${number}_fix" type="fixed">
             <parent link = "fixed_camera_${number}_vt"/>
             <child link="fixed_hr_${number}"/>
@@ -188,3 +173,4 @@
     </xacro:macro>
 
 </robot>
+
