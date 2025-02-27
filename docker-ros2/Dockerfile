@@ -137,8 +137,8 @@ ARG USER_UID=1001
 ARG USER_GID=$USER_UID
 
 # Create new user and his home directory
-RUN deluser --remove-home `id -nu ${USER_GID}` \
- && groupadd --gid $USER_GID $USERNAME \
+RUN deluser --remove-home `id -nu ${USER_GID}` || true \
+ ; groupadd --gid $USER_GID $USERNAME \
  && useradd --uid ${USER_GID} --gid ${USER_GID} --create-home ${USERNAME} \
  # support du sudo par l'user
  && echo ${USERNAME} ALL=\(root\) NOPASSWD:ALL > /etc/sudoers.d/${USERNAME} \
