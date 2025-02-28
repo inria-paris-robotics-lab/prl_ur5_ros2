@@ -46,10 +46,11 @@ git clone https://github.com/inria-paris-robotics-lab/prl_ur5_description.git
 
 The **prl_ur5_description** package requires the following dependencies:
 
-- [prl_ur5_robot_configuration](https://github.com/inria-paris-robotics-lab/prl_ur5_robot_configuration)  
-- [universal_robot_description](https://github.com/UniversalRobots/Universal_Robots_ROS2_Description)  
-- [universal_robot_gazebo](https://github.com/UniversalRobots/Universal_Robots_ROS2_GZ_Simulation/tree/ros2)  
-- [rq_fts_ros2_driver](https://github.com/panagelak/rq_fts_ros2_driver)  
+- [prl_ur5_robot_configuration](https://github.com/inria-paris-robotics-lab/prl_ur5_robot_configuration)
+- [universal_robot_description](https://github.com/UniversalRobots/Universal_Robots_ROS2_Description)
+- [universal_robot_gazebo](https://github.com/UniversalRobots/Universal_Robots_ROS2_GZ_Simulation/tree/ros2)
+- [rq_fts_ros2_driver](https://github.com/panagelak/rq_fts_ros2_driver)
+- [realsense-ros](https://github.com/IntelRealSense/realsense-ros)
 
 These packages provide configuration files, robot descriptions, simulation models, and force-torque sensor drivers that are necessary for the UR5 robot to operate properly in a ROS2 ecosystem.
 
@@ -73,7 +74,7 @@ After cloning the dependencies, check and install others dependencies linked to 
 cd ~/ws
 rosdep init
 rosdep update
-rosdep install -r --from-paths . --ignore-src --rosdistro $ROS_DISTRO -y 
+rosdep install -r --from-paths . --ignore-src --rosdistro $ROS_DISTRO -y
 ```
 
 #### Build and source the Workspace
