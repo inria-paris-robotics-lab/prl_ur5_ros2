@@ -1,89 +1,111 @@
+# PRL UR5 Workbench
 
-# Docker ROS 2 & UR Driver
+This project combines a ROS 2 development environment with Docker and packages for the description and simulation of the UR5 workbench from paris robotics lab.
 
-This Dockerfile sets up a ROS 2 development environment with the ability to interface with UR-type cobots (ur3, ur3e, ur5, ur5e, ur10, ur10e, ur16e, ur20, ur30) using the `ur_driver`.
+## **Included Packages**
 
-## Features
+### 1. **docker-ros2**
+This package provides a Docker environment for developing with ROS 2 (jazzy), including the **UR Driver** to interact with UR robots (UR3, UR5, UR10, etc.). The container is configured to work with these robots and includes all necessary tools for simulation and communication with both physical and simulated robots.
 
-Ubuntu 22.04 preinstalled with ROS 2 (humble), these versions are fully replaceable if you require others.\
-UR Driver (`ur_driver`) for communication with Universal Robots.\
-Ready-to-use environment to test and develop ROS 2 applications with UR cobots or others.
+### 2. **prl_ur5_description**
+The **prl_ur5_description** package provides the UR5 workbench description, including 3D models files necessary for visualizing and simulating the UR5 robot in a ROS 2 environment. It is part of the PRL (Paris Robotics Lab) ecosystem and designed to facilitate the use of the UR5 robot in simulation.
 
-## Prerequisites
+---
 
-#### Tested on linux/amd64, but not supported on ARM 
+## **Prerequisites**
 
-Before starting, make sure you have Docker installed on your machine.\
-You can download and install Docker from the [official website](https://docs.docker.com/engine/install/).
+- Docker must be installed on your machine (Tested on `linux/amd64`, not supported on ARM).
+- A compatible version of ROS 2 (Humble) must be installed and configured.
+- Gazebo for simulating the UR5 robot (if you intend to use simulation).
 
-## Installation
+---
 
-#### 1) Clone this repository
-Clone this Git repository to your local machine:
-```bash
-$ git clone https://gitlab.inria.fr/tcarecch/docker-ros2.git
-```
+Certainly! Below is the updated README where the installation sections for Docker and the `prl_ur5_description` package are separated for clarity.
 
-#### 2) Build the Docker image
 
-Build the Docker image by running the following command in the project directory:
-```bash
-$ docker build -t ros2 .
-```
-This will download the base ROS 2 image and install all the necessary dependencies, tools, and the ROS 2 Universal Robot driver.
+## **Installation**
 
-#### 3) Run the Docker container
+### **1. Docker Setup (for `docker-ros2`)**
 
-Once the image is built, you can run a container from it using the provided shell script:
+**See [docker-ros2/README.md](docker-ros2/README.md)**
 
-Before you start the container, create a volume with Docker to hold the files used in the container.
-```bash
-$ docker volume create <volume_name>
-```
-Anything created in the user's folder `share` will be stored on this volume.
+---
 
-If you want to retrieve your files or add some to a container, use the following command
-```bash
-$ docker cp <SRC> <DEST>
-```
+### **2. Install `prl_ur5_description` Package**
 
-You can now start your container:
+Follow the steps below to set up the  `prl_ur5_description` package.
+
+#### Clone the `prl_ur5_description` repository into your ROS 2 workspace:
 
 ```bash
-$ ./start_docker.bash <container_name> <user(optional)>
+cd ~/ws/src
+git clone https://github.com/inria-paris-robotics-lab/prl_ur5_description.git
 ```
-The container name is flexible and allows you to run multiple containers with the same image simultaneously.
-There are by default two users: **root** and **ros**. It is recommended to use the **ros** user (non-root) to avoid creating root-owned files in the directory linked to the container on your machine.\
-**ros** is the default user.
 
-## Usage
+#### Install Dependencies
 
-Once inside the Docker container, you can use ROS 2 to interact with your UR robot. Here are some useful commands:
+The **prl_ur5_description** package requires the following dependencies:
 
-#### Run a UR simulation:
+- [prl_ur5_robot_configuration](https://github.com/inria-paris-robotics-lab/prl_ur5_robot_configuration)
+- [universal_robot_description](https://github.com/UniversalRobots/Universal_Robots_ROS2_Description)
+- [universal_robot_gazebo](https://github.com/UniversalRobots/Universal_Robots_ROS2_GZ_Simulation/tree/ros2)
+- [rq_fts_ros2_driver](https://github.com/panagelak/rq_fts_ros2_driver)
+- [realsense-ros](https://github.com/IntelRealSense/realsense-ros)
+
+These packages provide configuration files, robot descriptions, simulation models, and force-torque sensor drivers that are necessary for the UR5 robot to operate properly in a ROS2 ecosystem.
+
+To install these dependencies, clone them into your workspace using the following commands:
+
 ```bash
-$ ros2 run ur_client_library start_ursim.sh -m <ur_type>
+cd ~/ws/src
+git clone -b ros2 https://github.com/inria-paris-robotics-lab/prl_ur5_robot_configuration.git
+git clone https://github.com/UniversalRobots/Universal_Robots_ROS2_Description.git
+git clone https://github.com/UniversalRobots/Universal_Robots_ROS2_GZ_Simulation.git
+git clone https://github.com/panagelak/rq_fts_ros2_driver.git
+git clone -b ros2 https://github.com/inria-paris-robotics-lab/onrobot_ros.git
+git clone https://github.com/IntelRealSense/realsense-ros.git -b ros2-master
 ```
-You can access the GUI of the emulated UR robot via the following link: http://192.168.56.101:6080/vnc.html 
 
-If you are having difficulty accessing the port provided by the emulation node, please check your firewall and enable the port:
+#### Install Workspace dependencies
+
+After cloning the dependencies, check and install others dependencies linked to each packages with `rosdep`:
+
 ```bash
-$ sudo ufw allow <port>/tcp
-$ sudo ufw reload 
+cd ~/ws
+rosdep init
+rosdep update
+rosdep install -r --from-paths . --ignore-src --rosdistro $ROS_DISTRO -y
 ```
 
-#### Run the driver for a physical robot:
+#### Build and source the Workspace
 
-Make sure your UR robot is connected to your network and that you can communicate with it using its IP.
-
-Launch the UR driver in your ROS 2 environment with the following command:
+After you had istalled all dependencies you can build every packages with 'colcon':
 ```bash
-$ ros2 launch ur_robot_driver ur_control.launch.py ur_type:=ur5e robot_ip:=192.168.56.101
+colcon build --symlink-install --packages-skip onrobot_control onrobot_gazebo onrobot_ros robotiq_ft_sensor_hardware realsense2_camera
 ```
-Allowed `ur_type` strings: ur3, ur3e, ur5, ur5e, ur10, ur10e, ur16e, ur20, ur30.
 
-For more details, follow the official [UR driver guide](https://docs.universal-robots.com/Universal_Robots_ROS2_Documentation/index.html).
+Once the build process is finished, source your workspace so that ROS 2 recognizes the new packages:
 
-###
-You can add any desired development tools by modifying the `# Dev image with tools and non-root user` section of the Dockerfile.
-###
+```bash
+source install/setup.bash
+```
+
+---
+
+## **Usage**
+
+### Generate URDF and visualize robot in RViz
+
+```bash
+ros2 launch prl_ur5_description view_workbench.launch.py
+```
+
+---
+
+## **Important Notes**
+
+- **ROS 2 Version**: Make sure you're using a compatible version of ROS 2. This guide assumes ROS 2 Jazzy.
+- **Gazebo**: If you're using Gazebo for simulation, ensure it's installed and properly configured to work with ROS 2.
+- **Dependency Issues**: If you face any issues with dependencies, refer to the individual documentation or open an issue in the relevant repository.
+
+
