@@ -27,32 +27,7 @@ Certainly! Below is the updated README where the installation sections for Docke
 
 ### **1. Docker Setup (for `docker-ros2`)**
 
-Follow the steps below to set up the Docker environment with ROS 2.
-
-#### Clone the Docker ROS 2 Repository
-
-Clone the `docker-ros2` repository to your local machine:
-
-```bash
-git clone git@github.com:inria-paris-robotics-lab/prl_ur5_ros2.git
-```
-
-#### Build the Docker Image
-
-Once you've cloned the repository, build the Docker image:
-
-```bash
-cd ~/ws/src/docker-ros2
-docker build -t ros2 .
-```
-
-#### Create a Docker Volume
-
-Create a volume to store shared files used in the container:
-
-```bash
-docker volume create <volume_name>
-```
+**See [docker-ros2/README.md](docker-ros2/README.md)**
 
 ---
 
@@ -118,27 +93,11 @@ source install/setup.bash
 
 ## **Usage**
 
-### **Docker (docker-ros2)**
-
-After building the image, you can launch the Docker container with the following script:
-
-```bash
-cd ~/ws/src/docker-ros2
-./start_docker.bash <container_name> <user(optional)>
-```
-
-You can specify a custom container name. By default, the container uses the `ros` user, which is recommended to avoid creating root-owned files on your local machine.
-
-
-### **UR5 Simulation with Gazebo (prl_ur5_description)**
-
-To visualize the UR5 robot in Gazebo, use the following launch command:
+### Generate URDF and visualize robot in RViz
 
 ```bash
 ros2 launch prl_ur5_description view_workbench.launch.py
 ```
-
-This command will launch the necessary nodes to display the UR5 robot in a Gazebo simulation environment, allowing you to interact with the robot and test your applications.
 
 ---
 
