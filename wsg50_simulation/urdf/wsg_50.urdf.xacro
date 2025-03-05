@@ -61,7 +61,7 @@
 
   <!-- GRIPPER LEFT -->
   <joint name="${name}_base_joint_gripper_left" type="prismatic">
-     <limit lower="-0.055" upper="-0.0027" effort="1.0" velocity="1.0"/>
+     <limit lower="-0.055" upper="-0.003" effort="1.0" velocity="1.0"/>
      <origin xyz="0 0 0" rpy="0 0 0" />      <!--origin xyz="-0.0067 0 0.049" rpy="0 0 0" /-->
      <parent link="${name}_base_link"/>
      <child link="${name}_gripper_left" />
@@ -118,7 +118,7 @@
      <origin xyz="${finger_tip} 0 ${finger_length}" rpy="0 0 0" />
      <parent link="${name}_gripper_left"/>
      <child link="${name}_finger_left" />
-     <dynamics friction="100" damping="100" />
+     <!-- <dynamics friction="100" damping="100" /> -->
      <axis xyz="1 0 0"/>
      <limit effort="100" velocity="100"/>
   </joint>
@@ -160,7 +160,7 @@
   <!-- GRIPPER RIGHT -->
 
   <joint name="${name}_base_joint_gripper_right" type="prismatic">
-     <limit lower="0.0027" upper="0.055" effort="1.0" velocity="1.0"/>
+     <limit lower="0.003" upper="0.055" effort="1.0" velocity="1.0"/>
      <origin xyz="0 0 0" rpy="0 0 3.14159" />
      <parent link="${name}_base_link"/>
      <child link="${name}_gripper_right" />
@@ -217,7 +217,7 @@
      <origin xyz="${finger_tip} 0 ${finger_length}" rpy="0 0 0" />
      <parent link="${name}_gripper_right"/>
      <child link="${name}_finger_right" />
-     <dynamics friction="100" damping="100" />
+     <!-- <dynamics friction="100" damping="100" /> -->
      <axis xyz="1 0 0"/>
      <limit effort="100" velocity="100"/>
   </joint>
@@ -265,21 +265,27 @@
         <command_interface name="position"/>
         <command_interface name="velocity"/>
         <state_interface name="velocity"/>
-        <state_interface name="position"/>
+        <state_interface name="position">
+        <!-- initial position for the mock system and simulation to avoid fingers spanning into other parts-->
+            <param name="initial_value">0.025</param>
+        </state_interface>
     </joint>
     <joint name="${name}_base_joint_gripper_left">
         <command_interface name="velocity"/>
         <command_interface name="position"/>
         <state_interface name="position"/>
-        <state_interface name="velocity"/>
+        <state_interface name="position">
+        <!-- initial position for the mock system and simulation to avoid fingers spanning into other parts -->
+            <param name="initial_value">-0.025</param>
+        </state_interface>
     </joint>
   </ros2_control>
   
-  <gazebo>
+  <!-- <gazebo>
       <plugin filename="gz_ros2_control-system" name="gz_ros2_control::GazeboSimROS2ControlPlugin">
       <parameters>$(find wsg50_simulation)/controllers/wsg50_driver.yaml</parameters>
       </plugin>
-  </gazebo>
+  </gazebo> -->
 
 </xacro:macro>
 

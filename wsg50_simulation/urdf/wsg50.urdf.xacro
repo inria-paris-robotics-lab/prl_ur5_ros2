@@ -6,7 +6,7 @@
   
     <link name="base_link"/>
 
-    <xacro:wsg_50_xacro name="wsg50" parent="base_link" finger_length="0.023" finger_tip="0.0" >
+    <xacro:wsg_50_xacro name="wsg50" parent="base_link" finger_length="0.023" finger_tip="0.0">
         <origin xyz="0 0 0.1" rpy="0 0 0"/>
     </xacro:wsg_50_xacro>
 
