@@ -22,7 +22,7 @@ def generate_launch_description():
 
     description_file=PathJoinSubstitution([FindPackageShare('prl_ur5_gazebo'),'urdf', 'workbench_gazebo.urdf.xacro'])
     
-    dual_controller_file=PathJoinSubstitution([FindPackageShare('prl_ur5_gazebo'),'config', 'dual_ur_controller.yaml'])
+    dual_controller_file=PathJoinSubstitution([FindPackageShare('prl_ur5_control'),'config', 'dual_ur_controller.yaml'])
     
     output=PathJoinSubstitution("tmp.xacro")
     # Get URDF via xacro
@@ -68,29 +68,27 @@ def generate_launch_description():
 
 
     # Controller spawners
-    joint_state_broadcaster_spawner = Node(
-        package='controller_manager',
-        executable='spawner',
-        arguments=[
-            'joint_state_broadcaster',
-            ],
+    controller_launch = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource([
+            PathJoinSubstitution([
+            FindPackageShare('prl_ur5_control'),
+            'launch',
+            'workbench_controllers.launch.py',
+            ])
+        ]),
     )
-    ur_base_controller_spawner = Node(
-        package='controller_manager',
-        executable='spawner',
-        arguments=[
-            "forward_velocity_controller",
-            '--param-file', dual_controller_file,
-            ],
-    )
-
     
-    # Bridge between ROS and Gazebo
+
+
     bridge = Node(
-        package='ros_gz_bridge',
-        executable='parameter_bridge',
-        arguments=['/clock@rosgraph_msgs/msg/Clock[ignition.msgs.Clock'],
-        output='screen'
+        package="ros_gz_bridge",
+        executable="parameter_bridge",
+        arguments=[
+            "/clock@rosgraph_msgs/msg/Clock[gz.msgs.Clock",
+            "/left_force_torque@geometry_msgs/msg/Wrench[gz.msgs.Wrench",
+            "/right_force_torque@geometry_msgs/msg/Wrench[gz.msgs.Wrench",
+        ],
+        output="screen",
     )
 
     # Gazebo world file
@@ -106,14 +104,13 @@ def generate_launch_description():
             PythonLaunchDescriptionSource(
             [os.path.join(get_package_share_directory('ros_gz_sim'),
                       'launch', 'gz_sim.launch.py')]),
-            launch_arguments=[('gz_args', ['-r -v 4 ', gz_world])],),
+            launch_arguments=[('gz_args', ['-r -v 4 ',gz_world])],),
         RegisterEventHandler(
             event_handler=OnProcessExit(
             target_action=ignition_spawn_entity,
             on_exit=[
                   LogInfo(msg="Spawning controllers"),
-                  joint_state_broadcaster_spawner,
-                  ur_base_controller_spawner,
+                    controller_launch,
                         ],
             )
         ),

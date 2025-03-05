@@ -113,10 +113,7 @@
                  />
   <gazebo>
       <plugin filename="gz_ros2_control-system" name="gz_ros2_control::GazeboSimROS2ControlPlugin">
-      <parameters>$(find prl_ur5_gazebo)/config/dual_ur_controller.yaml</parameters>
-      </plugin>
-      <plugin filename="ignition-gazebo-forcetorque-system" name="ignition::gazebo::systems::ForceTorque">
-      <parameters>$(find prl_ur5_gazebo)/config/ft300_controller.yaml</parameters>
+      <parameters>$(find prl_ur5_control)/config/dual_ur_controller.yaml</parameters>
       </plugin>
   </gazebo>
 

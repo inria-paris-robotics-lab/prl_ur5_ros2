@@ -24,14 +24,14 @@
 
 
         <!-- robotiq sensor hardware ros2 control-->
-        <xacro:robotiq_fts_ros2_control
+        <!-- <xacro:robotiq_fts_ros2_control
             name="${prefix}ft300"
             use_fake_mode="${use_fake_mode}"
             max_retries="${max_retries}"
             read_rate="${read_rate}"
             ftdi_id="${ftdi_id}"
             tf_prefix="${prefix}"
-        />
+        /> -->
 
         <!-- enable force_torque sensor -->
         <gazebo reference="${prefix}measurment_joint">
@@ -48,10 +48,28 @@
             </sensor>
         </gazebo>
 
-      
-              
-    </xacro:macro>
+        <gazebo>
+            <plugin filename="ignition-gazebo-forcetorque-system" name="ignition::gazebo::systems::ForceTorque">
+                <updateRate>100.0</updateRate>
+                <topicName>${prefix}ft_wrench</topicName>
+                <jointName>${prefix}measurment_joint</jointName>
+                <noise>
+                <type>gaussian</type>
+                <mean>0.0</mean>
+                <stddev>0.003</stddev>
+                </noise>
+            </plugin>
+        </gazebo>
 
+        <!-- override link properties -->
+        <gazebo reference="${prefix}ft300_sensor">
+            <material>Gazebo/Black</material>
+            <selfCollide>true</selfCollide>
+        </gazebo>
+        <gazebo reference="${prefix}ft300_mounting_plate">
+            <material>Gazebo/Grey</material>
+            <selfCollide>true</selfCollide>
+        </gazebo>
+
+    </xacro:macro>
 </robot>
-<!-- [gazebo-3] [ERROR] [1740999000.657453490] [controller_manager]: Caught exception of type : St13runtime_error while claiming the state interfaces.
- Can't activate controller 'robotiq_force_torque_sensor_broadcaster': State interface with key 'left_robotiq_ft_sensor/force.x' does not exist -->

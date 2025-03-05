@@ -5,7 +5,11 @@
     <xacro:include filename="$(find ur_description)/urdf/ur_macro.xacro"/>
     <xacro:include filename="$(find ur_simulation_gz)/urdf/ur_gz.ros2_control.xacro" />
 
+    <!-- force sensor-->
+    <xacro:include filename="$(find prl_ur5_gazebo)/urdf/_ft300_gazebo.urdf.xacro"/>
 
+    <!-- gripper -->
+    <xacro:include filename="$(find prl_ur5_description)/urdf/_gripper.urdf.xacro"/>
 
     <xacro:macro name="ur5" params="
         name:=ur
@@ -50,6 +54,13 @@
             transmission_hw_interface="${hw_interface}"
         />
 
+        <!-- force sensor -->
+        <xacro:ft300_gazebo
+            prefix="${prefix}"
+            parent="tool0"
+        />
+
+        
 
 
     </xacro:macro>
