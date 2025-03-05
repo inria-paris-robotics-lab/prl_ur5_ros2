@@ -71,11 +71,10 @@ def generate_launch_description():
             PathJoinSubstitution([
             FindPackageShare('wsg50_simulation'),
             'launch',
-            'wsg50_controllers.launch.py',
+            'wsg50_controller_standalone.launch.py',
             ])
         ]),
     )
-    
 
     return LaunchDescription([
         DeclareLaunchArgument('use_sim_time', default_value='true', description='Use simulated clock'),
