@@ -1,77 +1,109 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://wiki.ros.org/xacro">
 
-  <!-- ur5 -->
-  <xacro:include filename="$(find prl_ur5_description)/urdf/ur5_macro.xacro" />
-  <!-- Force sensor -->
-  <xacro:include filename="$(find prl_ur5_description)/urdf/_force_sensor.urdf.xacro" />
-  <!-- gripper -->
-  <xacro:include filename="$(find prl_ur5_description)/urdf/_gripper.urdf.xacro"/>
-
-  <xacro:macro name="ur5" params="
-      prefix
-      parent
-      pose
-      sensor
-      hardware_interface
-      gz_sim:=False
-      gripper:=None
-      gripper_pose:=None
-      camera:=None
-      camera_pose:=None
-      joint_limits_parameters_file:='$(find ur_description)/config/ur5/joint_limits.yaml'
-      kinematics_parameters_file:='$(find ur_description)/config/ur5/default_kinematics.yaml'
-      transmission_hw_interface:=hardware_interface/PositionJointInterface
-    ">
     <!-- ur5 -->
-    <xacro:ur5_robot 
-      prefix="${prefix}"
-      parent="${parent}"
-      pose="${pose}"
-      transmission_hw_interface="${hardware_interface}"
-      gz_sim="${gz_sim}"
-      joint_limits_parameters_file="${joint_limits_parameters_file}"
-      kinematics_parameters_file="${kinematics_parameters_file}"
-      />
-    <!-- force sensor -->
-    <xacro:force_sensor 
-        prefix='${prefix}' 
-        parent="tool0"
-    />
+    <xacro:include filename="$(find ur_description)/urdf/ur_macro.xacro"/>
+    <xacro:include filename="$(find ur_description)/urdf/inc/ur_joint_control.xacro" />
 
-    <!-- tool frame -->
-    <link name="${prefix}tool"/>
-
-    <joint name="${prefix}tool_joint" type="fixed">
-      <origin xyz="0 0 0" rpy="0 0 ${-pi}"/>
-      <parent link="${prefix}robotiq_ft_frame_id"/>
-      <child link="${prefix}tool"/>
-    </joint>
+    <!-- force sensor-->
+    <xacro:include filename="$(find prl_ur5_description)/urdf/_force_sensor.urdf.xacro"/>
 
     <!-- gripper -->
-    <xacro:gripper gripper="${gripper}" prefix='${prefix}' parent="${prefix}tool" pose="${gripper_pose}" hardware_interface="${hardware_interface}" gz_sim="${gz_sim}"/>
+    <xacro:include filename="$(find prl_ur5_description)/urdf/_gripper.urdf.xacro"/>
 
-    <!-- Right angle connector -->
-    <link name="${prefix}wrist_connector_link">
-      <visual>
-          <geometry>
-              <mesh filename="package://prl_ur5_description/model/RG_connector_simple.stl"/>
-          </geometry>
-          <material name="connector_green"><color rgba="0.2 0.8 0 1"/></material>
-      </visual>
-      <collision>
-          <geometry>
-              <mesh filename="package://prl_ur5_description/model/RG_connector_simple_convex.stl"/>
-          </geometry>
-      </collision>
-    </link>
-    <joint name="${prefix}wrist_connector" type="fixed">
-      <origin xyz="0 -0.0375 -0.02" rpy="1.5708 0 0"/>
-      <parent link="${prefix}wrist_3_link"/>
-      <child link="${prefix}wrist_connector_link"/>
-    </joint>
+    <xacro:macro name="ur5" params="
+        name:=ur
+        ur_type:=ur5
+        prefix
+        parent
+        pose
+        sensor
+        gripper
+        gripper_pose
+        joint_limits_parameters_file:='$(find ur_description)/config/ur5/joint_limits.yaml'
+        kinematics_parameters_file:='$(find ur_description)/config/ur5/default_kinematics.yaml'
+        hw_interface:=hardware_interface/PositionJointInterface
+        physical_parameters_file:='$(find ur_description)/config/ur5/physical_parameters.yaml'
+        visual_parameters_file:='$(find ur_description)/config/ur5/visual_parameters.yaml'
+        safety_limits:=false
+        safety_pos_margin:=0.15
+        safety_k_position:=20
+        gz_sim:=false
+        ros2_control:=false
+        ">
 
-  </xacro:macro>
+        <xacro:ur_robot
+            name="${prefix}ur"
+            tf_prefix="${prefix}"
+            parent="${parent}"
+            joint_limits_parameters_file="${joint_limits_parameters_file}"
+            kinematics_parameters_file="${kinematics_parameters_file}"
+            physical_parameters_file="${physical_parameters_file}"
+            visual_parameters_file="${visual_parameters_file}"
+            safety_limits="${safety_limits}"
+            safety_pos_margin="${safety_pos_margin}"
+            safety_k_position="${safety_k_position}"
+            force_abs_paths="${gz_sim}"
+        >
+        <origin xyz="${pose['x']} ${pose['y']} ${pose['z']}" rpy="${pose['roll']} ${pose['pitch']} ${pose['yaw']}"/> 
+        </xacro:ur_robot>  
 
+        <xacro:if value="${gz_sim or ros2_control}">
+             <!-- ros2 control instance -->
+            <ros2_control name="${prefix}ur" type="system">
+                <hardware>
+                    <plugin>gz_ros2_control/GazeboSimSystem</plugin>
+                </hardware>
+
+                <xacro:ur_joint_control_description
+                    tf_prefix="${prefix}"
+                    initial_positions="${dict(shoulder_pan_joint=0.0,shoulder_lift_joint=-1.57,elbow_joint=0.0,wrist_1_joint=-1.57,wrist_2_joint=0.0,wrist_3_joint=0.0)}"
+                />
+            </ros2_control>
+        </xacro:if>
+            
+        <!-- force sensor -->
+        <xacro:force_sensor
+            prefix="${prefix}"
+            parent="tool0"
+            gz_sim="${gz_sim}"
+        />
+
+        <!-- tool frame -->
+        <link name="${prefix}tool"/>
+
+        <joint name="${prefix}tool_joint" type="fixed">
+            <origin xyz="0 0 0" rpy="0 0 ${-pi}"/>
+            <parent link="${prefix}robotiq_ft_frame_id"/>
+            <child link="${prefix}tool"/>
+        </joint>
+
+        <!-- gripper -->
+        <xacro:gripper gripper="${gripper}" prefix='${prefix}' parent="${prefix}tool" pose="${gripper_pose}" hardware_interface="${hw_interface}" gz_sim="${gz_sim}"/>
+
+        <!-- Right angle connector -->
+        <link name="${prefix}wrist_connector_link">
+        <visual>
+            <geometry>
+                <mesh filename="file://$(find prl_ur5_description)/model/RG_connector_simple.stl"/>
+
+            </geometry>
+            <material name="connector_green"><color rgba="0.2 0.8 0 1"/></material>
+        </visual>
+        <collision>
+            <geometry>
+                <mesh filename="file://$(find prl_ur5_description)/model/RG_connector_simple_convex.stl"/>
+            </geometry>
+        </collision>
+        </link>
+        <joint name="${prefix}wrist_connector" type="fixed">
+        <origin xyz="0 -0.0375 -0.02" rpy="1.5708 0 0"/>
+        <parent link="${prefix}wrist_3_link"/>
+        <child link="${prefix}wrist_connector_link"/>
+        </joint>
+
+
+    </xacro:macro>
  
 </robot>
+

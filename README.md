@@ -42,8 +42,7 @@ Follow the steps below to set up packages.
 
 ```bash
 cd ~/ws/src
-git clone https://github.com/inria-paris-robotics-lab/prl_ur5_description.git
-git clone https://github.com/inria-paris-robotics-lab/prl_ur5_gazebo.git
+git clone git@github.com:inria-paris-robotics-lab/prl_ur5_ros2.git
 ```
 
 #### Install Dependencies

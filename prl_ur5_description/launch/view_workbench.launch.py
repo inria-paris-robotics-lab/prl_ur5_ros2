@@ -12,7 +12,11 @@ def generate_launch_description():
         [
             PathJoinSubstitution([FindExecutable(name="xacro")]),  # Find the xacro executable
             " ", 
-            PathJoinSubstitution([FindPackageShare("prl_ur5_description"), "urdf", "workbench_ur5.urdf.xacro"]),  # Path to your urdf.xacro file
+            PathJoinSubstitution([FindPackageShare("prl_ur5_description"), "urdf", "workbench_ur5.urdf.xacro"]),
+            " ",
+            "gz_sim:=",
+            "false",
+            " ",
         ]
     )
 

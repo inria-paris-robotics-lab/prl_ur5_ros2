@@ -20,17 +20,19 @@ def generate_launch_description():
     # Launch Arguments
     use_sim_time = LaunchConfiguration('use_sim_time', default=True)
 
-    description_file=PathJoinSubstitution([FindPackageShare('prl_ur5_gazebo'),'urdf', 'workbench_gazebo.urdf.xacro'])
+    description_file=PathJoinSubstitution([FindPackageShare('prl_ur5_description'),'urdf', 'workbench_ur5.urdf.xacro'])
     
     dual_controller_file=PathJoinSubstitution([FindPackageShare('prl_ur5_control'),'config', 'dual_ur_controller.yaml'])
     
-    output=PathJoinSubstitution("tmp.xacro")
     # Get URDF via xacro
     robot_description_content = Command(
         [
             PathJoinSubstitution([FindExecutable(name='xacro')]),
             ' ',
             description_file,
+            " ",
+            "gz_sim:=",
+            "true",
             " ",
         ]
     )
@@ -48,6 +50,7 @@ def generate_launch_description():
 
     # RViz
     rviz_config_file = PathJoinSubstitution([FindPackageShare('prl_ur5_gazebo'),'rviz', 'config.rviz'])
+
     rviz_node = Node(
         package="rviz2",
         executable="rviz2",
@@ -64,6 +67,7 @@ def generate_launch_description():
         arguments=['-topic', 'robot_description',
                    '-name', 'dual_ur',
                    '-allow_renaming', 'true'],
+        parameters=[{"use_sim_time": use_sim_time}],
     )
 
 
@@ -78,6 +82,17 @@ def generate_launch_description():
         ]),
     )
     
+    # Spawner pour le contrôleur wsg50
+
+    wsg50_controller_launch = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource([
+            PathJoinSubstitution([
+            FindPackageShare('wsg50_simulation'),
+            'launch',
+            'wsg50_controllers.launch.py',
+            ])
+        ]),
+    )
 
 
     bridge = Node(
@@ -89,6 +104,7 @@ def generate_launch_description():
             "/right_force_torque@geometry_msgs/msg/Wrench[gz.msgs.Wrench",
         ],
         output="screen",
+        parameters=[{"use_sim_time": use_sim_time}],
     )
 
     # Gazebo world file
@@ -111,6 +127,7 @@ def generate_launch_description():
             on_exit=[
                   LogInfo(msg="Spawning controllers"),
                     controller_launch,
+                    wsg50_controller_launch,
                         ],
             )
         ),
