@@ -1,23 +1,34 @@
 <?xml version="1.0"?>
-<robot name="ur5" xmlns:xacro="http://wiki.ros.org/xacro">
+<robot xmlns:xacro="http://wiki.ros.org/xacro" name="ur5" >
+
+  
+  <xacro:arg name="controller_file" default="$(find prl_ur5_control)/config/dual_ur_controller.yaml"/>
+  <xacro:arg name="gz_sim" default="false"/>
 
   <!-- Load the setup file -->
   <xacro:property name="setup_file" value="${xacro.load_yaml('$(find prl_ur5_robot_configuration)/config/standart_setup.yaml')}"/>
 
   <!-- ur5 arm -->
   <xacro:include filename="$(find prl_ur5_description)/urdf/ur5_complete_arm.urdf.xacro"/>
+
   <!-- fixed camera-->
   <xacro:include filename="$(find prl_ur5_description)/urdf/_fixed_cameras.urdf.xacro"/>
   
-  <!-- Global frame -->
+  <!-- Repere global -->
   <link name="prl_ur5_base"/>
-   
+
+  
   <!-- Table -->
+  <material name="Blue">
+    <color rgba="${0/255} ${30/255} ${70/255} 1.0"/>
+  </material>
+
   <link name="table_link">
     <visual>
       <geometry>
         <mesh filename="file://$(find prl_ur5_description)/model/vention_table.stl"/>
       </geometry>
+      <material name="Blue"/>
     </visual>
     <collision>
       <geometry>
@@ -30,12 +41,11 @@
     <child link = "table_link"/>
     <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
   </joint>
-
+  
   <!-- Cameras fixtures (if any) -->
   <xacro:if value="${setup_file.get('fixed_cameras_file') is not None}">
-    <xacro:fixed_cameras parent="prl_ur5_base" fixed_cameras_file="$(find prl_ur5_robot_configuration)/config/${setup_file['fixed_cameras_file']}" turn_on="false"/>
+    <xacro:fixed_cameras parent="prl_ur5_base" fixed_cameras_file="$(find prl_ur5_robot_configuration)/config/${setup_file['fixed_cameras_file']}" turn_on="true"/>
   </xacro:if>
-
 
 
   <!-- back wall -->
@@ -89,27 +99,33 @@
                  parent="prl_ur5_base" 
                  pose="${left['arm_pose']}"
                  sensor="false"
+                 gz_sim="$(arg gz_sim)"
                  gripper="${left.get('gripper')}"
                  gripper_pose="${left.get('gripper_pose')}"
-                 hardware_interface="hardware_interface/PositionJointInterface"
                  joint_limits_parameters_file="$(find prl_ur5_robot_configuration)/config/${left.get('arm_joint_limits')}"
                  kinematics_parameters_file="$(find prl_ur5_robot_configuration)/config/${left.get('arm_kinematics')}"
                  />
-                 
   <!-- Right Arm -->
   <xacro:property name="right" value="${setup_file.get('right')}"/>
   <xacro:ur5 prefix="right_"
                  parent="prl_ur5_base" 
                  pose="${right['arm_pose']}"
                  sensor="false"
-                 gripper="onrobot-rg6"
+                 gz_sim="$(arg gz_sim)"
+                 gripper="${right.get('gripper')}"
                  gripper_pose="${right.get('gripper_pose')}"
-                 hardware_interface="hardware_interface/PositionJointInterface"
                  joint_limits_parameters_file="$(find prl_ur5_robot_configuration)/config/${right.get('arm_joint_limits')}"
                  kinematics_parameters_file="$(find prl_ur5_robot_configuration)/config/${right.get('arm_kinematics')}"
                  />
-
   
+  <xacro:if value="$(arg gz_sim)">
+    <gazebo>
+        <plugin filename="gz_ros2_control-system" name="gz_ros2_control::GazeboSimROS2ControlPlugin">
+        <parameters>$(arg controller_file)</parameters>
+        </plugin>
+    </gazebo>
+  </xacro:if>
+
   <!-- Linking Arms to world -->
   <link name="base_link" />
   <joint name="base_2_ur" type="fixed">
@@ -117,9 +133,5 @@
     <child link="prl_ur5_base" />
     <origin xyz="0 0 0.8" rpy="0 0 0" />
   </joint> 
-  
-
-  
-
 
 </robot>

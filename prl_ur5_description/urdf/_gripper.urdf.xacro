@@ -3,11 +3,13 @@
 
   <!-- onrobot RG2(6) -->
   <xacro:include filename="$(find onrobot_description)/urdf/onrobot_rg.urdf.xacro"/>
+ 
+
 
   <xacro:macro name="gripper" params="gripper prefix parent pose hardware_interface gz_sim">
 
     <!-- check gripper type -->
-    <xacro:unless value="${gripper in [None, 'onrobot-rg2', 'onrobot-rg6', 'onrobot-rg6-v2'] or gripper.startswith('custom:') or gripper.startswith('allegro-hand:')}">
+    <xacro:unless value="${gripper in [None, 'onrobot-rg2', 'onrobot-rg6', 'onrobot-rg6-v2', 'weiss-wsg50'] or gripper.startswith('custom:') or gripper.startswith('allegro-hand:')}">
       <xacro:unknown_gripper_type/>
     </xacro:unless>
 
@@ -32,6 +34,14 @@
       </xacro:onrobot_rg>
     </xacro:if>
 
+    <!-- if weiss-wsg50 -->
+    <!-- <xacro:if value="${gripper == 'weiss-wsg50'}">
+      <xacro:include filename="$(find wsg50_simulation)/urdf/wsg_50.urdf.xacro"/>
+      <xacro:wsg_50_xacro name="${prefix}wsg50" parent="${parent}" finger_length="0.023" finger_tip="0.0">
+        <origin xyz="${pose['x']} ${pose['y']} ${pose['z']}" rpy="${pose['roll']} ${pose['pitch']} ${pose['yaw']}"/>
+      </xacro:wsg_50_xacro>
+    </xacro:if> -->
+
     <!-- if allegro-hand -->
     <!-- <xacro:if value="${gripper.startswith('allegro-hand:')}">
       <xacro:include filename="$(find allegro_hand_description)/allegro_hand_description.urdf.xacro"/>
@@ -45,6 +55,9 @@
           <origin rpy="0 0 0" xyz="0.05 0 -0.025"/>
       </joint>
     </xacro:if> -->
+
+    
+
 
     <!-- if custom gripper -->
     <xacro:if value="${gripper.startswith('custom:')}">

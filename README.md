@@ -10,6 +10,9 @@ This package provides a Docker environment for developing with ROS 2 (jazzy), in
 ### 2. **prl_ur5_description**
 The **prl_ur5_description** package provides the UR5 workbench description, including 3D models files necessary for visualizing and simulating the UR5 robot in a ROS 2 environment. It is part of the PRL (Paris Robotics Lab) ecosystem and designed to facilitate the use of the UR5 robot in simulation.
 
+### 3. **prl_ur5_gazebo**
+The **prl_ur5_gazebo** package provides the UR5 workbench launch and files, necessary for simulating the UR5 robot in Gazebo. It is part of the PRL (Paris Robotics Lab) ecosystem and designed to facilitate the use of the UR5 robot in simulation.
+
 ---
 
 ## **Prerequisites**
@@ -31,15 +34,15 @@ Certainly! Below is the updated README where the installation sections for Docke
 
 ---
 
-### **2. Install `prl_ur5_description` Package**
+### **2. Install `prl_ur5_description` & `prl_ur5_gazebo` packages**
 
-Follow the steps below to set up the  `prl_ur5_description` package.
+Follow the steps below to set up packages.
 
-#### Clone the `prl_ur5_description` repository into your ROS 2 workspace:
+#### Clone the `prl_ur5_description` and `prl_ur5_gazebo`repository into your ROS 2 workspace:
 
 ```bash
 cd ~/ws/src
-git clone https://github.com/inria-paris-robotics-lab/prl_ur5_description.git
+git clone git@github.com:inria-paris-robotics-lab/prl_ur5_ros2.git
 ```
 
 #### Install Dependencies
@@ -60,7 +63,6 @@ To install these dependencies, clone them into your workspace using the followin
 cd ~/ws/src
 git clone -b ros2 https://github.com/inria-paris-robotics-lab/prl_ur5_robot_configuration.git
 git clone https://github.com/UniversalRobots/Universal_Robots_ROS2_Description.git
-git clone https://github.com/UniversalRobots/Universal_Robots_ROS2_GZ_Simulation.git
 git clone https://github.com/panagelak/rq_fts_ros2_driver.git
 git clone -b ros2 https://github.com/inria-paris-robotics-lab/onrobot_ros.git
 git clone https://github.com/IntelRealSense/realsense-ros.git -b ros2-master
@@ -72,6 +74,7 @@ After cloning the dependencies, check and install others dependencies linked to 
 
 ```bash
 cd ~/ws
+sudo apt update
 rosdep init
 rosdep update
 rosdep install -r --from-paths . --ignore-src --rosdistro $ROS_DISTRO -y
@@ -94,10 +97,16 @@ source install/setup.bash
 
 ## **Usage**
 
-### Generate URDF and visualize robot in RViz
+### Only visualize the workbench in RViz
 
 ```bash
 ros2 launch prl_ur5_description view_workbench.launch.py
+```
+
+### Simulate the workbench in Gazebo and visualize in Rviz
+
+```bash
+ros2 launch prl_ur5_gazebo start_gazebo_sim.launch.py
 ```
 
 ---
