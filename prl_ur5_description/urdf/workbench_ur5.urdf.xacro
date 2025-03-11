@@ -17,16 +17,18 @@
   <!-- Repere global -->
   <link name="prl_ur5_base"/>
 
-  <gazebo >
-    <selfCollide>true</selfCollide>
-  </gazebo>
+  
   <!-- Table -->
+  <material name="Blue">
+    <color rgba="${0/255} ${30/255} ${70/255} 1.0"/>
+  </material>
+
   <link name="table_link">
     <visual>
       <geometry>
         <mesh filename="file://$(find prl_ur5_description)/model/vention_table.stl"/>
       </geometry>
-      <material name="red"><color rgba="1 0 0 1"/></material>
+      <material name="Blue"/>
     </visual>
     <collision>
       <geometry>

@@ -82,18 +82,6 @@ def generate_launch_description():
         ]),
     )
     
-    # Spawner pour le contrôleur wsg50
-
-    wsg50_controller_launch = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource([
-            PathJoinSubstitution([
-            FindPackageShare('wsg50_simulation'),
-            'launch',
-            'wsg50_controllers.launch.py',
-            ])
-        ]),
-    )
-
 
     bridge = Node(
         package="ros_gz_bridge",
@@ -127,7 +115,6 @@ def generate_launch_description():
             on_exit=[
                   LogInfo(msg="Spawning controllers"),
                     controller_launch,
-                    wsg50_controller_launch,
                         ],
             )
         ),

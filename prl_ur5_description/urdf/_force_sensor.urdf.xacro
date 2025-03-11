@@ -31,7 +31,7 @@
             </gazebo>
 
             <gazebo>
-                <plugin filename="ignition-gazebo-forcetorque-system" name="ignition::gazebo::systems::ForceTorque">
+                <plugin filename="gz-sim-forcetorque-system" name="gz::sim::systems::ForceTorque">
                     <updateRate>100.0</updateRate>
                     <topicName>${prefix}ft_wrench</topicName>
                     <jointName>${prefix}measurment_joint</jointName>
