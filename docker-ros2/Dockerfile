@@ -52,6 +52,9 @@ RUN sudo curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.ke
    ros-${ROS_DISTRO}-ros2-control \
    ros-${ROS_DISTRO}-ros2-controllers \
    ros-${ROS_DISTRO}-ur \
+   ros-${ROS_DISTRO}-librealsense2* \
+   ros-${ROS_DISTRO}-realsense2-* \
+   ros-${ROS_DISTRO}-moveit \
   && rm -rf /var/lib/apt-get/lists/*
 
 
