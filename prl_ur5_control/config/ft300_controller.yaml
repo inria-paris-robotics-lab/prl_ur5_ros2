@@ -1,0 +1,13 @@
+# will publish the robotiq_force_torque_sensor_broadcaster/wrench topic of type WrenchStamped with the given frame_id
+robotiq_force_torque_sensor_broadcaster:
+  type: force_torque_sensor_broadcaster/ForceTorqueSensorBroadcaster
+  ros__parameters:
+    sensor_name: left_robotiq_ft_sensor
+    state_interface_names:
+      - force.x
+      - force.y
+      - force.z
+      - torque.x
+      - torque.y
+      - torque.z
+    frame_id: robotiq_ft_frame_id
