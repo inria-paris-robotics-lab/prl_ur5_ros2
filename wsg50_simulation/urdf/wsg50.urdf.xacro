@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<robot name="wsg50" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+    <!-- Import wsg50 macro -->
+    <xacro:include filename="$(find wsg50_simulation)/urdf/wsg_50.urdf.xacro" />
+  
+    <link name="base_link"/>
+
+    <xacro:wsg_50_xacro name="wsg50" parent="base_link" finger_length="0.023" finger_tip="0.0">
+        <origin xyz="0 0 0.1" rpy="0 0 0"/>
+    </xacro:wsg_50_xacro>
+
+</robot>

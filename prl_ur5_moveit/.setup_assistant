@@ -1,0 +1,11 @@
+moveit_setup_assistant_config:
+  urdf:
+    package: prl_ur5_description
+    relative_path: urdf/workbench_ur5.urdf.xacro
+    xacro_args: gz_sim:=true
+  srdf:
+    relative_path: config/ur5.srdf
+  package_settings:
+    author_name: timothee carecchio
+    author_email: timothee.carecchio@inria.fr
+    generated_timestamp: 1741699738
