@@ -4,7 +4,7 @@ project(prl_ur5_gazebo)
 find_package(ament_cmake REQUIRED)
 
 install(
-  DIRECTORY launch rviz urdf world
+  DIRECTORY launch rviz world
   DESTINATION share/${PROJECT_NAME}
 )
 

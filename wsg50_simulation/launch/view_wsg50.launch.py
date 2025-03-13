@@ -14,7 +14,7 @@ def generate_launch_description():
     urdf_file = os.path.join(
         get_package_share_directory('wsg50_simulation'),
         'urdf',
-        'wsg_50.urdf'
+        'wsg50.urdf.xacro'
     )
 
 
