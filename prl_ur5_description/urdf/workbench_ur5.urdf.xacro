@@ -11,8 +11,6 @@
   <!-- ur5 arm -->
   <xacro:include filename="$(find prl_ur5_description)/urdf/ur5_complete_arm.urdf.xacro"/>
 
-  <!-- fixed camera-->
-  <xacro:include filename="$(find prl_ur5_description)/urdf/_fixed_cameras.urdf.xacro"/>
   
   <!-- Repere global -->
   <link name="prl_ur5_base"/>
