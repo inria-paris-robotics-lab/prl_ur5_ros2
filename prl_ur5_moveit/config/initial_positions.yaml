@@ -2,18 +2,18 @@
 
 initial_positions:
   left_elbow_joint: 0
+  left_gripper_base_joint_gripper_left: 0
+  left_gripper_base_joint_gripper_right: 0
   left_shoulder_lift_joint: 0
   left_shoulder_pan_joint: 0
   left_wrist_1_joint: 0
   left_wrist_2_joint: 0
   left_wrist_3_joint: 0
-  left_wsg50_base_joint_gripper_left: 0
-  left_wsg50_base_joint_gripper_right: 0
   right_elbow_joint: 0
+  right_gripper_base_joint_gripper_left: 0
+  right_gripper_base_joint_gripper_right: 0
   right_shoulder_lift_joint: 0
   right_shoulder_pan_joint: 0
   right_wrist_1_joint: 0
   right_wrist_2_joint: 0
   right_wrist_3_joint: 0
-  right_wsg50_base_joint_gripper_left: 0
-  right_wsg50_base_joint_gripper_right: 0

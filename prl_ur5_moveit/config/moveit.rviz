@@ -6,9 +6,8 @@ Panels:
       Expanded:
         - /Global Options1
         - /MotionPlanning1
-        - /MotionPlanning1/Planning Request1
       Splitter Ratio: 0.5
-    Tree Height: 423
+    Tree Height: 402
   - Class: rviz_common/Help
     Name: Help
   - Class: rviz_common/Views
@@ -37,7 +36,7 @@ Visualization Manager:
       Plane Cell Count: 10
       Reference Frame: <Fixed Frame>
       Value: true
-    - Acceleration_Scaling_Factor: 0.1
+    - Acceleration_Scaling_Factor: 0.3
       Class: moveit_rviz_plugin/MotionPlanning
       Enabled: true
       Move Group Namespace: ""
@@ -46,7 +45,7 @@ Visualization Manager:
       MoveIt_Allow_Replanning: false
       MoveIt_Allow_Sensor_Positioning: false
       MoveIt_Planning_Attempts: 10
-      MoveIt_Planning_Time: 3
+      MoveIt_Planning_Time: 5
       MoveIt_Use_Cartesian_Path: false
       MoveIt_Use_Constraint_Aware_IK: false
       MoveIt_Workspace:
@@ -77,168 +76,6 @@ Visualization Manager:
             Alpha: 1
             Show Axes: false
             Show Trail: false
-          bravo_camera_accel_frame:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-          bravo_camera_accel_optical_frame:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-          bravo_camera_bottom_screw_frame:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-          bravo_camera_calibration_pose:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-          bravo_camera_color_frame:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-          bravo_camera_color_optical_frame:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-          bravo_camera_depth_frame:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-          bravo_camera_depth_optical_frame:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-          bravo_camera_gyro_frame:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-          bravo_camera_gyro_optical_frame:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-          bravo_camera_infra1_frame:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-          bravo_camera_infra1_optical_frame:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-          bravo_camera_infra2_frame:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-          bravo_camera_infra2_optical_frame:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-          bravo_camera_link:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-            Value: true
-          charlie_camera_accel_frame:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-          charlie_camera_accel_optical_frame:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-          charlie_camera_bottom_screw_frame:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-          charlie_camera_calibration_pose:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-          charlie_camera_color_frame:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-          charlie_camera_color_optical_frame:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-          charlie_camera_depth_frame:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-          charlie_camera_depth_optical_frame:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-          charlie_camera_gyro_frame:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-          charlie_camera_gyro_optical_frame:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-          charlie_camera_infra1_frame:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-          charlie_camera_infra1_optical_frame:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-          charlie_camera_infra2_frame:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-          charlie_camera_infra2_optical_frame:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-          charlie_camera_link:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-            Value: true
-          fixed_camera_0_bb:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-            Value: true
-          fixed_camera_0_sj:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-            Value: true
-          fixed_camera_0_vt:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-            Value: true
-          fixed_camera_1_bb:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-            Value: true
-          fixed_camera_1_sj:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-            Value: true
-          fixed_camera_1_vt:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-            Value: true
-          fixed_hr_0:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-            Value: true
-          fixed_hr_1:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-            Value: true
           left_base:
             Alpha: 1
             Show Axes: false
@@ -275,6 +112,40 @@ Visualization Manager:
             Alpha: 1
             Show Axes: false
             Show Trail: false
+          left_gripper_base_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          left_gripper_center:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+          left_gripper_finger_left:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          left_gripper_finger_right:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          left_gripper_gripper_left:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          left_gripper_gripper_right:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          left_gripper_mounting_plate:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
           left_robotiq_ft_frame_id:
             Alpha: 1
             Show Axes: false
@@ -313,40 +184,6 @@ Visualization Manager:
             Show Trail: false
             Value: true
           left_wrist_connector_link:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-            Value: true
-          left_wsg50_base_link:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-            Value: true
-          left_wsg50_center:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-          left_wsg50_finger_left:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-            Value: true
-          left_wsg50_finger_right:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-            Value: true
-          left_wsg50_gripper_left:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-            Value: true
-          left_wsg50_gripper_right:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-            Value: true
-          left_wsg50_mounting_plate:
             Alpha: 1
             Show Axes: false
             Show Trail: false
@@ -396,6 +233,40 @@ Visualization Manager:
             Alpha: 1
             Show Axes: false
             Show Trail: false
+          right_gripper_base_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          right_gripper_center:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+          right_gripper_finger_left:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          right_gripper_finger_right:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          right_gripper_gripper_left:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          right_gripper_gripper_right:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          right_gripper_mounting_plate:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
           right_robotiq_ft_frame_id:
             Alpha: 1
             Show Axes: false
@@ -438,40 +309,6 @@ Visualization Manager:
             Show Axes: false
             Show Trail: false
             Value: true
-          right_wsg50_base_link:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-            Value: true
-          right_wsg50_center:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-          right_wsg50_finger_left:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-            Value: true
-          right_wsg50_finger_right:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-            Value: true
-          right_wsg50_gripper_left:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-            Value: true
-          right_wsg50_gripper_right:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-            Value: true
-          right_wsg50_mounting_plate:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-            Value: true
           table_link:
             Alpha: 1
             Show Axes: false
@@ -498,7 +335,7 @@ Visualization Manager:
         Colliding Link Color: 255; 0; 0
         Goal State Alpha: 1
         Goal State Color: 250; 128; 0
-        Interactive Marker Size: 0.25
+        Interactive Marker Size: 0.30000001192092896
         Joint Violation Color: 255; 0; 255
         Planning Group: left_ur
         Query Goal State: true
@@ -532,168 +369,6 @@ Visualization Manager:
             Alpha: 1
             Show Axes: false
             Show Trail: false
-          bravo_camera_accel_frame:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-          bravo_camera_accel_optical_frame:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-          bravo_camera_bottom_screw_frame:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-          bravo_camera_calibration_pose:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-          bravo_camera_color_frame:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-          bravo_camera_color_optical_frame:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-          bravo_camera_depth_frame:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-          bravo_camera_depth_optical_frame:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-          bravo_camera_gyro_frame:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-          bravo_camera_gyro_optical_frame:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-          bravo_camera_infra1_frame:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-          bravo_camera_infra1_optical_frame:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-          bravo_camera_infra2_frame:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-          bravo_camera_infra2_optical_frame:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-          bravo_camera_link:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-            Value: true
-          charlie_camera_accel_frame:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-          charlie_camera_accel_optical_frame:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-          charlie_camera_bottom_screw_frame:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-          charlie_camera_calibration_pose:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-          charlie_camera_color_frame:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-          charlie_camera_color_optical_frame:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-          charlie_camera_depth_frame:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-          charlie_camera_depth_optical_frame:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-          charlie_camera_gyro_frame:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-          charlie_camera_gyro_optical_frame:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-          charlie_camera_infra1_frame:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-          charlie_camera_infra1_optical_frame:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-          charlie_camera_infra2_frame:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-          charlie_camera_infra2_optical_frame:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-          charlie_camera_link:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-            Value: true
-          fixed_camera_0_bb:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-            Value: true
-          fixed_camera_0_sj:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-            Value: true
-          fixed_camera_0_vt:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-            Value: true
-          fixed_camera_1_bb:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-            Value: true
-          fixed_camera_1_sj:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-            Value: true
-          fixed_camera_1_vt:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-            Value: true
-          fixed_hr_0:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-            Value: true
-          fixed_hr_1:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-            Value: true
           left_base:
             Alpha: 1
             Show Axes: false
@@ -730,6 +405,40 @@ Visualization Manager:
             Alpha: 1
             Show Axes: false
             Show Trail: false
+          left_gripper_base_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          left_gripper_center:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+          left_gripper_finger_left:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          left_gripper_finger_right:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          left_gripper_gripper_left:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          left_gripper_gripper_right:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          left_gripper_mounting_plate:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
           left_robotiq_ft_frame_id:
             Alpha: 1
             Show Axes: false
@@ -768,40 +477,6 @@ Visualization Manager:
             Show Trail: false
             Value: true
           left_wrist_connector_link:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-            Value: true
-          left_wsg50_base_link:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-            Value: true
-          left_wsg50_center:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-          left_wsg50_finger_left:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-            Value: true
-          left_wsg50_finger_right:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-            Value: true
-          left_wsg50_gripper_left:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-            Value: true
-          left_wsg50_gripper_right:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-            Value: true
-          left_wsg50_mounting_plate:
             Alpha: 1
             Show Axes: false
             Show Trail: false
@@ -851,6 +526,40 @@ Visualization Manager:
             Alpha: 1
             Show Axes: false
             Show Trail: false
+          right_gripper_base_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          right_gripper_center:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+          right_gripper_finger_left:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          right_gripper_finger_right:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          right_gripper_gripper_left:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          right_gripper_gripper_right:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          right_gripper_mounting_plate:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
           right_robotiq_ft_frame_id:
             Alpha: 1
             Show Axes: false
@@ -893,40 +602,6 @@ Visualization Manager:
             Show Axes: false
             Show Trail: false
             Value: true
-          right_wsg50_base_link:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-            Value: true
-          right_wsg50_center:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-          right_wsg50_finger_left:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-            Value: true
-          right_wsg50_finger_right:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-            Value: true
-          right_wsg50_gripper_left:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-            Value: true
-          right_wsg50_gripper_right:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-            Value: true
-          right_wsg50_mounting_plate:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-            Value: true
           table_link:
             Alpha: 1
             Show Axes: false
@@ -936,7 +611,7 @@ Visualization Manager:
         Show Robot Collision: false
         Show Robot Visual: true
       Value: true
-      Velocity_Scaling_Factor: 0.1
+      Velocity_Scaling_Factor: 0.3
   Enabled: true
   Global Options:
     Background Color: 100; 100; 100
@@ -955,30 +630,30 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz_default_plugins/Orbit
-      Distance: 4.809687614440918
+      Distance: 7.726696491241455
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: 0.6335083246231079
-        Y: 0.608287513256073
-        Z: 0.930479109287262
+        X: 0.5020981431007385
+        Y: 1.0040427446365356
+        Z: 0.3066461384296417
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.05000000074505806
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 0.2850002944469452
+      Pitch: 0.36479663848876953
       Target Frame: base_link
       Value: Orbit (rviz_default_plugins)
-      Yaw: 0.661996603012085
+      Yaw: 0.19199886918067932
     Saved: ~
 Window Geometry:
   Displays:
     collapsed: false
-  Height: 1016
+  Height: 995
   Help:
     collapsed: false
   Hide Left Dock: false
@@ -987,9 +662,9 @@ Window Geometry:
     collapsed: false
   MotionPlanning - Trajectory Slider:
     collapsed: false
-  QMainWindow State: 000000ff00000000fd0000000100000000000002b4000003a2fc0200000005fb00000044004d006f00740069006f006e0050006c0061006e006e0069006e00670020002d0020005400720061006a006500630074006f0072007900200053006c00690064006500720000000000ffffffff0000003f00fffffffb000000100044006900730070006c006100790073010000003b00000228000000c700fffffffb0000001c004d006f00740069006f006e0050006c0061006e006e0069006e00670100000269000001740000016900fffffffb0000000800480065006c0070000000029a0000006e0000006e00fffffffb0000000a005600690065007700730000000377000000d7000000a000ffffff000004c6000003a200000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
+  QMainWindow State: 000000ff00000000fd0000000100000000000002b40000038dfc0200000005fb00000044004d006f00740069006f006e0050006c0061006e006e0069006e00670020002d0020005400720061006a006500630074006f0072007900200053006c00690064006500720000000000ffffffff0000003f00fffffffb000000100044006900730070006c006100790073010000003b00000213000000c700fffffffb0000001c004d006f00740069006f006e0050006c0061006e006e0069006e00670100000254000001740000016900fffffffb0000000800480065006c0070000000029a0000006e0000006e00fffffffb0000000a00560069006500770073000000030d000000bb000000a000ffffff000006e40000038d00000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
   Views:
     collapsed: false
-  Width: 1920
-  X: 0
-  Y: 27
+  Width: 2462
+  X: 2015
+  Y: 95

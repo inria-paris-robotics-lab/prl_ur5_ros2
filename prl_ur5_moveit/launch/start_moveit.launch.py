@@ -19,84 +19,6 @@ from moveit_configs_utils import MoveItConfigsBuilder
 def generate_launch_description():
     use_sim_time = LaunchConfiguration('use_sim_time', default=True)
 
-
-    ############################ Gazebo Part ################################
-
-    # Config file
-    description_file=PathJoinSubstitution([FindPackageShare('prl_ur5_description'),'urdf', 'workbench_ur5.urdf.xacro'])
-    controller_file=PathJoinSubstitution([FindPackageShare('prl_ur5_moveit'),'config', 'ros2_controllers.yaml'])
-    world_file=PathJoinSubstitution([FindPackageShare('prl_ur5_gazebo'),'world', 'default.sdf'])
-
-    # Load robot
-    # Get URDF via xacro
-    robot_description_content = Command(
-        [
-            PathJoinSubstitution([FindExecutable(name='xacro')]),
-            ' ',
-            description_file,
-            " ",
-            "gz_sim:=",
-            "true",
-            " ",
-            "controller_file:=",
-            controller_file,
-            " ",
-        ]
-    )
-
-    # Wrap robot_description in ParameterValue
-    robot_description = {'robot_description':  ParameterValue(value=robot_description_content, value_type=str)}
-
-    # Robot state publisher
-    robot_state_publisher = Node(
-        package='robot_state_publisher',
-        executable='robot_state_publisher',
-        output='both',
-        parameters=[robot_description, {'use_sim_time': use_sim_time}],
-    )
-
-    # Launch Gazebo*
-    gazebo = IncludeLaunchDescription(
-            PythonLaunchDescriptionSource(
-            [os.path.join(get_package_share_directory('ros_gz_sim'),
-                      'launch', 'gz_sim.launch.py')]),
-            launch_arguments=[('gz_args', ['-r -v 4 ',world_file])],)
-
-    # Spawn entity in Gazebo
-    ignition_spawn_entity = Node(
-        package='ros_gz_sim',
-        executable='create',
-        output='screen',
-        arguments=['-topic', 'robot_description',
-                   '-name', 'dual_ur',
-                   '-allow_renaming', 'true'],
-        parameters=[{"use_sim_time": use_sim_time}],
-    )
-  
-    # Spawn wsg50's controllers
-    wsg50_controller_launch = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource([
-            PathJoinSubstitution([
-            FindPackageShare('wsg50_simulation'),
-            'launch',
-            'wsg50_controllers.launch.py',
-            ])
-        ]),
-    )
-
-    # Bridge between ROS and Gazebo (share the same clock it's important to sync the simulation and moveit)
-    bridge = Node(
-        package="ros_gz_bridge",
-        executable="parameter_bridge",
-        arguments=[
-            "/clock@rosgraph_msgs/msg/Clock[gz.msgs.Clock",
-            "/left_force_torque@geometry_msgs/msg/Wrench[gz.msgs.Wrench",
-            "/right_force_torque@geometry_msgs/msg/Wrench[gz.msgs.Wrench",
-        ],
-        output="screen",
-        parameters=[{"use_sim_time": use_sim_time}],
-    )
-
     ############################ MoveIt Part ################################
 
     #Config file
@@ -176,22 +98,25 @@ def generate_launch_description():
             },
         ],
     )
+
+    wait_robot_description = Node(
+        package="ur_robot_driver",
+        executable="wait_for_robot_description",
+        output="screen",
+    )
     
 
 
     return LaunchDescription([
-        robot_state_publisher,
-        gazebo,
-        bridge,
+        wait_robot_description,
         RegisterEventHandler(
             event_handler=OnProcessExit(
-            target_action=ignition_spawn_entity,
+            target_action=wait_robot_description,
             on_exit=[
                     node_move_group,
-                    moveit_controller,
+                    # moveit_controller,
                     rviz_node,
                         ],
             )
         ),
-        ignition_spawn_entity,
     ])
