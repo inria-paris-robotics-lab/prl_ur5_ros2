@@ -92,31 +92,31 @@
                 </state_interface>
                 <state_interface name="velocity"/>
             </joint>
-            <joint name="left_wsg50_base_joint_gripper_left">
+            <joint name="left_gripper_base_joint_gripper_left">
                 <command_interface name="position"/>
                 <state_interface name="position">
-                  <param name="initial_value">${initial_positions['left_wsg50_base_joint_gripper_left']}</param>
+                  <param name="initial_value">${initial_positions['left_gripper_base_joint_gripper_left']}</param>
                 </state_interface>
                 <state_interface name="velocity"/>
             </joint>
-            <joint name="left_wsg50_base_joint_gripper_right">
+            <joint name="left_gripper_base_joint_gripper_right">
                 <command_interface name="position"/>
                 <state_interface name="position">
-                  <param name="initial_value">${initial_positions['left_wsg50_base_joint_gripper_right']}</param>
+                  <param name="initial_value">${initial_positions['left_gripper_base_joint_gripper_right']}</param>
                 </state_interface>
                 <state_interface name="velocity"/>
             </joint>
-            <joint name="right_wsg50_base_joint_gripper_left">
+            <joint name="right_gripper_base_joint_gripper_left">
                 <command_interface name="position"/>
                 <state_interface name="position">
-                  <param name="initial_value">${initial_positions['right_wsg50_base_joint_gripper_left']}</param>
+                  <param name="initial_value">${initial_positions['right_gripper_base_joint_gripper_left']}</param>
                 </state_interface>
                 <state_interface name="velocity"/>
             </joint>
-            <joint name="right_wsg50_base_joint_gripper_right">
+            <joint name="right_gripper_base_joint_gripper_right">
                 <command_interface name="position"/>
                 <state_interface name="position">
-                  <param name="initial_value">${initial_positions['right_wsg50_base_joint_gripper_right']}</param>
+                  <param name="initial_value">${initial_positions['right_gripper_base_joint_gripper_right']}</param>
                 </state_interface>
                 <state_interface name="velocity"/>
             </joint>

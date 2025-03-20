@@ -46,16 +46,16 @@
         <group name="wsg_right_gr"/>
     </group>
     <group name="wsg_left_gl">
-        <joint name="left_wsg50_base_joint_gripper_left"/>
+        <joint name="left_gripper_base_joint_gripper_left"/>
     </group>
     <group name="wsg_left_gr">
-        <joint name="left_wsg50_base_joint_gripper_right"/>
+        <joint name="left_gripper_base_joint_gripper_right"/>
     </group>
     <group name="wsg_right_gl">
-        <joint name="right_wsg50_base_joint_gripper_left"/>
+        <joint name="right_gripper_base_joint_gripper_left"/>
     </group>
     <group name="wsg_right_gr">
-        <joint name="right_wsg50_base_joint_gripper_right"/>
+        <joint name="right_gripper_base_joint_gripper_right"/>
     </group>
     <!--GROUP STATES: Purpose: Define a named state for a particular group, in terms of joint values. This is useful to define states like 'folded arms'-->
     <group_state name="home" group="left_ur">
@@ -74,22 +74,6 @@
         <joint name="right_wrist_2_joint" value="0"/>
         <joint name="right_wrist_3_joint" value="0"/>
     </group_state>
-    <group_state name="open" group="left_gripper">
-        <joint name="left_wsg50_base_joint_gripper_left" value="-0.05"/>
-        <joint name="left_wsg50_base_joint_gripper_right" value="0.05"/>
-    </group_state>
-    <group_state name="open" group="right_gripper">
-        <joint name="right_wsg50_base_joint_gripper_left" value="-0.05"/>
-        <joint name="right_wsg50_base_joint_gripper_right" value="0.05"/>
-    </group_state>
-    <group_state name="close" group="left_gripper">
-        <joint name="left_wsg50_base_joint_gripper_left" value="-0.003"/>
-        <joint name="left_wsg50_base_joint_gripper_right" value="0.003"/>
-    </group_state>
-    <group_state name="close" group="right_gripper">
-        <joint name="right_wsg50_base_joint_gripper_left" value="-0.003"/>
-        <joint name="right_wsg50_base_joint_gripper_right" value="0.003"/>
-    </group_state>
     <group_state name="work" group="left_ur">
         <joint name="left_elbow_joint" value="-1.5708"/>
         <joint name="left_shoulder_lift_joint" value="-1.5708"/>
@@ -106,22 +90,28 @@
         <joint name="right_wrist_2_joint" value="1.5708"/>
         <joint name="right_wrist_3_joint" value="0"/>
     </group_state>
+    <group_state name="open" group="left_gripper">
+        <joint name="left_gripper_base_joint_gripper_left" value="-0.05"/>
+        <joint name="left_gripper_base_joint_gripper_right" value="0.05"/>
+    </group_state>
+    <group_state name="open" group="right_gripper">
+        <joint name="right_gripper_base_joint_gripper_left" value="-0.05"/>
+        <joint name="right_gripper_base_joint_gripper_right" value="0.05"/>
+    </group_state>
+    <group_state name="close" group="left_gripper">
+        <joint name="left_gripper_base_joint_gripper_left" value="-0.029"/>
+        <joint name="left_gripper_base_joint_gripper_right" value="0.029"/>
+    </group_state>
+    <group_state name="close" group="right_gripper">
+        <joint name="right_gripper_base_joint_gripper_left" value="-0.003"/>
+        <joint name="right_gripper_base_joint_gripper_right" value="0.003"/>
+    </group_state>
     <!--END EFFECTOR: Purpose: Represent information about an end effector.-->
     <end_effector name="left" parent_link="left_tool" group="left_gripper" parent_group="left_ur"/>
     <end_effector name="right" parent_link="right_tool" group="right_gripper" parent_group="right_ur"/>
     <!--VIRTUAL JOINT: Purpose: this element defines a virtual joint between a robot link and an external frame of reference (considered fixed with respect to the robot)-->
     <virtual_joint name="wrldbase" type="fixed" parent_frame="world" child_link="base_link"/>
     <!--DISABLE COLLISIONS: By default it is assumed that any link of the robot could potentially come into collision with any other link in the robot. This tag disables collision checking between a specified pair of links. -->
-    <disable_collisions link1="backwall_link" link2="bravo_camera_link" reason="Adjacent"/>
-    <disable_collisions link1="backwall_link" link2="charlie_camera_link" reason="Adjacent"/>
-    <disable_collisions link1="backwall_link" link2="fixed_camera_0_bb" reason="Adjacent"/>
-    <disable_collisions link1="backwall_link" link2="fixed_camera_0_sj" reason="Never"/>
-    <disable_collisions link1="backwall_link" link2="fixed_camera_0_vt" reason="Never"/>
-    <disable_collisions link1="backwall_link" link2="fixed_camera_1_bb" reason="Adjacent"/>
-    <disable_collisions link1="backwall_link" link2="fixed_camera_1_sj" reason="Never"/>
-    <disable_collisions link1="backwall_link" link2="fixed_camera_1_vt" reason="Never"/>
-    <disable_collisions link1="backwall_link" link2="fixed_hr_0" reason="Never"/>
-    <disable_collisions link1="backwall_link" link2="fixed_hr_1" reason="Never"/>
     <disable_collisions link1="backwall_link" link2="left_base_link_inertia" reason="Adjacent"/>
     <disable_collisions link1="backwall_link" link2="left_forearm_link" reason="Never"/>
     <disable_collisions link1="backwall_link" link2="left_shoulder_link" reason="Never"/>
@@ -134,637 +124,400 @@
     <disable_collisions link1="backwall_link" link2="right_upper_arm_link" reason="Never"/>
     <disable_collisions link1="backwall_link" link2="right_wrist_1_link" reason="Never"/>
     <disable_collisions link1="backwall_link" link2="table_link" reason="Adjacent"/>
-    <disable_collisions link1="bravo_camera_link" link2="charlie_camera_link" reason="Adjacent"/>
-    <disable_collisions link1="bravo_camera_link" link2="fixed_camera_0_bb" reason="Adjacent"/>
-    <disable_collisions link1="bravo_camera_link" link2="fixed_camera_0_sj" reason="Never"/>
-    <disable_collisions link1="bravo_camera_link" link2="fixed_camera_0_vt" reason="Never"/>
-    <disable_collisions link1="bravo_camera_link" link2="fixed_camera_1_bb" reason="Adjacent"/>
-    <disable_collisions link1="bravo_camera_link" link2="fixed_camera_1_sj" reason="Never"/>
-    <disable_collisions link1="bravo_camera_link" link2="fixed_camera_1_vt" reason="Never"/>
-    <disable_collisions link1="bravo_camera_link" link2="fixed_hr_0" reason="Never"/>
-    <disable_collisions link1="bravo_camera_link" link2="fixed_hr_1" reason="Never"/>
-    <disable_collisions link1="bravo_camera_link" link2="left_base_link_inertia" reason="Adjacent"/>
-    <disable_collisions link1="bravo_camera_link" link2="left_forearm_link" reason="Never"/>
-    <disable_collisions link1="bravo_camera_link" link2="left_shoulder_link" reason="Never"/>
-    <disable_collisions link1="bravo_camera_link" link2="left_upper_arm_link" reason="Never"/>
-    <disable_collisions link1="bravo_camera_link" link2="leftwall_link" reason="Adjacent"/>
-    <disable_collisions link1="bravo_camera_link" link2="right_base_link_inertia" reason="Adjacent"/>
-    <disable_collisions link1="bravo_camera_link" link2="right_forearm_link" reason="Never"/>
-    <disable_collisions link1="bravo_camera_link" link2="right_ft300_mounting_plate" reason="Never"/>
-    <disable_collisions link1="bravo_camera_link" link2="right_ft300_sensor" reason="Never"/>
-    <disable_collisions link1="bravo_camera_link" link2="right_shoulder_link" reason="Never"/>
-    <disable_collisions link1="bravo_camera_link" link2="right_upper_arm_link" reason="Never"/>
-    <disable_collisions link1="bravo_camera_link" link2="right_wrist_1_link" reason="Never"/>
-    <disable_collisions link1="bravo_camera_link" link2="right_wrist_2_link" reason="Never"/>
-    <disable_collisions link1="bravo_camera_link" link2="right_wrist_3_link" reason="Never"/>
-    <disable_collisions link1="bravo_camera_link" link2="right_wrist_connector_link" reason="Never"/>
-    <disable_collisions link1="bravo_camera_link" link2="right_wsg50_base_link" reason="Never"/>
-    <disable_collisions link1="bravo_camera_link" link2="right_wsg50_finger_left" reason="Never"/>
-    <disable_collisions link1="bravo_camera_link" link2="right_wsg50_finger_right" reason="Never"/>
-    <disable_collisions link1="bravo_camera_link" link2="right_wsg50_gripper_left" reason="Never"/>
-    <disable_collisions link1="bravo_camera_link" link2="right_wsg50_gripper_right" reason="Never"/>
-    <disable_collisions link1="bravo_camera_link" link2="right_wsg50_mounting_plate" reason="Never"/>
-    <disable_collisions link1="bravo_camera_link" link2="table_link" reason="Adjacent"/>
-    <disable_collisions link1="charlie_camera_link" link2="fixed_camera_0_bb" reason="Adjacent"/>
-    <disable_collisions link1="charlie_camera_link" link2="fixed_camera_0_sj" reason="Never"/>
-    <disable_collisions link1="charlie_camera_link" link2="fixed_camera_0_vt" reason="Never"/>
-    <disable_collisions link1="charlie_camera_link" link2="fixed_camera_1_bb" reason="Adjacent"/>
-    <disable_collisions link1="charlie_camera_link" link2="fixed_camera_1_sj" reason="Never"/>
-    <disable_collisions link1="charlie_camera_link" link2="fixed_camera_1_vt" reason="Never"/>
-    <disable_collisions link1="charlie_camera_link" link2="fixed_hr_0" reason="Never"/>
-    <disable_collisions link1="charlie_camera_link" link2="fixed_hr_1" reason="Never"/>
-    <disable_collisions link1="charlie_camera_link" link2="left_base_link_inertia" reason="Adjacent"/>
-    <disable_collisions link1="charlie_camera_link" link2="left_shoulder_link" reason="Never"/>
-    <disable_collisions link1="charlie_camera_link" link2="left_upper_arm_link" reason="Never"/>
-    <disable_collisions link1="charlie_camera_link" link2="leftwall_link" reason="Adjacent"/>
-    <disable_collisions link1="charlie_camera_link" link2="right_base_link_inertia" reason="Adjacent"/>
-    <disable_collisions link1="charlie_camera_link" link2="right_forearm_link" reason="Never"/>
-    <disable_collisions link1="charlie_camera_link" link2="right_ft300_mounting_plate" reason="Never"/>
-    <disable_collisions link1="charlie_camera_link" link2="right_ft300_sensor" reason="Never"/>
-    <disable_collisions link1="charlie_camera_link" link2="right_shoulder_link" reason="Never"/>
-    <disable_collisions link1="charlie_camera_link" link2="right_upper_arm_link" reason="Never"/>
-    <disable_collisions link1="charlie_camera_link" link2="right_wrist_1_link" reason="Never"/>
-    <disable_collisions link1="charlie_camera_link" link2="right_wrist_2_link" reason="Never"/>
-    <disable_collisions link1="charlie_camera_link" link2="right_wrist_3_link" reason="Never"/>
-    <disable_collisions link1="charlie_camera_link" link2="right_wrist_connector_link" reason="Never"/>
-    <disable_collisions link1="charlie_camera_link" link2="right_wsg50_base_link" reason="Never"/>
-    <disable_collisions link1="charlie_camera_link" link2="right_wsg50_finger_left" reason="Never"/>
-    <disable_collisions link1="charlie_camera_link" link2="right_wsg50_finger_right" reason="Never"/>
-    <disable_collisions link1="charlie_camera_link" link2="right_wsg50_gripper_left" reason="Never"/>
-    <disable_collisions link1="charlie_camera_link" link2="right_wsg50_gripper_right" reason="Never"/>
-    <disable_collisions link1="charlie_camera_link" link2="right_wsg50_mounting_plate" reason="Never"/>
-    <disable_collisions link1="charlie_camera_link" link2="table_link" reason="Adjacent"/>
-    <disable_collisions link1="fixed_camera_0_bb" link2="fixed_camera_0_sj" reason="Adjacent"/>
-    <disable_collisions link1="fixed_camera_0_bb" link2="fixed_camera_0_vt" reason="Default"/>
-    <disable_collisions link1="fixed_camera_0_bb" link2="fixed_camera_1_bb" reason="Adjacent"/>
-    <disable_collisions link1="fixed_camera_0_bb" link2="fixed_camera_1_sj" reason="Never"/>
-    <disable_collisions link1="fixed_camera_0_bb" link2="fixed_camera_1_vt" reason="Never"/>
-    <disable_collisions link1="fixed_camera_0_bb" link2="fixed_hr_0" reason="Never"/>
-    <disable_collisions link1="fixed_camera_0_bb" link2="fixed_hr_1" reason="Never"/>
-    <disable_collisions link1="fixed_camera_0_bb" link2="left_base_link_inertia" reason="Adjacent"/>
-    <disable_collisions link1="fixed_camera_0_bb" link2="left_shoulder_link" reason="Never"/>
-    <disable_collisions link1="fixed_camera_0_bb" link2="left_upper_arm_link" reason="Never"/>
-    <disable_collisions link1="fixed_camera_0_bb" link2="leftwall_link" reason="Adjacent"/>
-    <disable_collisions link1="fixed_camera_0_bb" link2="right_base_link_inertia" reason="Adjacent"/>
-    <disable_collisions link1="fixed_camera_0_bb" link2="right_forearm_link" reason="Never"/>
-    <disable_collisions link1="fixed_camera_0_bb" link2="right_ft300_mounting_plate" reason="Never"/>
-    <disable_collisions link1="fixed_camera_0_bb" link2="right_ft300_sensor" reason="Never"/>
-    <disable_collisions link1="fixed_camera_0_bb" link2="right_shoulder_link" reason="Never"/>
-    <disable_collisions link1="fixed_camera_0_bb" link2="right_upper_arm_link" reason="Never"/>
-    <disable_collisions link1="fixed_camera_0_bb" link2="right_wrist_1_link" reason="Never"/>
-    <disable_collisions link1="fixed_camera_0_bb" link2="right_wrist_2_link" reason="Never"/>
-    <disable_collisions link1="fixed_camera_0_bb" link2="right_wrist_3_link" reason="Never"/>
-    <disable_collisions link1="fixed_camera_0_bb" link2="right_wrist_connector_link" reason="Never"/>
-    <disable_collisions link1="fixed_camera_0_bb" link2="right_wsg50_base_link" reason="Never"/>
-    <disable_collisions link1="fixed_camera_0_bb" link2="right_wsg50_finger_left" reason="Never"/>
-    <disable_collisions link1="fixed_camera_0_bb" link2="right_wsg50_finger_right" reason="Never"/>
-    <disable_collisions link1="fixed_camera_0_bb" link2="right_wsg50_gripper_left" reason="Never"/>
-    <disable_collisions link1="fixed_camera_0_bb" link2="right_wsg50_gripper_right" reason="Never"/>
-    <disable_collisions link1="fixed_camera_0_bb" link2="right_wsg50_mounting_plate" reason="Never"/>
-    <disable_collisions link1="fixed_camera_0_bb" link2="table_link" reason="Adjacent"/>
-    <disable_collisions link1="fixed_camera_0_sj" link2="fixed_camera_0_vt" reason="Adjacent"/>
-    <disable_collisions link1="fixed_camera_0_sj" link2="fixed_camera_1_bb" reason="Never"/>
-    <disable_collisions link1="fixed_camera_0_sj" link2="fixed_camera_1_sj" reason="Never"/>
-    <disable_collisions link1="fixed_camera_0_sj" link2="fixed_camera_1_vt" reason="Never"/>
-    <disable_collisions link1="fixed_camera_0_sj" link2="fixed_hr_0" reason="Never"/>
-    <disable_collisions link1="fixed_camera_0_sj" link2="fixed_hr_1" reason="Never"/>
-    <disable_collisions link1="fixed_camera_0_sj" link2="left_base_link_inertia" reason="Never"/>
-    <disable_collisions link1="fixed_camera_0_sj" link2="left_shoulder_link" reason="Never"/>
-    <disable_collisions link1="fixed_camera_0_sj" link2="left_upper_arm_link" reason="Never"/>
-    <disable_collisions link1="fixed_camera_0_sj" link2="leftwall_link" reason="Never"/>
-    <disable_collisions link1="fixed_camera_0_sj" link2="right_base_link_inertia" reason="Never"/>
-    <disable_collisions link1="fixed_camera_0_sj" link2="right_forearm_link" reason="Never"/>
-    <disable_collisions link1="fixed_camera_0_sj" link2="right_ft300_mounting_plate" reason="Never"/>
-    <disable_collisions link1="fixed_camera_0_sj" link2="right_ft300_sensor" reason="Never"/>
-    <disable_collisions link1="fixed_camera_0_sj" link2="right_shoulder_link" reason="Never"/>
-    <disable_collisions link1="fixed_camera_0_sj" link2="right_upper_arm_link" reason="Never"/>
-    <disable_collisions link1="fixed_camera_0_sj" link2="right_wrist_1_link" reason="Never"/>
-    <disable_collisions link1="fixed_camera_0_sj" link2="right_wrist_2_link" reason="Never"/>
-    <disable_collisions link1="fixed_camera_0_sj" link2="right_wrist_3_link" reason="Never"/>
-    <disable_collisions link1="fixed_camera_0_sj" link2="right_wrist_connector_link" reason="Never"/>
-    <disable_collisions link1="fixed_camera_0_sj" link2="right_wsg50_base_link" reason="Never"/>
-    <disable_collisions link1="fixed_camera_0_sj" link2="right_wsg50_finger_left" reason="Never"/>
-    <disable_collisions link1="fixed_camera_0_sj" link2="right_wsg50_finger_right" reason="Never"/>
-    <disable_collisions link1="fixed_camera_0_sj" link2="right_wsg50_gripper_left" reason="Never"/>
-    <disable_collisions link1="fixed_camera_0_sj" link2="right_wsg50_gripper_right" reason="Never"/>
-    <disable_collisions link1="fixed_camera_0_sj" link2="right_wsg50_mounting_plate" reason="Never"/>
-    <disable_collisions link1="fixed_camera_0_sj" link2="table_link" reason="Never"/>
-    <disable_collisions link1="fixed_camera_0_vt" link2="fixed_camera_1_bb" reason="Never"/>
-    <disable_collisions link1="fixed_camera_0_vt" link2="fixed_camera_1_sj" reason="Never"/>
-    <disable_collisions link1="fixed_camera_0_vt" link2="fixed_camera_1_vt" reason="Never"/>
-    <disable_collisions link1="fixed_camera_0_vt" link2="fixed_hr_0" reason="Adjacent"/>
-    <disable_collisions link1="fixed_camera_0_vt" link2="fixed_hr_1" reason="Never"/>
-    <disable_collisions link1="fixed_camera_0_vt" link2="left_base_link_inertia" reason="Never"/>
-    <disable_collisions link1="fixed_camera_0_vt" link2="left_shoulder_link" reason="Never"/>
-    <disable_collisions link1="fixed_camera_0_vt" link2="left_upper_arm_link" reason="Never"/>
-    <disable_collisions link1="fixed_camera_0_vt" link2="leftwall_link" reason="Never"/>
-    <disable_collisions link1="fixed_camera_0_vt" link2="right_base_link_inertia" reason="Never"/>
-    <disable_collisions link1="fixed_camera_0_vt" link2="right_forearm_link" reason="Never"/>
-    <disable_collisions link1="fixed_camera_0_vt" link2="right_ft300_mounting_plate" reason="Never"/>
-    <disable_collisions link1="fixed_camera_0_vt" link2="right_ft300_sensor" reason="Never"/>
-    <disable_collisions link1="fixed_camera_0_vt" link2="right_shoulder_link" reason="Never"/>
-    <disable_collisions link1="fixed_camera_0_vt" link2="right_upper_arm_link" reason="Never"/>
-    <disable_collisions link1="fixed_camera_0_vt" link2="right_wrist_1_link" reason="Never"/>
-    <disable_collisions link1="fixed_camera_0_vt" link2="right_wrist_2_link" reason="Never"/>
-    <disable_collisions link1="fixed_camera_0_vt" link2="right_wrist_3_link" reason="Never"/>
-    <disable_collisions link1="fixed_camera_0_vt" link2="right_wrist_connector_link" reason="Never"/>
-    <disable_collisions link1="fixed_camera_0_vt" link2="right_wsg50_base_link" reason="Never"/>
-    <disable_collisions link1="fixed_camera_0_vt" link2="right_wsg50_finger_left" reason="Never"/>
-    <disable_collisions link1="fixed_camera_0_vt" link2="right_wsg50_finger_right" reason="Never"/>
-    <disable_collisions link1="fixed_camera_0_vt" link2="right_wsg50_gripper_left" reason="Never"/>
-    <disable_collisions link1="fixed_camera_0_vt" link2="right_wsg50_gripper_right" reason="Never"/>
-    <disable_collisions link1="fixed_camera_0_vt" link2="right_wsg50_mounting_plate" reason="Never"/>
-    <disable_collisions link1="fixed_camera_0_vt" link2="table_link" reason="Never"/>
-    <disable_collisions link1="fixed_camera_1_bb" link2="fixed_camera_1_sj" reason="Adjacent"/>
-    <disable_collisions link1="fixed_camera_1_bb" link2="fixed_camera_1_vt" reason="Default"/>
-    <disable_collisions link1="fixed_camera_1_bb" link2="fixed_hr_0" reason="Never"/>
-    <disable_collisions link1="fixed_camera_1_bb" link2="fixed_hr_1" reason="Never"/>
-    <disable_collisions link1="fixed_camera_1_bb" link2="left_base_link_inertia" reason="Adjacent"/>
-    <disable_collisions link1="fixed_camera_1_bb" link2="left_shoulder_link" reason="Never"/>
-    <disable_collisions link1="fixed_camera_1_bb" link2="leftwall_link" reason="Adjacent"/>
-    <disable_collisions link1="fixed_camera_1_bb" link2="right_base_link_inertia" reason="Adjacent"/>
-    <disable_collisions link1="fixed_camera_1_bb" link2="right_forearm_link" reason="Never"/>
-    <disable_collisions link1="fixed_camera_1_bb" link2="right_ft300_mounting_plate" reason="Never"/>
-    <disable_collisions link1="fixed_camera_1_bb" link2="right_ft300_sensor" reason="Never"/>
-    <disable_collisions link1="fixed_camera_1_bb" link2="right_shoulder_link" reason="Never"/>
-    <disable_collisions link1="fixed_camera_1_bb" link2="right_upper_arm_link" reason="Never"/>
-    <disable_collisions link1="fixed_camera_1_bb" link2="right_wrist_1_link" reason="Never"/>
-    <disable_collisions link1="fixed_camera_1_bb" link2="right_wrist_2_link" reason="Never"/>
-    <disable_collisions link1="fixed_camera_1_bb" link2="right_wrist_3_link" reason="Never"/>
-    <disable_collisions link1="fixed_camera_1_bb" link2="right_wrist_connector_link" reason="Never"/>
-    <disable_collisions link1="fixed_camera_1_bb" link2="right_wsg50_base_link" reason="Never"/>
-    <disable_collisions link1="fixed_camera_1_bb" link2="right_wsg50_finger_left" reason="Never"/>
-    <disable_collisions link1="fixed_camera_1_bb" link2="right_wsg50_finger_right" reason="Never"/>
-    <disable_collisions link1="fixed_camera_1_bb" link2="right_wsg50_gripper_left" reason="Never"/>
-    <disable_collisions link1="fixed_camera_1_bb" link2="right_wsg50_gripper_right" reason="Never"/>
-    <disable_collisions link1="fixed_camera_1_bb" link2="right_wsg50_mounting_plate" reason="Never"/>
-    <disable_collisions link1="fixed_camera_1_bb" link2="table_link" reason="Adjacent"/>
-    <disable_collisions link1="fixed_camera_1_sj" link2="fixed_camera_1_vt" reason="Adjacent"/>
-    <disable_collisions link1="fixed_camera_1_sj" link2="fixed_hr_0" reason="Never"/>
-    <disable_collisions link1="fixed_camera_1_sj" link2="fixed_hr_1" reason="Never"/>
-    <disable_collisions link1="fixed_camera_1_sj" link2="left_base_link_inertia" reason="Never"/>
-    <disable_collisions link1="fixed_camera_1_sj" link2="left_shoulder_link" reason="Never"/>
-    <disable_collisions link1="fixed_camera_1_sj" link2="leftwall_link" reason="Never"/>
-    <disable_collisions link1="fixed_camera_1_sj" link2="right_base_link_inertia" reason="Never"/>
-    <disable_collisions link1="fixed_camera_1_sj" link2="right_forearm_link" reason="Never"/>
-    <disable_collisions link1="fixed_camera_1_sj" link2="right_ft300_mounting_plate" reason="Never"/>
-    <disable_collisions link1="fixed_camera_1_sj" link2="right_ft300_sensor" reason="Never"/>
-    <disable_collisions link1="fixed_camera_1_sj" link2="right_shoulder_link" reason="Never"/>
-    <disable_collisions link1="fixed_camera_1_sj" link2="right_upper_arm_link" reason="Never"/>
-    <disable_collisions link1="fixed_camera_1_sj" link2="right_wrist_1_link" reason="Never"/>
-    <disable_collisions link1="fixed_camera_1_sj" link2="right_wrist_2_link" reason="Never"/>
-    <disable_collisions link1="fixed_camera_1_sj" link2="right_wrist_3_link" reason="Never"/>
-    <disable_collisions link1="fixed_camera_1_sj" link2="right_wrist_connector_link" reason="Never"/>
-    <disable_collisions link1="fixed_camera_1_sj" link2="right_wsg50_base_link" reason="Never"/>
-    <disable_collisions link1="fixed_camera_1_sj" link2="right_wsg50_finger_left" reason="Never"/>
-    <disable_collisions link1="fixed_camera_1_sj" link2="right_wsg50_finger_right" reason="Never"/>
-    <disable_collisions link1="fixed_camera_1_sj" link2="right_wsg50_gripper_left" reason="Never"/>
-    <disable_collisions link1="fixed_camera_1_sj" link2="right_wsg50_gripper_right" reason="Never"/>
-    <disable_collisions link1="fixed_camera_1_sj" link2="right_wsg50_mounting_plate" reason="Never"/>
-    <disable_collisions link1="fixed_camera_1_sj" link2="table_link" reason="Never"/>
-    <disable_collisions link1="fixed_camera_1_vt" link2="fixed_hr_0" reason="Never"/>
-    <disable_collisions link1="fixed_camera_1_vt" link2="fixed_hr_1" reason="Adjacent"/>
-    <disable_collisions link1="fixed_camera_1_vt" link2="left_base_link_inertia" reason="Never"/>
-    <disable_collisions link1="fixed_camera_1_vt" link2="left_shoulder_link" reason="Never"/>
-    <disable_collisions link1="fixed_camera_1_vt" link2="leftwall_link" reason="Never"/>
-    <disable_collisions link1="fixed_camera_1_vt" link2="right_base_link_inertia" reason="Never"/>
-    <disable_collisions link1="fixed_camera_1_vt" link2="right_forearm_link" reason="Never"/>
-    <disable_collisions link1="fixed_camera_1_vt" link2="right_ft300_mounting_plate" reason="Never"/>
-    <disable_collisions link1="fixed_camera_1_vt" link2="right_ft300_sensor" reason="Never"/>
-    <disable_collisions link1="fixed_camera_1_vt" link2="right_shoulder_link" reason="Never"/>
-    <disable_collisions link1="fixed_camera_1_vt" link2="right_upper_arm_link" reason="Never"/>
-    <disable_collisions link1="fixed_camera_1_vt" link2="right_wrist_1_link" reason="Never"/>
-    <disable_collisions link1="fixed_camera_1_vt" link2="right_wrist_2_link" reason="Never"/>
-    <disable_collisions link1="fixed_camera_1_vt" link2="right_wrist_3_link" reason="Never"/>
-    <disable_collisions link1="fixed_camera_1_vt" link2="right_wrist_connector_link" reason="Never"/>
-    <disable_collisions link1="fixed_camera_1_vt" link2="right_wsg50_base_link" reason="Never"/>
-    <disable_collisions link1="fixed_camera_1_vt" link2="right_wsg50_finger_left" reason="Never"/>
-    <disable_collisions link1="fixed_camera_1_vt" link2="right_wsg50_finger_right" reason="Never"/>
-    <disable_collisions link1="fixed_camera_1_vt" link2="right_wsg50_gripper_left" reason="Never"/>
-    <disable_collisions link1="fixed_camera_1_vt" link2="right_wsg50_gripper_right" reason="Never"/>
-    <disable_collisions link1="fixed_camera_1_vt" link2="right_wsg50_mounting_plate" reason="Never"/>
-    <disable_collisions link1="fixed_camera_1_vt" link2="table_link" reason="Never"/>
-    <disable_collisions link1="fixed_hr_0" link2="fixed_hr_1" reason="Never"/>
-    <disable_collisions link1="fixed_hr_0" link2="left_base_link_inertia" reason="Never"/>
-    <disable_collisions link1="fixed_hr_0" link2="left_shoulder_link" reason="Never"/>
-    <disable_collisions link1="fixed_hr_0" link2="leftwall_link" reason="Never"/>
-    <disable_collisions link1="fixed_hr_0" link2="right_base_link_inertia" reason="Never"/>
-    <disable_collisions link1="fixed_hr_0" link2="right_forearm_link" reason="Never"/>
-    <disable_collisions link1="fixed_hr_0" link2="right_ft300_mounting_plate" reason="Never"/>
-    <disable_collisions link1="fixed_hr_0" link2="right_ft300_sensor" reason="Never"/>
-    <disable_collisions link1="fixed_hr_0" link2="right_shoulder_link" reason="Never"/>
-    <disable_collisions link1="fixed_hr_0" link2="right_upper_arm_link" reason="Never"/>
-    <disable_collisions link1="fixed_hr_0" link2="right_wrist_1_link" reason="Never"/>
-    <disable_collisions link1="fixed_hr_0" link2="right_wrist_2_link" reason="Never"/>
-    <disable_collisions link1="fixed_hr_0" link2="right_wrist_3_link" reason="Never"/>
-    <disable_collisions link1="fixed_hr_0" link2="right_wrist_connector_link" reason="Never"/>
-    <disable_collisions link1="fixed_hr_0" link2="right_wsg50_base_link" reason="Never"/>
-    <disable_collisions link1="fixed_hr_0" link2="right_wsg50_finger_left" reason="Never"/>
-    <disable_collisions link1="fixed_hr_0" link2="right_wsg50_finger_right" reason="Never"/>
-    <disable_collisions link1="fixed_hr_0" link2="right_wsg50_gripper_left" reason="Never"/>
-    <disable_collisions link1="fixed_hr_0" link2="right_wsg50_gripper_right" reason="Never"/>
-    <disable_collisions link1="fixed_hr_0" link2="right_wsg50_mounting_plate" reason="Never"/>
-    <disable_collisions link1="fixed_hr_0" link2="table_link" reason="Default"/>
-    <disable_collisions link1="fixed_hr_1" link2="left_base_link_inertia" reason="Never"/>
-    <disable_collisions link1="fixed_hr_1" link2="left_shoulder_link" reason="Never"/>
-    <disable_collisions link1="fixed_hr_1" link2="leftwall_link" reason="Never"/>
-    <disable_collisions link1="fixed_hr_1" link2="right_base_link_inertia" reason="Never"/>
-    <disable_collisions link1="fixed_hr_1" link2="right_forearm_link" reason="Never"/>
-    <disable_collisions link1="fixed_hr_1" link2="right_ft300_mounting_plate" reason="Never"/>
-    <disable_collisions link1="fixed_hr_1" link2="right_ft300_sensor" reason="Never"/>
-    <disable_collisions link1="fixed_hr_1" link2="right_shoulder_link" reason="Never"/>
-    <disable_collisions link1="fixed_hr_1" link2="right_upper_arm_link" reason="Never"/>
-    <disable_collisions link1="fixed_hr_1" link2="right_wrist_1_link" reason="Never"/>
-    <disable_collisions link1="fixed_hr_1" link2="right_wrist_2_link" reason="Never"/>
-    <disable_collisions link1="fixed_hr_1" link2="right_wrist_3_link" reason="Never"/>
-    <disable_collisions link1="fixed_hr_1" link2="right_wrist_connector_link" reason="Never"/>
-    <disable_collisions link1="fixed_hr_1" link2="right_wsg50_base_link" reason="Never"/>
-    <disable_collisions link1="fixed_hr_1" link2="right_wsg50_finger_left" reason="Never"/>
-    <disable_collisions link1="fixed_hr_1" link2="right_wsg50_finger_right" reason="Never"/>
-    <disable_collisions link1="fixed_hr_1" link2="right_wsg50_gripper_left" reason="Never"/>
-    <disable_collisions link1="fixed_hr_1" link2="right_wsg50_gripper_right" reason="Never"/>
-    <disable_collisions link1="fixed_hr_1" link2="right_wsg50_mounting_plate" reason="Never"/>
-    <disable_collisions link1="fixed_hr_1" link2="table_link" reason="Default"/>
     <disable_collisions link1="left_base_link_inertia" link2="left_shoulder_link" reason="Adjacent"/>
     <disable_collisions link1="left_base_link_inertia" link2="leftwall_link" reason="Adjacent"/>
     <disable_collisions link1="left_base_link_inertia" link2="right_base_link_inertia" reason="Adjacent"/>
     <disable_collisions link1="left_base_link_inertia" link2="right_forearm_link" reason="Never"/>
     <disable_collisions link1="left_base_link_inertia" link2="right_ft300_mounting_plate" reason="Never"/>
     <disable_collisions link1="left_base_link_inertia" link2="right_ft300_sensor" reason="Never"/>
+    <disable_collisions link1="left_base_link_inertia" link2="right_gripper_base_link" reason="Never"/>
+    <disable_collisions link1="left_base_link_inertia" link2="right_gripper_finger_left" reason="Never"/>
+    <disable_collisions link1="left_base_link_inertia" link2="right_gripper_finger_right" reason="Never"/>
+    <disable_collisions link1="left_base_link_inertia" link2="right_gripper_gripper_left" reason="Never"/>
+    <disable_collisions link1="left_base_link_inertia" link2="right_gripper_gripper_right" reason="Never"/>
+    <disable_collisions link1="left_base_link_inertia" link2="right_gripper_mounting_plate" reason="Never"/>
     <disable_collisions link1="left_base_link_inertia" link2="right_shoulder_link" reason="Never"/>
     <disable_collisions link1="left_base_link_inertia" link2="right_upper_arm_link" reason="Never"/>
     <disable_collisions link1="left_base_link_inertia" link2="right_wrist_1_link" reason="Never"/>
     <disable_collisions link1="left_base_link_inertia" link2="right_wrist_2_link" reason="Never"/>
     <disable_collisions link1="left_base_link_inertia" link2="right_wrist_3_link" reason="Never"/>
     <disable_collisions link1="left_base_link_inertia" link2="right_wrist_connector_link" reason="Never"/>
-    <disable_collisions link1="left_base_link_inertia" link2="right_wsg50_base_link" reason="Never"/>
-    <disable_collisions link1="left_base_link_inertia" link2="right_wsg50_finger_left" reason="Never"/>
-    <disable_collisions link1="left_base_link_inertia" link2="right_wsg50_finger_right" reason="Never"/>
-    <disable_collisions link1="left_base_link_inertia" link2="right_wsg50_gripper_left" reason="Never"/>
-    <disable_collisions link1="left_base_link_inertia" link2="right_wsg50_gripper_right" reason="Never"/>
-    <disable_collisions link1="left_base_link_inertia" link2="right_wsg50_mounting_plate" reason="Never"/>
     <disable_collisions link1="left_base_link_inertia" link2="table_link" reason="Adjacent"/>
     <disable_collisions link1="left_forearm_link" link2="left_upper_arm_link" reason="Adjacent"/>
     <disable_collisions link1="left_forearm_link" link2="left_wrist_1_link" reason="Adjacent"/>
     <disable_collisions link1="left_forearm_link" link2="right_base_link_inertia" reason="Never"/>
     <disable_collisions link1="left_forearm_link" link2="right_forearm_link" reason="Never"/>
-    <disable_collisions link1="left_forearm_link" link2="right_ft300_mounting_plate" reason="Never"/>
+    <disable_collisions link1="left_forearm_link" link2="right_gripper_gripper_left" reason="Never"/>
     <disable_collisions link1="left_forearm_link" link2="right_shoulder_link" reason="Never"/>
     <disable_collisions link1="left_forearm_link" link2="right_upper_arm_link" reason="Never"/>
     <disable_collisions link1="left_forearm_link" link2="right_wrist_1_link" reason="Never"/>
-    <disable_collisions link1="left_forearm_link" link2="right_wrist_2_link" reason="Never"/>
-    <disable_collisions link1="left_forearm_link" link2="right_wrist_3_link" reason="Never"/>
-    <disable_collisions link1="left_forearm_link" link2="right_wrist_connector_link" reason="Never"/>
     <disable_collisions link1="left_ft300_mounting_plate" link2="left_ft300_sensor" reason="Adjacent"/>
+    <disable_collisions link1="left_ft300_mounting_plate" link2="left_gripper_base_link" reason="Never"/>
+    <disable_collisions link1="left_ft300_mounting_plate" link2="left_gripper_finger_left" reason="Never"/>
+    <disable_collisions link1="left_ft300_mounting_plate" link2="left_gripper_finger_right" reason="Never"/>
+    <disable_collisions link1="left_ft300_mounting_plate" link2="left_gripper_gripper_left" reason="Never"/>
+    <disable_collisions link1="left_ft300_mounting_plate" link2="left_gripper_gripper_right" reason="Never"/>
+    <disable_collisions link1="left_ft300_mounting_plate" link2="left_gripper_mounting_plate" reason="Never"/>
     <disable_collisions link1="left_ft300_mounting_plate" link2="left_wrist_1_link" reason="Never"/>
     <disable_collisions link1="left_ft300_mounting_plate" link2="left_wrist_2_link" reason="Never"/>
     <disable_collisions link1="left_ft300_mounting_plate" link2="left_wrist_3_link" reason="Adjacent"/>
     <disable_collisions link1="left_ft300_mounting_plate" link2="left_wrist_connector_link" reason="Never"/>
-    <disable_collisions link1="left_ft300_mounting_plate" link2="left_wsg50_base_link" reason="Never"/>
-    <disable_collisions link1="left_ft300_mounting_plate" link2="left_wsg50_finger_left" reason="Never"/>
-    <disable_collisions link1="left_ft300_mounting_plate" link2="left_wsg50_finger_right" reason="Never"/>
-    <disable_collisions link1="left_ft300_mounting_plate" link2="left_wsg50_gripper_left" reason="Never"/>
-    <disable_collisions link1="left_ft300_mounting_plate" link2="left_wsg50_gripper_right" reason="Never"/>
-    <disable_collisions link1="left_ft300_mounting_plate" link2="left_wsg50_mounting_plate" reason="Never"/>
     <disable_collisions link1="left_ft300_mounting_plate" link2="right_base_link_inertia" reason="Never"/>
-    <disable_collisions link1="left_ft300_mounting_plate" link2="right_forearm_link" reason="Never"/>
     <disable_collisions link1="left_ft300_mounting_plate" link2="right_ft300_mounting_plate" reason="Never"/>
     <disable_collisions link1="left_ft300_mounting_plate" link2="right_ft300_sensor" reason="Never"/>
+    <disable_collisions link1="left_ft300_mounting_plate" link2="right_gripper_base_link" reason="Never"/>
+    <disable_collisions link1="left_ft300_mounting_plate" link2="right_gripper_finger_left" reason="Never"/>
+    <disable_collisions link1="left_ft300_mounting_plate" link2="right_gripper_finger_right" reason="Never"/>
+    <disable_collisions link1="left_ft300_mounting_plate" link2="right_gripper_gripper_left" reason="Never"/>
+    <disable_collisions link1="left_ft300_mounting_plate" link2="right_gripper_gripper_right" reason="Never"/>
+    <disable_collisions link1="left_ft300_mounting_plate" link2="right_gripper_mounting_plate" reason="Never"/>
     <disable_collisions link1="left_ft300_mounting_plate" link2="right_shoulder_link" reason="Never"/>
     <disable_collisions link1="left_ft300_mounting_plate" link2="right_upper_arm_link" reason="Never"/>
     <disable_collisions link1="left_ft300_mounting_plate" link2="right_wrist_1_link" reason="Never"/>
     <disable_collisions link1="left_ft300_mounting_plate" link2="right_wrist_2_link" reason="Never"/>
     <disable_collisions link1="left_ft300_mounting_plate" link2="right_wrist_3_link" reason="Never"/>
     <disable_collisions link1="left_ft300_mounting_plate" link2="right_wrist_connector_link" reason="Never"/>
-    <disable_collisions link1="left_ft300_mounting_plate" link2="right_wsg50_finger_left" reason="Never"/>
-    <disable_collisions link1="left_ft300_mounting_plate" link2="right_wsg50_finger_right" reason="Never"/>
-    <disable_collisions link1="left_ft300_mounting_plate" link2="right_wsg50_gripper_left" reason="Never"/>
-    <disable_collisions link1="left_ft300_mounting_plate" link2="right_wsg50_gripper_right" reason="Never"/>
-    <disable_collisions link1="left_ft300_mounting_plate" link2="right_wsg50_mounting_plate" reason="Never"/>
     <disable_collisions link1="left_ft300_mounting_plate" link2="table_link" reason="Default"/>
+    <disable_collisions link1="left_ft300_sensor" link2="left_gripper_base_link" reason="Never"/>
+    <disable_collisions link1="left_ft300_sensor" link2="left_gripper_finger_left" reason="Never"/>
+    <disable_collisions link1="left_ft300_sensor" link2="left_gripper_finger_right" reason="Never"/>
+    <disable_collisions link1="left_ft300_sensor" link2="left_gripper_gripper_left" reason="Never"/>
+    <disable_collisions link1="left_ft300_sensor" link2="left_gripper_gripper_right" reason="Never"/>
+    <disable_collisions link1="left_ft300_sensor" link2="left_gripper_mounting_plate" reason="Adjacent"/>
     <disable_collisions link1="left_ft300_sensor" link2="left_wrist_1_link" reason="Never"/>
     <disable_collisions link1="left_ft300_sensor" link2="left_wrist_2_link" reason="Never"/>
     <disable_collisions link1="left_ft300_sensor" link2="left_wrist_3_link" reason="Never"/>
     <disable_collisions link1="left_ft300_sensor" link2="left_wrist_connector_link" reason="Never"/>
-    <disable_collisions link1="left_ft300_sensor" link2="left_wsg50_base_link" reason="Never"/>
-    <disable_collisions link1="left_ft300_sensor" link2="left_wsg50_finger_left" reason="Never"/>
-    <disable_collisions link1="left_ft300_sensor" link2="left_wsg50_finger_right" reason="Never"/>
-    <disable_collisions link1="left_ft300_sensor" link2="left_wsg50_gripper_left" reason="Never"/>
-    <disable_collisions link1="left_ft300_sensor" link2="left_wsg50_gripper_right" reason="Never"/>
-    <disable_collisions link1="left_ft300_sensor" link2="left_wsg50_mounting_plate" reason="Adjacent"/>
     <disable_collisions link1="left_ft300_sensor" link2="right_base_link_inertia" reason="Never"/>
-    <disable_collisions link1="left_ft300_sensor" link2="right_forearm_link" reason="Never"/>
     <disable_collisions link1="left_ft300_sensor" link2="right_ft300_mounting_plate" reason="Never"/>
     <disable_collisions link1="left_ft300_sensor" link2="right_ft300_sensor" reason="Never"/>
+    <disable_collisions link1="left_ft300_sensor" link2="right_gripper_base_link" reason="Never"/>
+    <disable_collisions link1="left_ft300_sensor" link2="right_gripper_finger_left" reason="Never"/>
+    <disable_collisions link1="left_ft300_sensor" link2="right_gripper_finger_right" reason="Never"/>
+    <disable_collisions link1="left_ft300_sensor" link2="right_gripper_gripper_left" reason="Never"/>
+    <disable_collisions link1="left_ft300_sensor" link2="right_gripper_gripper_right" reason="Never"/>
+    <disable_collisions link1="left_ft300_sensor" link2="right_gripper_mounting_plate" reason="Never"/>
     <disable_collisions link1="left_ft300_sensor" link2="right_shoulder_link" reason="Never"/>
     <disable_collisions link1="left_ft300_sensor" link2="right_upper_arm_link" reason="Never"/>
     <disable_collisions link1="left_ft300_sensor" link2="right_wrist_1_link" reason="Never"/>
     <disable_collisions link1="left_ft300_sensor" link2="right_wrist_2_link" reason="Never"/>
     <disable_collisions link1="left_ft300_sensor" link2="right_wrist_3_link" reason="Never"/>
     <disable_collisions link1="left_ft300_sensor" link2="right_wrist_connector_link" reason="Never"/>
-    <disable_collisions link1="left_ft300_sensor" link2="right_wsg50_finger_left" reason="Never"/>
-    <disable_collisions link1="left_ft300_sensor" link2="right_wsg50_finger_right" reason="Never"/>
-    <disable_collisions link1="left_ft300_sensor" link2="right_wsg50_gripper_left" reason="Never"/>
-    <disable_collisions link1="left_ft300_sensor" link2="right_wsg50_gripper_right" reason="Never"/>
-    <disable_collisions link1="left_ft300_sensor" link2="right_wsg50_mounting_plate" reason="Never"/>
     <disable_collisions link1="left_ft300_sensor" link2="table_link" reason="Default"/>
+    <disable_collisions link1="left_gripper_base_link" link2="left_gripper_finger_left" reason="Never"/>
+    <disable_collisions link1="left_gripper_base_link" link2="left_gripper_finger_right" reason="Never"/>
+    <disable_collisions link1="left_gripper_base_link" link2="left_gripper_gripper_left" reason="Adjacent"/>
+    <disable_collisions link1="left_gripper_base_link" link2="left_gripper_gripper_right" reason="Adjacent"/>
+    <disable_collisions link1="left_gripper_base_link" link2="left_gripper_mounting_plate" reason="Adjacent"/>
+    <disable_collisions link1="left_gripper_base_link" link2="left_wrist_1_link" reason="Never"/>
+    <disable_collisions link1="left_gripper_base_link" link2="left_wrist_2_link" reason="Never"/>
+    <disable_collisions link1="left_gripper_base_link" link2="left_wrist_3_link" reason="Never"/>
+    <disable_collisions link1="left_gripper_base_link" link2="left_wrist_connector_link" reason="Never"/>
+    <disable_collisions link1="left_gripper_base_link" link2="right_base_link_inertia" reason="Never"/>
+    <disable_collisions link1="left_gripper_base_link" link2="right_forearm_link" reason="Never"/>
+    <disable_collisions link1="left_gripper_base_link" link2="right_ft300_mounting_plate" reason="Never"/>
+    <disable_collisions link1="left_gripper_base_link" link2="right_ft300_sensor" reason="Never"/>
+    <disable_collisions link1="left_gripper_base_link" link2="right_gripper_base_link" reason="Never"/>
+    <disable_collisions link1="left_gripper_base_link" link2="right_gripper_finger_right" reason="Never"/>
+    <disable_collisions link1="left_gripper_base_link" link2="right_gripper_gripper_left" reason="Never"/>
+    <disable_collisions link1="left_gripper_base_link" link2="right_gripper_gripper_right" reason="Never"/>
+    <disable_collisions link1="left_gripper_base_link" link2="right_gripper_mounting_plate" reason="Never"/>
+    <disable_collisions link1="left_gripper_base_link" link2="right_shoulder_link" reason="Never"/>
+    <disable_collisions link1="left_gripper_base_link" link2="right_upper_arm_link" reason="Never"/>
+    <disable_collisions link1="left_gripper_base_link" link2="right_wrist_1_link" reason="Never"/>
+    <disable_collisions link1="left_gripper_base_link" link2="right_wrist_2_link" reason="Never"/>
+    <disable_collisions link1="left_gripper_base_link" link2="right_wrist_3_link" reason="Never"/>
+    <disable_collisions link1="left_gripper_base_link" link2="right_wrist_connector_link" reason="Never"/>
+    <disable_collisions link1="left_gripper_base_link" link2="table_link" reason="Default"/>
+    <disable_collisions link1="left_gripper_finger_left" link2="left_gripper_finger_right" reason="Never"/>
+    <disable_collisions link1="left_gripper_finger_left" link2="left_gripper_gripper_left" reason="Adjacent"/>
+    <disable_collisions link1="left_gripper_finger_left" link2="left_gripper_gripper_right" reason="Never"/>
+    <disable_collisions link1="left_gripper_finger_left" link2="left_gripper_mounting_plate" reason="Never"/>
+    <disable_collisions link1="left_gripper_finger_left" link2="left_wrist_1_link" reason="Never"/>
+    <disable_collisions link1="left_gripper_finger_left" link2="left_wrist_2_link" reason="Never"/>
+    <disable_collisions link1="left_gripper_finger_left" link2="left_wrist_3_link" reason="Never"/>
+    <disable_collisions link1="left_gripper_finger_left" link2="left_wrist_connector_link" reason="Never"/>
+    <disable_collisions link1="left_gripper_finger_left" link2="right_base_link_inertia" reason="Never"/>
+    <disable_collisions link1="left_gripper_finger_left" link2="right_forearm_link" reason="Never"/>
+    <disable_collisions link1="left_gripper_finger_left" link2="right_ft300_mounting_plate" reason="Never"/>
+    <disable_collisions link1="left_gripper_finger_left" link2="right_ft300_sensor" reason="Never"/>
+    <disable_collisions link1="left_gripper_finger_left" link2="right_gripper_finger_left" reason="Never"/>
+    <disable_collisions link1="left_gripper_finger_left" link2="right_gripper_finger_right" reason="Never"/>
+    <disable_collisions link1="left_gripper_finger_left" link2="right_gripper_gripper_left" reason="Never"/>
+    <disable_collisions link1="left_gripper_finger_left" link2="right_gripper_gripper_right" reason="Never"/>
+    <disable_collisions link1="left_gripper_finger_left" link2="right_gripper_mounting_plate" reason="Never"/>
+    <disable_collisions link1="left_gripper_finger_left" link2="right_shoulder_link" reason="Never"/>
+    <disable_collisions link1="left_gripper_finger_left" link2="right_upper_arm_link" reason="Never"/>
+    <disable_collisions link1="left_gripper_finger_left" link2="right_wrist_1_link" reason="Never"/>
+    <disable_collisions link1="left_gripper_finger_left" link2="right_wrist_2_link" reason="Never"/>
+    <disable_collisions link1="left_gripper_finger_left" link2="right_wrist_3_link" reason="Never"/>
+    <disable_collisions link1="left_gripper_finger_left" link2="right_wrist_connector_link" reason="Never"/>
+    <disable_collisions link1="left_gripper_finger_right" link2="left_gripper_gripper_left" reason="Never"/>
+    <disable_collisions link1="left_gripper_finger_right" link2="left_gripper_gripper_right" reason="Adjacent"/>
+    <disable_collisions link1="left_gripper_finger_right" link2="left_gripper_mounting_plate" reason="Never"/>
+    <disable_collisions link1="left_gripper_finger_right" link2="left_wrist_1_link" reason="Never"/>
+    <disable_collisions link1="left_gripper_finger_right" link2="left_wrist_2_link" reason="Never"/>
+    <disable_collisions link1="left_gripper_finger_right" link2="left_wrist_3_link" reason="Never"/>
+    <disable_collisions link1="left_gripper_finger_right" link2="left_wrist_connector_link" reason="Never"/>
+    <disable_collisions link1="left_gripper_finger_right" link2="right_base_link_inertia" reason="Never"/>
+    <disable_collisions link1="left_gripper_finger_right" link2="right_forearm_link" reason="Never"/>
+    <disable_collisions link1="left_gripper_finger_right" link2="right_ft300_mounting_plate" reason="Never"/>
+    <disable_collisions link1="left_gripper_finger_right" link2="right_ft300_sensor" reason="Never"/>
+    <disable_collisions link1="left_gripper_finger_right" link2="right_gripper_base_link" reason="Never"/>
+    <disable_collisions link1="left_gripper_finger_right" link2="right_gripper_finger_left" reason="Never"/>
+    <disable_collisions link1="left_gripper_finger_right" link2="right_gripper_finger_right" reason="Never"/>
+    <disable_collisions link1="left_gripper_finger_right" link2="right_gripper_gripper_left" reason="Never"/>
+    <disable_collisions link1="left_gripper_finger_right" link2="right_gripper_gripper_right" reason="Never"/>
+    <disable_collisions link1="left_gripper_finger_right" link2="right_gripper_mounting_plate" reason="Never"/>
+    <disable_collisions link1="left_gripper_finger_right" link2="right_shoulder_link" reason="Never"/>
+    <disable_collisions link1="left_gripper_finger_right" link2="right_upper_arm_link" reason="Never"/>
+    <disable_collisions link1="left_gripper_finger_right" link2="right_wrist_1_link" reason="Never"/>
+    <disable_collisions link1="left_gripper_finger_right" link2="right_wrist_2_link" reason="Never"/>
+    <disable_collisions link1="left_gripper_finger_right" link2="right_wrist_3_link" reason="Never"/>
+    <disable_collisions link1="left_gripper_finger_right" link2="right_wrist_connector_link" reason="Never"/>
+    <disable_collisions link1="left_gripper_gripper_left" link2="left_gripper_gripper_right" reason="Never"/>
+    <disable_collisions link1="left_gripper_gripper_left" link2="left_gripper_mounting_plate" reason="Never"/>
+    <disable_collisions link1="left_gripper_gripper_left" link2="left_wrist_1_link" reason="Never"/>
+    <disable_collisions link1="left_gripper_gripper_left" link2="left_wrist_2_link" reason="Never"/>
+    <disable_collisions link1="left_gripper_gripper_left" link2="left_wrist_3_link" reason="Never"/>
+    <disable_collisions link1="left_gripper_gripper_left" link2="left_wrist_connector_link" reason="Never"/>
+    <disable_collisions link1="left_gripper_gripper_left" link2="right_base_link_inertia" reason="Never"/>
+    <disable_collisions link1="left_gripper_gripper_left" link2="right_forearm_link" reason="Never"/>
+    <disable_collisions link1="left_gripper_gripper_left" link2="right_ft300_mounting_plate" reason="Never"/>
+    <disable_collisions link1="left_gripper_gripper_left" link2="right_ft300_sensor" reason="Never"/>
+    <disable_collisions link1="left_gripper_gripper_left" link2="right_gripper_base_link" reason="Never"/>
+    <disable_collisions link1="left_gripper_gripper_left" link2="right_gripper_finger_left" reason="Never"/>
+    <disable_collisions link1="left_gripper_gripper_left" link2="right_gripper_finger_right" reason="Never"/>
+    <disable_collisions link1="left_gripper_gripper_left" link2="right_gripper_gripper_left" reason="Never"/>
+    <disable_collisions link1="left_gripper_gripper_left" link2="right_gripper_gripper_right" reason="Never"/>
+    <disable_collisions link1="left_gripper_gripper_left" link2="right_gripper_mounting_plate" reason="Never"/>
+    <disable_collisions link1="left_gripper_gripper_left" link2="right_shoulder_link" reason="Never"/>
+    <disable_collisions link1="left_gripper_gripper_left" link2="right_upper_arm_link" reason="Never"/>
+    <disable_collisions link1="left_gripper_gripper_left" link2="right_wrist_1_link" reason="Never"/>
+    <disable_collisions link1="left_gripper_gripper_left" link2="right_wrist_2_link" reason="Never"/>
+    <disable_collisions link1="left_gripper_gripper_left" link2="right_wrist_3_link" reason="Never"/>
+    <disable_collisions link1="left_gripper_gripper_left" link2="right_wrist_connector_link" reason="Never"/>
+    <disable_collisions link1="left_gripper_gripper_right" link2="left_gripper_mounting_plate" reason="Never"/>
+    <disable_collisions link1="left_gripper_gripper_right" link2="left_wrist_1_link" reason="Never"/>
+    <disable_collisions link1="left_gripper_gripper_right" link2="left_wrist_2_link" reason="Never"/>
+    <disable_collisions link1="left_gripper_gripper_right" link2="left_wrist_3_link" reason="Never"/>
+    <disable_collisions link1="left_gripper_gripper_right" link2="left_wrist_connector_link" reason="Never"/>
+    <disable_collisions link1="left_gripper_gripper_right" link2="right_base_link_inertia" reason="Never"/>
+    <disable_collisions link1="left_gripper_gripper_right" link2="right_forearm_link" reason="Never"/>
+    <disable_collisions link1="left_gripper_gripper_right" link2="right_ft300_mounting_plate" reason="Never"/>
+    <disable_collisions link1="left_gripper_gripper_right" link2="right_ft300_sensor" reason="Never"/>
+    <disable_collisions link1="left_gripper_gripper_right" link2="right_gripper_base_link" reason="Never"/>
+    <disable_collisions link1="left_gripper_gripper_right" link2="right_gripper_finger_left" reason="Never"/>
+    <disable_collisions link1="left_gripper_gripper_right" link2="right_gripper_finger_right" reason="Never"/>
+    <disable_collisions link1="left_gripper_gripper_right" link2="right_gripper_gripper_left" reason="Never"/>
+    <disable_collisions link1="left_gripper_gripper_right" link2="right_gripper_gripper_right" reason="Never"/>
+    <disable_collisions link1="left_gripper_gripper_right" link2="right_gripper_mounting_plate" reason="Never"/>
+    <disable_collisions link1="left_gripper_gripper_right" link2="right_shoulder_link" reason="Never"/>
+    <disable_collisions link1="left_gripper_gripper_right" link2="right_upper_arm_link" reason="Never"/>
+    <disable_collisions link1="left_gripper_gripper_right" link2="right_wrist_1_link" reason="Never"/>
+    <disable_collisions link1="left_gripper_gripper_right" link2="right_wrist_2_link" reason="Never"/>
+    <disable_collisions link1="left_gripper_gripper_right" link2="right_wrist_3_link" reason="Never"/>
+    <disable_collisions link1="left_gripper_gripper_right" link2="right_wrist_connector_link" reason="Never"/>
+    <disable_collisions link1="left_gripper_mounting_plate" link2="left_wrist_1_link" reason="Never"/>
+    <disable_collisions link1="left_gripper_mounting_plate" link2="left_wrist_2_link" reason="Never"/>
+    <disable_collisions link1="left_gripper_mounting_plate" link2="left_wrist_3_link" reason="Never"/>
+    <disable_collisions link1="left_gripper_mounting_plate" link2="left_wrist_connector_link" reason="Never"/>
+    <disable_collisions link1="left_gripper_mounting_plate" link2="right_base_link_inertia" reason="Never"/>
+    <disable_collisions link1="left_gripper_mounting_plate" link2="right_ft300_mounting_plate" reason="Never"/>
+    <disable_collisions link1="left_gripper_mounting_plate" link2="right_ft300_sensor" reason="Never"/>
+    <disable_collisions link1="left_gripper_mounting_plate" link2="right_gripper_base_link" reason="Never"/>
+    <disable_collisions link1="left_gripper_mounting_plate" link2="right_gripper_finger_left" reason="Never"/>
+    <disable_collisions link1="left_gripper_mounting_plate" link2="right_gripper_finger_right" reason="Never"/>
+    <disable_collisions link1="left_gripper_mounting_plate" link2="right_gripper_gripper_left" reason="Never"/>
+    <disable_collisions link1="left_gripper_mounting_plate" link2="right_gripper_gripper_right" reason="Never"/>
+    <disable_collisions link1="left_gripper_mounting_plate" link2="right_gripper_mounting_plate" reason="Never"/>
+    <disable_collisions link1="left_gripper_mounting_plate" link2="right_shoulder_link" reason="Never"/>
+    <disable_collisions link1="left_gripper_mounting_plate" link2="right_upper_arm_link" reason="Never"/>
+    <disable_collisions link1="left_gripper_mounting_plate" link2="right_wrist_1_link" reason="Never"/>
+    <disable_collisions link1="left_gripper_mounting_plate" link2="right_wrist_2_link" reason="Never"/>
+    <disable_collisions link1="left_gripper_mounting_plate" link2="right_wrist_3_link" reason="Never"/>
+    <disable_collisions link1="left_gripper_mounting_plate" link2="right_wrist_connector_link" reason="Never"/>
+    <disable_collisions link1="left_gripper_mounting_plate" link2="table_link" reason="Default"/>
     <disable_collisions link1="left_shoulder_link" link2="left_upper_arm_link" reason="Adjacent"/>
     <disable_collisions link1="left_shoulder_link" link2="leftwall_link" reason="Never"/>
     <disable_collisions link1="left_shoulder_link" link2="right_base_link_inertia" reason="Never"/>
     <disable_collisions link1="left_shoulder_link" link2="right_forearm_link" reason="Never"/>
     <disable_collisions link1="left_shoulder_link" link2="right_ft300_mounting_plate" reason="Never"/>
     <disable_collisions link1="left_shoulder_link" link2="right_ft300_sensor" reason="Never"/>
+    <disable_collisions link1="left_shoulder_link" link2="right_gripper_base_link" reason="Never"/>
+    <disable_collisions link1="left_shoulder_link" link2="right_gripper_finger_left" reason="Never"/>
+    <disable_collisions link1="left_shoulder_link" link2="right_gripper_finger_right" reason="Never"/>
+    <disable_collisions link1="left_shoulder_link" link2="right_gripper_gripper_left" reason="Never"/>
+    <disable_collisions link1="left_shoulder_link" link2="right_gripper_gripper_right" reason="Never"/>
+    <disable_collisions link1="left_shoulder_link" link2="right_gripper_mounting_plate" reason="Never"/>
     <disable_collisions link1="left_shoulder_link" link2="right_shoulder_link" reason="Never"/>
     <disable_collisions link1="left_shoulder_link" link2="right_upper_arm_link" reason="Never"/>
     <disable_collisions link1="left_shoulder_link" link2="right_wrist_1_link" reason="Never"/>
     <disable_collisions link1="left_shoulder_link" link2="right_wrist_2_link" reason="Never"/>
     <disable_collisions link1="left_shoulder_link" link2="right_wrist_3_link" reason="Never"/>
     <disable_collisions link1="left_shoulder_link" link2="right_wrist_connector_link" reason="Never"/>
-    <disable_collisions link1="left_shoulder_link" link2="right_wsg50_base_link" reason="Never"/>
-    <disable_collisions link1="left_shoulder_link" link2="right_wsg50_finger_left" reason="Never"/>
-    <disable_collisions link1="left_shoulder_link" link2="right_wsg50_finger_right" reason="Never"/>
-    <disable_collisions link1="left_shoulder_link" link2="right_wsg50_gripper_left" reason="Never"/>
-    <disable_collisions link1="left_shoulder_link" link2="right_wsg50_gripper_right" reason="Never"/>
-    <disable_collisions link1="left_shoulder_link" link2="right_wsg50_mounting_plate" reason="Never"/>
     <disable_collisions link1="left_shoulder_link" link2="table_link" reason="Never"/>
     <disable_collisions link1="left_upper_arm_link" link2="leftwall_link" reason="Never"/>
     <disable_collisions link1="left_upper_arm_link" link2="right_base_link_inertia" reason="Never"/>
     <disable_collisions link1="left_upper_arm_link" link2="right_forearm_link" reason="Never"/>
     <disable_collisions link1="left_upper_arm_link" link2="right_ft300_mounting_plate" reason="Never"/>
     <disable_collisions link1="left_upper_arm_link" link2="right_ft300_sensor" reason="Never"/>
+    <disable_collisions link1="left_upper_arm_link" link2="right_gripper_base_link" reason="Never"/>
+    <disable_collisions link1="left_upper_arm_link" link2="right_gripper_finger_left" reason="Never"/>
+    <disable_collisions link1="left_upper_arm_link" link2="right_gripper_finger_right" reason="Never"/>
+    <disable_collisions link1="left_upper_arm_link" link2="right_gripper_gripper_left" reason="Never"/>
+    <disable_collisions link1="left_upper_arm_link" link2="right_gripper_gripper_right" reason="Never"/>
+    <disable_collisions link1="left_upper_arm_link" link2="right_gripper_mounting_plate" reason="Never"/>
     <disable_collisions link1="left_upper_arm_link" link2="right_shoulder_link" reason="Never"/>
     <disable_collisions link1="left_upper_arm_link" link2="right_upper_arm_link" reason="Never"/>
     <disable_collisions link1="left_upper_arm_link" link2="right_wrist_1_link" reason="Never"/>
     <disable_collisions link1="left_upper_arm_link" link2="right_wrist_2_link" reason="Never"/>
     <disable_collisions link1="left_upper_arm_link" link2="right_wrist_3_link" reason="Never"/>
     <disable_collisions link1="left_upper_arm_link" link2="right_wrist_connector_link" reason="Never"/>
-    <disable_collisions link1="left_upper_arm_link" link2="right_wsg50_base_link" reason="Never"/>
-    <disable_collisions link1="left_upper_arm_link" link2="right_wsg50_mounting_plate" reason="Never"/>
     <disable_collisions link1="left_wrist_1_link" link2="left_wrist_2_link" reason="Adjacent"/>
     <disable_collisions link1="left_wrist_1_link" link2="left_wrist_3_link" reason="Never"/>
     <disable_collisions link1="left_wrist_1_link" link2="left_wrist_connector_link" reason="Never"/>
-    <disable_collisions link1="left_wrist_1_link" link2="left_wsg50_base_link" reason="Never"/>
-    <disable_collisions link1="left_wrist_1_link" link2="left_wsg50_finger_left" reason="Never"/>
-    <disable_collisions link1="left_wrist_1_link" link2="left_wsg50_finger_right" reason="Never"/>
-    <disable_collisions link1="left_wrist_1_link" link2="left_wsg50_gripper_left" reason="Never"/>
-    <disable_collisions link1="left_wrist_1_link" link2="left_wsg50_gripper_right" reason="Never"/>
-    <disable_collisions link1="left_wrist_1_link" link2="left_wsg50_mounting_plate" reason="Never"/>
     <disable_collisions link1="left_wrist_1_link" link2="right_base_link_inertia" reason="Never"/>
     <disable_collisions link1="left_wrist_1_link" link2="right_forearm_link" reason="Never"/>
+    <disable_collisions link1="left_wrist_1_link" link2="right_gripper_finger_left" reason="Never"/>
+    <disable_collisions link1="left_wrist_1_link" link2="right_gripper_finger_right" reason="Never"/>
+    <disable_collisions link1="left_wrist_1_link" link2="right_gripper_gripper_left" reason="Never"/>
+    <disable_collisions link1="left_wrist_1_link" link2="right_gripper_gripper_right" reason="Never"/>
     <disable_collisions link1="left_wrist_1_link" link2="right_shoulder_link" reason="Never"/>
     <disable_collisions link1="left_wrist_1_link" link2="right_upper_arm_link" reason="Never"/>
     <disable_collisions link1="left_wrist_1_link" link2="right_wrist_1_link" reason="Never"/>
     <disable_collisions link1="left_wrist_1_link" link2="right_wrist_connector_link" reason="Never"/>
-    <disable_collisions link1="left_wrist_1_link" link2="right_wsg50_finger_left" reason="Never"/>
-    <disable_collisions link1="left_wrist_1_link" link2="right_wsg50_finger_right" reason="Never"/>
-    <disable_collisions link1="left_wrist_1_link" link2="right_wsg50_gripper_left" reason="Never"/>
-    <disable_collisions link1="left_wrist_1_link" link2="right_wsg50_mounting_plate" reason="Never"/>
     <disable_collisions link1="left_wrist_2_link" link2="left_wrist_3_link" reason="Adjacent"/>
     <disable_collisions link1="left_wrist_2_link" link2="left_wrist_connector_link" reason="Never"/>
-    <disable_collisions link1="left_wrist_2_link" link2="left_wsg50_base_link" reason="Never"/>
-    <disable_collisions link1="left_wrist_2_link" link2="left_wsg50_finger_left" reason="Never"/>
-    <disable_collisions link1="left_wrist_2_link" link2="left_wsg50_finger_right" reason="Never"/>
-    <disable_collisions link1="left_wrist_2_link" link2="left_wsg50_gripper_left" reason="Never"/>
-    <disable_collisions link1="left_wrist_2_link" link2="left_wsg50_gripper_right" reason="Never"/>
-    <disable_collisions link1="left_wrist_2_link" link2="left_wsg50_mounting_plate" reason="Never"/>
     <disable_collisions link1="left_wrist_2_link" link2="right_base_link_inertia" reason="Never"/>
-    <disable_collisions link1="left_wrist_2_link" link2="right_forearm_link" reason="Never"/>
+    <disable_collisions link1="left_wrist_2_link" link2="right_gripper_finger_left" reason="Never"/>
+    <disable_collisions link1="left_wrist_2_link" link2="right_gripper_finger_right" reason="Never"/>
+    <disable_collisions link1="left_wrist_2_link" link2="right_gripper_gripper_left" reason="Never"/>
+    <disable_collisions link1="left_wrist_2_link" link2="right_gripper_gripper_right" reason="Never"/>
     <disable_collisions link1="left_wrist_2_link" link2="right_shoulder_link" reason="Never"/>
     <disable_collisions link1="left_wrist_2_link" link2="right_upper_arm_link" reason="Never"/>
+    <disable_collisions link1="left_wrist_2_link" link2="right_wrist_1_link" reason="Never"/>
     <disable_collisions link1="left_wrist_2_link" link2="right_wrist_connector_link" reason="Never"/>
-    <disable_collisions link1="left_wrist_2_link" link2="right_wsg50_finger_left" reason="Never"/>
-    <disable_collisions link1="left_wrist_2_link" link2="right_wsg50_gripper_left" reason="Never"/>
-    <disable_collisions link1="left_wrist_2_link" link2="right_wsg50_gripper_right" reason="Never"/>
     <disable_collisions link1="left_wrist_2_link" link2="table_link" reason="Default"/>
     <disable_collisions link1="left_wrist_3_link" link2="left_wrist_connector_link" reason="Adjacent"/>
-    <disable_collisions link1="left_wrist_3_link" link2="left_wsg50_base_link" reason="Never"/>
-    <disable_collisions link1="left_wrist_3_link" link2="left_wsg50_finger_left" reason="Never"/>
-    <disable_collisions link1="left_wrist_3_link" link2="left_wsg50_finger_right" reason="Never"/>
-    <disable_collisions link1="left_wrist_3_link" link2="left_wsg50_gripper_left" reason="Never"/>
-    <disable_collisions link1="left_wrist_3_link" link2="left_wsg50_gripper_right" reason="Never"/>
-    <disable_collisions link1="left_wrist_3_link" link2="left_wsg50_mounting_plate" reason="Never"/>
     <disable_collisions link1="left_wrist_3_link" link2="right_base_link_inertia" reason="Never"/>
-    <disable_collisions link1="left_wrist_3_link" link2="right_forearm_link" reason="Never"/>
     <disable_collisions link1="left_wrist_3_link" link2="right_ft300_mounting_plate" reason="Never"/>
     <disable_collisions link1="left_wrist_3_link" link2="right_ft300_sensor" reason="Never"/>
+    <disable_collisions link1="left_wrist_3_link" link2="right_gripper_base_link" reason="Never"/>
+    <disable_collisions link1="left_wrist_3_link" link2="right_gripper_finger_left" reason="Never"/>
+    <disable_collisions link1="left_wrist_3_link" link2="right_gripper_finger_right" reason="Never"/>
+    <disable_collisions link1="left_wrist_3_link" link2="right_gripper_gripper_left" reason="Never"/>
+    <disable_collisions link1="left_wrist_3_link" link2="right_gripper_gripper_right" reason="Never"/>
+    <disable_collisions link1="left_wrist_3_link" link2="right_gripper_mounting_plate" reason="Never"/>
     <disable_collisions link1="left_wrist_3_link" link2="right_shoulder_link" reason="Never"/>
     <disable_collisions link1="left_wrist_3_link" link2="right_upper_arm_link" reason="Never"/>
     <disable_collisions link1="left_wrist_3_link" link2="right_wrist_1_link" reason="Never"/>
     <disable_collisions link1="left_wrist_3_link" link2="right_wrist_2_link" reason="Never"/>
     <disable_collisions link1="left_wrist_3_link" link2="right_wrist_3_link" reason="Never"/>
     <disable_collisions link1="left_wrist_3_link" link2="right_wrist_connector_link" reason="Never"/>
-    <disable_collisions link1="left_wrist_3_link" link2="right_wsg50_finger_left" reason="Never"/>
-    <disable_collisions link1="left_wrist_3_link" link2="right_wsg50_gripper_left" reason="Never"/>
-    <disable_collisions link1="left_wrist_3_link" link2="right_wsg50_gripper_right" reason="Never"/>
     <disable_collisions link1="left_wrist_3_link" link2="table_link" reason="Default"/>
-    <disable_collisions link1="left_wrist_connector_link" link2="left_wsg50_base_link" reason="Never"/>
-    <disable_collisions link1="left_wrist_connector_link" link2="left_wsg50_finger_left" reason="Never"/>
-    <disable_collisions link1="left_wrist_connector_link" link2="left_wsg50_finger_right" reason="Never"/>
-    <disable_collisions link1="left_wrist_connector_link" link2="left_wsg50_gripper_left" reason="Never"/>
-    <disable_collisions link1="left_wrist_connector_link" link2="left_wsg50_gripper_right" reason="Never"/>
-    <disable_collisions link1="left_wrist_connector_link" link2="left_wsg50_mounting_plate" reason="Never"/>
     <disable_collisions link1="left_wrist_connector_link" link2="right_base_link_inertia" reason="Never"/>
     <disable_collisions link1="left_wrist_connector_link" link2="right_ft300_mounting_plate" reason="Never"/>
     <disable_collisions link1="left_wrist_connector_link" link2="right_ft300_sensor" reason="Never"/>
+    <disable_collisions link1="left_wrist_connector_link" link2="right_gripper_base_link" reason="Never"/>
+    <disable_collisions link1="left_wrist_connector_link" link2="right_gripper_finger_left" reason="Never"/>
+    <disable_collisions link1="left_wrist_connector_link" link2="right_gripper_finger_right" reason="Never"/>
+    <disable_collisions link1="left_wrist_connector_link" link2="right_gripper_gripper_left" reason="Never"/>
+    <disable_collisions link1="left_wrist_connector_link" link2="right_gripper_gripper_right" reason="Never"/>
+    <disable_collisions link1="left_wrist_connector_link" link2="right_gripper_mounting_plate" reason="Never"/>
     <disable_collisions link1="left_wrist_connector_link" link2="right_shoulder_link" reason="Never"/>
     <disable_collisions link1="left_wrist_connector_link" link2="right_upper_arm_link" reason="Never"/>
     <disable_collisions link1="left_wrist_connector_link" link2="right_wrist_1_link" reason="Never"/>
     <disable_collisions link1="left_wrist_connector_link" link2="right_wrist_2_link" reason="Never"/>
     <disable_collisions link1="left_wrist_connector_link" link2="right_wrist_3_link" reason="Never"/>
     <disable_collisions link1="left_wrist_connector_link" link2="right_wrist_connector_link" reason="Never"/>
-    <disable_collisions link1="left_wrist_connector_link" link2="right_wsg50_finger_left" reason="Never"/>
-    <disable_collisions link1="left_wrist_connector_link" link2="right_wsg50_finger_right" reason="Never"/>
-    <disable_collisions link1="left_wrist_connector_link" link2="right_wsg50_gripper_left" reason="Never"/>
-    <disable_collisions link1="left_wrist_connector_link" link2="right_wsg50_gripper_right" reason="Never"/>
-    <disable_collisions link1="left_wrist_connector_link" link2="right_wsg50_mounting_plate" reason="Never"/>
-    <disable_collisions link1="left_wsg50_base_link" link2="left_wsg50_finger_left" reason="Never"/>
-    <disable_collisions link1="left_wsg50_base_link" link2="left_wsg50_finger_right" reason="Never"/>
-    <disable_collisions link1="left_wsg50_base_link" link2="left_wsg50_gripper_left" reason="Adjacent"/>
-    <disable_collisions link1="left_wsg50_base_link" link2="left_wsg50_gripper_right" reason="Adjacent"/>
-    <disable_collisions link1="left_wsg50_base_link" link2="left_wsg50_mounting_plate" reason="Adjacent"/>
-    <disable_collisions link1="left_wsg50_base_link" link2="right_base_link_inertia" reason="Never"/>
-    <disable_collisions link1="left_wsg50_base_link" link2="right_ft300_mounting_plate" reason="Never"/>
-    <disable_collisions link1="left_wsg50_base_link" link2="right_ft300_sensor" reason="Never"/>
-    <disable_collisions link1="left_wsg50_base_link" link2="right_shoulder_link" reason="Never"/>
-    <disable_collisions link1="left_wsg50_base_link" link2="right_upper_arm_link" reason="Never"/>
-    <disable_collisions link1="left_wsg50_base_link" link2="right_wrist_2_link" reason="Never"/>
-    <disable_collisions link1="left_wsg50_base_link" link2="right_wrist_connector_link" reason="Never"/>
-    <disable_collisions link1="left_wsg50_base_link" link2="right_wsg50_mounting_plate" reason="Never"/>
-    <disable_collisions link1="left_wsg50_base_link" link2="table_link" reason="Default"/>
-    <disable_collisions link1="left_wsg50_finger_left" link2="left_wsg50_finger_right" reason="Never"/>
-    <disable_collisions link1="left_wsg50_finger_left" link2="left_wsg50_gripper_left" reason="Adjacent"/>
-    <disable_collisions link1="left_wsg50_finger_left" link2="left_wsg50_gripper_right" reason="Never"/>
-    <disable_collisions link1="left_wsg50_finger_left" link2="left_wsg50_mounting_plate" reason="Never"/>
-    <disable_collisions link1="left_wsg50_finger_left" link2="right_base_link_inertia" reason="Never"/>
-    <disable_collisions link1="left_wsg50_finger_left" link2="right_ft300_mounting_plate" reason="Never"/>
-    <disable_collisions link1="left_wsg50_finger_left" link2="right_ft300_sensor" reason="Never"/>
-    <disable_collisions link1="left_wsg50_finger_left" link2="right_shoulder_link" reason="Never"/>
-    <disable_collisions link1="left_wsg50_finger_left" link2="right_upper_arm_link" reason="Never"/>
-    <disable_collisions link1="left_wsg50_finger_left" link2="right_wrist_2_link" reason="Never"/>
-    <disable_collisions link1="left_wsg50_finger_left" link2="right_wrist_3_link" reason="Never"/>
-    <disable_collisions link1="left_wsg50_finger_left" link2="right_wrist_connector_link" reason="Never"/>
-    <disable_collisions link1="left_wsg50_finger_left" link2="right_wsg50_base_link" reason="Never"/>
-    <disable_collisions link1="left_wsg50_finger_left" link2="right_wsg50_finger_left" reason="Never"/>
-    <disable_collisions link1="left_wsg50_finger_left" link2="right_wsg50_finger_right" reason="Never"/>
-    <disable_collisions link1="left_wsg50_finger_left" link2="right_wsg50_gripper_left" reason="Never"/>
-    <disable_collisions link1="left_wsg50_finger_left" link2="right_wsg50_gripper_right" reason="Never"/>
-    <disable_collisions link1="left_wsg50_finger_left" link2="right_wsg50_mounting_plate" reason="Never"/>
-    <disable_collisions link1="left_wsg50_finger_left" link2="table_link" reason="Default"/>
-    <disable_collisions link1="left_wsg50_finger_right" link2="left_wsg50_gripper_left" reason="Never"/>
-    <disable_collisions link1="left_wsg50_finger_right" link2="left_wsg50_gripper_right" reason="Adjacent"/>
-    <disable_collisions link1="left_wsg50_finger_right" link2="left_wsg50_mounting_plate" reason="Never"/>
-    <disable_collisions link1="left_wsg50_finger_right" link2="right_base_link_inertia" reason="Never"/>
-    <disable_collisions link1="left_wsg50_finger_right" link2="right_ft300_mounting_plate" reason="Never"/>
-    <disable_collisions link1="left_wsg50_finger_right" link2="right_ft300_sensor" reason="Never"/>
-    <disable_collisions link1="left_wsg50_finger_right" link2="right_shoulder_link" reason="Never"/>
-    <disable_collisions link1="left_wsg50_finger_right" link2="right_upper_arm_link" reason="Never"/>
-    <disable_collisions link1="left_wsg50_finger_right" link2="right_wrist_2_link" reason="Never"/>
-    <disable_collisions link1="left_wsg50_finger_right" link2="right_wrist_3_link" reason="Never"/>
-    <disable_collisions link1="left_wsg50_finger_right" link2="right_wrist_connector_link" reason="Never"/>
-    <disable_collisions link1="left_wsg50_finger_right" link2="right_wsg50_finger_left" reason="Never"/>
-    <disable_collisions link1="left_wsg50_finger_right" link2="right_wsg50_finger_right" reason="Never"/>
-    <disable_collisions link1="left_wsg50_finger_right" link2="right_wsg50_gripper_left" reason="Never"/>
-    <disable_collisions link1="left_wsg50_finger_right" link2="right_wsg50_gripper_right" reason="Never"/>
-    <disable_collisions link1="left_wsg50_finger_right" link2="right_wsg50_mounting_plate" reason="Never"/>
-    <disable_collisions link1="left_wsg50_finger_right" link2="table_link" reason="Default"/>
-    <disable_collisions link1="left_wsg50_gripper_left" link2="left_wsg50_gripper_right" reason="Never"/>
-    <disable_collisions link1="left_wsg50_gripper_left" link2="left_wsg50_mounting_plate" reason="Never"/>
-    <disable_collisions link1="left_wsg50_gripper_left" link2="right_base_link_inertia" reason="Never"/>
-    <disable_collisions link1="left_wsg50_gripper_left" link2="right_forearm_link" reason="Never"/>
-    <disable_collisions link1="left_wsg50_gripper_left" link2="right_ft300_mounting_plate" reason="Never"/>
-    <disable_collisions link1="left_wsg50_gripper_left" link2="right_ft300_sensor" reason="Never"/>
-    <disable_collisions link1="left_wsg50_gripper_left" link2="right_shoulder_link" reason="Never"/>
-    <disable_collisions link1="left_wsg50_gripper_left" link2="right_upper_arm_link" reason="Never"/>
-    <disable_collisions link1="left_wsg50_gripper_left" link2="right_wrist_1_link" reason="Never"/>
-    <disable_collisions link1="left_wsg50_gripper_left" link2="right_wrist_2_link" reason="Never"/>
-    <disable_collisions link1="left_wsg50_gripper_left" link2="right_wrist_3_link" reason="Never"/>
-    <disable_collisions link1="left_wsg50_gripper_left" link2="right_wrist_connector_link" reason="Never"/>
-    <disable_collisions link1="left_wsg50_gripper_left" link2="right_wsg50_base_link" reason="Never"/>
-    <disable_collisions link1="left_wsg50_gripper_left" link2="right_wsg50_finger_left" reason="Never"/>
-    <disable_collisions link1="left_wsg50_gripper_left" link2="right_wsg50_finger_right" reason="Never"/>
-    <disable_collisions link1="left_wsg50_gripper_left" link2="right_wsg50_gripper_left" reason="Never"/>
-    <disable_collisions link1="left_wsg50_gripper_left" link2="right_wsg50_gripper_right" reason="Never"/>
-    <disable_collisions link1="left_wsg50_gripper_left" link2="right_wsg50_mounting_plate" reason="Never"/>
-    <disable_collisions link1="left_wsg50_gripper_left" link2="table_link" reason="Default"/>
-    <disable_collisions link1="left_wsg50_gripper_right" link2="left_wsg50_mounting_plate" reason="Never"/>
-    <disable_collisions link1="left_wsg50_gripper_right" link2="right_base_link_inertia" reason="Never"/>
-    <disable_collisions link1="left_wsg50_gripper_right" link2="right_ft300_mounting_plate" reason="Never"/>
-    <disable_collisions link1="left_wsg50_gripper_right" link2="right_ft300_sensor" reason="Never"/>
-    <disable_collisions link1="left_wsg50_gripper_right" link2="right_shoulder_link" reason="Never"/>
-    <disable_collisions link1="left_wsg50_gripper_right" link2="right_upper_arm_link" reason="Never"/>
-    <disable_collisions link1="left_wsg50_gripper_right" link2="right_wrist_2_link" reason="Never"/>
-    <disable_collisions link1="left_wsg50_gripper_right" link2="right_wrist_3_link" reason="Never"/>
-    <disable_collisions link1="left_wsg50_gripper_right" link2="right_wrist_connector_link" reason="Never"/>
-    <disable_collisions link1="left_wsg50_gripper_right" link2="right_wsg50_base_link" reason="Never"/>
-    <disable_collisions link1="left_wsg50_gripper_right" link2="right_wsg50_finger_left" reason="Never"/>
-    <disable_collisions link1="left_wsg50_gripper_right" link2="right_wsg50_finger_right" reason="Never"/>
-    <disable_collisions link1="left_wsg50_gripper_right" link2="right_wsg50_gripper_left" reason="Never"/>
-    <disable_collisions link1="left_wsg50_gripper_right" link2="right_wsg50_gripper_right" reason="Never"/>
-    <disable_collisions link1="left_wsg50_gripper_right" link2="right_wsg50_mounting_plate" reason="Never"/>
-    <disable_collisions link1="left_wsg50_gripper_right" link2="table_link" reason="Default"/>
-    <disable_collisions link1="left_wsg50_mounting_plate" link2="right_base_link_inertia" reason="Never"/>
-    <disable_collisions link1="left_wsg50_mounting_plate" link2="right_forearm_link" reason="Never"/>
-    <disable_collisions link1="left_wsg50_mounting_plate" link2="right_ft300_mounting_plate" reason="Never"/>
-    <disable_collisions link1="left_wsg50_mounting_plate" link2="right_ft300_sensor" reason="Never"/>
-    <disable_collisions link1="left_wsg50_mounting_plate" link2="right_shoulder_link" reason="Never"/>
-    <disable_collisions link1="left_wsg50_mounting_plate" link2="right_upper_arm_link" reason="Never"/>
-    <disable_collisions link1="left_wsg50_mounting_plate" link2="right_wrist_1_link" reason="Never"/>
-    <disable_collisions link1="left_wsg50_mounting_plate" link2="right_wrist_2_link" reason="Never"/>
-    <disable_collisions link1="left_wsg50_mounting_plate" link2="right_wrist_3_link" reason="Never"/>
-    <disable_collisions link1="left_wsg50_mounting_plate" link2="right_wrist_connector_link" reason="Never"/>
-    <disable_collisions link1="left_wsg50_mounting_plate" link2="right_wsg50_finger_left" reason="Never"/>
-    <disable_collisions link1="left_wsg50_mounting_plate" link2="right_wsg50_finger_right" reason="Never"/>
-    <disable_collisions link1="left_wsg50_mounting_plate" link2="right_wsg50_gripper_left" reason="Never"/>
-    <disable_collisions link1="left_wsg50_mounting_plate" link2="right_wsg50_gripper_right" reason="Never"/>
-    <disable_collisions link1="left_wsg50_mounting_plate" link2="right_wsg50_mounting_plate" reason="Never"/>
-    <disable_collisions link1="left_wsg50_mounting_plate" link2="table_link" reason="Default"/>
     <disable_collisions link1="leftwall_link" link2="right_base_link_inertia" reason="Adjacent"/>
     <disable_collisions link1="leftwall_link" link2="right_forearm_link" reason="Never"/>
     <disable_collisions link1="leftwall_link" link2="right_ft300_mounting_plate" reason="Never"/>
     <disable_collisions link1="leftwall_link" link2="right_ft300_sensor" reason="Never"/>
+    <disable_collisions link1="leftwall_link" link2="right_gripper_base_link" reason="Never"/>
+    <disable_collisions link1="leftwall_link" link2="right_gripper_finger_left" reason="Never"/>
+    <disable_collisions link1="leftwall_link" link2="right_gripper_finger_right" reason="Never"/>
+    <disable_collisions link1="leftwall_link" link2="right_gripper_gripper_left" reason="Never"/>
+    <disable_collisions link1="leftwall_link" link2="right_gripper_gripper_right" reason="Never"/>
+    <disable_collisions link1="leftwall_link" link2="right_gripper_mounting_plate" reason="Never"/>
     <disable_collisions link1="leftwall_link" link2="right_shoulder_link" reason="Never"/>
     <disable_collisions link1="leftwall_link" link2="right_upper_arm_link" reason="Never"/>
     <disable_collisions link1="leftwall_link" link2="right_wrist_1_link" reason="Never"/>
     <disable_collisions link1="leftwall_link" link2="right_wrist_2_link" reason="Never"/>
     <disable_collisions link1="leftwall_link" link2="right_wrist_3_link" reason="Never"/>
     <disable_collisions link1="leftwall_link" link2="right_wrist_connector_link" reason="Never"/>
-    <disable_collisions link1="leftwall_link" link2="right_wsg50_base_link" reason="Never"/>
-    <disable_collisions link1="leftwall_link" link2="right_wsg50_finger_left" reason="Never"/>
-    <disable_collisions link1="leftwall_link" link2="right_wsg50_finger_right" reason="Never"/>
-    <disable_collisions link1="leftwall_link" link2="right_wsg50_gripper_left" reason="Never"/>
-    <disable_collisions link1="leftwall_link" link2="right_wsg50_gripper_right" reason="Never"/>
-    <disable_collisions link1="leftwall_link" link2="right_wsg50_mounting_plate" reason="Never"/>
     <disable_collisions link1="leftwall_link" link2="table_link" reason="Adjacent"/>
     <disable_collisions link1="right_base_link_inertia" link2="right_shoulder_link" reason="Adjacent"/>
     <disable_collisions link1="right_base_link_inertia" link2="table_link" reason="Adjacent"/>
     <disable_collisions link1="right_forearm_link" link2="right_upper_arm_link" reason="Adjacent"/>
     <disable_collisions link1="right_forearm_link" link2="right_wrist_1_link" reason="Adjacent"/>
     <disable_collisions link1="right_ft300_mounting_plate" link2="right_ft300_sensor" reason="Adjacent"/>
+    <disable_collisions link1="right_ft300_mounting_plate" link2="right_gripper_base_link" reason="Never"/>
+    <disable_collisions link1="right_ft300_mounting_plate" link2="right_gripper_finger_left" reason="Never"/>
+    <disable_collisions link1="right_ft300_mounting_plate" link2="right_gripper_finger_right" reason="Never"/>
+    <disable_collisions link1="right_ft300_mounting_plate" link2="right_gripper_gripper_left" reason="Never"/>
+    <disable_collisions link1="right_ft300_mounting_plate" link2="right_gripper_gripper_right" reason="Never"/>
+    <disable_collisions link1="right_ft300_mounting_plate" link2="right_gripper_mounting_plate" reason="Never"/>
     <disable_collisions link1="right_ft300_mounting_plate" link2="right_wrist_1_link" reason="Never"/>
     <disable_collisions link1="right_ft300_mounting_plate" link2="right_wrist_2_link" reason="Never"/>
     <disable_collisions link1="right_ft300_mounting_plate" link2="right_wrist_3_link" reason="Adjacent"/>
     <disable_collisions link1="right_ft300_mounting_plate" link2="right_wrist_connector_link" reason="Never"/>
-    <disable_collisions link1="right_ft300_mounting_plate" link2="right_wsg50_base_link" reason="Never"/>
-    <disable_collisions link1="right_ft300_mounting_plate" link2="right_wsg50_finger_left" reason="Never"/>
-    <disable_collisions link1="right_ft300_mounting_plate" link2="right_wsg50_finger_right" reason="Never"/>
-    <disable_collisions link1="right_ft300_mounting_plate" link2="right_wsg50_gripper_left" reason="Never"/>
-    <disable_collisions link1="right_ft300_mounting_plate" link2="right_wsg50_gripper_right" reason="Never"/>
-    <disable_collisions link1="right_ft300_mounting_plate" link2="right_wsg50_mounting_plate" reason="Never"/>
+    <disable_collisions link1="right_ft300_sensor" link2="right_gripper_base_link" reason="Never"/>
+    <disable_collisions link1="right_ft300_sensor" link2="right_gripper_finger_left" reason="Never"/>
+    <disable_collisions link1="right_ft300_sensor" link2="right_gripper_finger_right" reason="Never"/>
+    <disable_collisions link1="right_ft300_sensor" link2="right_gripper_gripper_left" reason="Never"/>
+    <disable_collisions link1="right_ft300_sensor" link2="right_gripper_gripper_right" reason="Never"/>
+    <disable_collisions link1="right_ft300_sensor" link2="right_gripper_mounting_plate" reason="Adjacent"/>
     <disable_collisions link1="right_ft300_sensor" link2="right_wrist_1_link" reason="Never"/>
     <disable_collisions link1="right_ft300_sensor" link2="right_wrist_2_link" reason="Never"/>
     <disable_collisions link1="right_ft300_sensor" link2="right_wrist_3_link" reason="Never"/>
     <disable_collisions link1="right_ft300_sensor" link2="right_wrist_connector_link" reason="Never"/>
-    <disable_collisions link1="right_ft300_sensor" link2="right_wsg50_base_link" reason="Never"/>
-    <disable_collisions link1="right_ft300_sensor" link2="right_wsg50_finger_left" reason="Never"/>
-    <disable_collisions link1="right_ft300_sensor" link2="right_wsg50_finger_right" reason="Never"/>
-    <disable_collisions link1="right_ft300_sensor" link2="right_wsg50_gripper_left" reason="Never"/>
-    <disable_collisions link1="right_ft300_sensor" link2="right_wsg50_gripper_right" reason="Never"/>
-    <disable_collisions link1="right_ft300_sensor" link2="right_wsg50_mounting_plate" reason="Adjacent"/>
+    <disable_collisions link1="right_gripper_base_link" link2="right_gripper_finger_left" reason="Never"/>
+    <disable_collisions link1="right_gripper_base_link" link2="right_gripper_finger_right" reason="Never"/>
+    <disable_collisions link1="right_gripper_base_link" link2="right_gripper_gripper_left" reason="Adjacent"/>
+    <disable_collisions link1="right_gripper_base_link" link2="right_gripper_gripper_right" reason="Adjacent"/>
+    <disable_collisions link1="right_gripper_base_link" link2="right_gripper_mounting_plate" reason="Adjacent"/>
+    <disable_collisions link1="right_gripper_base_link" link2="right_wrist_1_link" reason="Never"/>
+    <disable_collisions link1="right_gripper_base_link" link2="right_wrist_2_link" reason="Never"/>
+    <disable_collisions link1="right_gripper_base_link" link2="right_wrist_3_link" reason="Never"/>
+    <disable_collisions link1="right_gripper_base_link" link2="right_wrist_connector_link" reason="Never"/>
+    <disable_collisions link1="right_gripper_finger_left" link2="right_gripper_finger_right" reason="Never"/>
+    <disable_collisions link1="right_gripper_finger_left" link2="right_gripper_gripper_left" reason="Adjacent"/>
+    <disable_collisions link1="right_gripper_finger_left" link2="right_gripper_gripper_right" reason="Never"/>
+    <disable_collisions link1="right_gripper_finger_left" link2="right_gripper_mounting_plate" reason="Never"/>
+    <disable_collisions link1="right_gripper_finger_left" link2="right_wrist_1_link" reason="Never"/>
+    <disable_collisions link1="right_gripper_finger_left" link2="right_wrist_2_link" reason="Never"/>
+    <disable_collisions link1="right_gripper_finger_left" link2="right_wrist_3_link" reason="Never"/>
+    <disable_collisions link1="right_gripper_finger_left" link2="right_wrist_connector_link" reason="Never"/>
+    <disable_collisions link1="right_gripper_finger_right" link2="right_gripper_gripper_left" reason="Never"/>
+    <disable_collisions link1="right_gripper_finger_right" link2="right_gripper_gripper_right" reason="Adjacent"/>
+    <disable_collisions link1="right_gripper_finger_right" link2="right_gripper_mounting_plate" reason="Never"/>
+    <disable_collisions link1="right_gripper_finger_right" link2="right_wrist_1_link" reason="Never"/>
+    <disable_collisions link1="right_gripper_finger_right" link2="right_wrist_2_link" reason="Never"/>
+    <disable_collisions link1="right_gripper_finger_right" link2="right_wrist_3_link" reason="Never"/>
+    <disable_collisions link1="right_gripper_finger_right" link2="right_wrist_connector_link" reason="Never"/>
+    <disable_collisions link1="right_gripper_gripper_left" link2="right_gripper_gripper_right" reason="Never"/>
+    <disable_collisions link1="right_gripper_gripper_left" link2="right_gripper_mounting_plate" reason="Never"/>
+    <disable_collisions link1="right_gripper_gripper_left" link2="right_wrist_1_link" reason="Never"/>
+    <disable_collisions link1="right_gripper_gripper_left" link2="right_wrist_2_link" reason="Never"/>
+    <disable_collisions link1="right_gripper_gripper_left" link2="right_wrist_3_link" reason="Never"/>
+    <disable_collisions link1="right_gripper_gripper_left" link2="right_wrist_connector_link" reason="Never"/>
+    <disable_collisions link1="right_gripper_gripper_right" link2="right_gripper_mounting_plate" reason="Never"/>
+    <disable_collisions link1="right_gripper_gripper_right" link2="right_wrist_1_link" reason="Never"/>
+    <disable_collisions link1="right_gripper_gripper_right" link2="right_wrist_2_link" reason="Never"/>
+    <disable_collisions link1="right_gripper_gripper_right" link2="right_wrist_3_link" reason="Never"/>
+    <disable_collisions link1="right_gripper_gripper_right" link2="right_wrist_connector_link" reason="Never"/>
+    <disable_collisions link1="right_gripper_mounting_plate" link2="right_wrist_1_link" reason="Never"/>
+    <disable_collisions link1="right_gripper_mounting_plate" link2="right_wrist_2_link" reason="Never"/>
+    <disable_collisions link1="right_gripper_mounting_plate" link2="right_wrist_3_link" reason="Never"/>
+    <disable_collisions link1="right_gripper_mounting_plate" link2="right_wrist_connector_link" reason="Never"/>
     <disable_collisions link1="right_shoulder_link" link2="right_upper_arm_link" reason="Adjacent"/>
     <disable_collisions link1="right_shoulder_link" link2="table_link" reason="Never"/>
     <disable_collisions link1="right_wrist_1_link" link2="right_wrist_2_link" reason="Adjacent"/>
     <disable_collisions link1="right_wrist_1_link" link2="right_wrist_3_link" reason="Never"/>
     <disable_collisions link1="right_wrist_1_link" link2="right_wrist_connector_link" reason="Never"/>
-    <disable_collisions link1="right_wrist_1_link" link2="right_wsg50_base_link" reason="Never"/>
-    <disable_collisions link1="right_wrist_1_link" link2="right_wsg50_finger_left" reason="Never"/>
-    <disable_collisions link1="right_wrist_1_link" link2="right_wsg50_finger_right" reason="Never"/>
-    <disable_collisions link1="right_wrist_1_link" link2="right_wsg50_gripper_left" reason="Never"/>
-    <disable_collisions link1="right_wrist_1_link" link2="right_wsg50_gripper_right" reason="Never"/>
-    <disable_collisions link1="right_wrist_1_link" link2="right_wsg50_mounting_plate" reason="Never"/>
     <disable_collisions link1="right_wrist_2_link" link2="right_wrist_3_link" reason="Adjacent"/>
     <disable_collisions link1="right_wrist_2_link" link2="right_wrist_connector_link" reason="Never"/>
-    <disable_collisions link1="right_wrist_2_link" link2="right_wsg50_base_link" reason="Never"/>
-    <disable_collisions link1="right_wrist_2_link" link2="right_wsg50_finger_left" reason="Never"/>
-    <disable_collisions link1="right_wrist_2_link" link2="right_wsg50_finger_right" reason="Never"/>
-    <disable_collisions link1="right_wrist_2_link" link2="right_wsg50_gripper_left" reason="Never"/>
-    <disable_collisions link1="right_wrist_2_link" link2="right_wsg50_gripper_right" reason="Never"/>
-    <disable_collisions link1="right_wrist_2_link" link2="right_wsg50_mounting_plate" reason="Never"/>
     <disable_collisions link1="right_wrist_3_link" link2="right_wrist_connector_link" reason="Adjacent"/>
-    <disable_collisions link1="right_wrist_3_link" link2="right_wsg50_base_link" reason="Never"/>
-    <disable_collisions link1="right_wrist_3_link" link2="right_wsg50_finger_left" reason="Never"/>
-    <disable_collisions link1="right_wrist_3_link" link2="right_wsg50_finger_right" reason="Never"/>
-    <disable_collisions link1="right_wrist_3_link" link2="right_wsg50_gripper_left" reason="Never"/>
-    <disable_collisions link1="right_wrist_3_link" link2="right_wsg50_gripper_right" reason="Never"/>
-    <disable_collisions link1="right_wrist_3_link" link2="right_wsg50_mounting_plate" reason="Never"/>
-    <disable_collisions link1="right_wrist_connector_link" link2="right_wsg50_base_link" reason="Never"/>
-    <disable_collisions link1="right_wrist_connector_link" link2="right_wsg50_finger_left" reason="Never"/>
-    <disable_collisions link1="right_wrist_connector_link" link2="right_wsg50_finger_right" reason="Never"/>
-    <disable_collisions link1="right_wrist_connector_link" link2="right_wsg50_gripper_left" reason="Never"/>
-    <disable_collisions link1="right_wrist_connector_link" link2="right_wsg50_gripper_right" reason="Never"/>
-    <disable_collisions link1="right_wrist_connector_link" link2="right_wsg50_mounting_plate" reason="Never"/>
-    <disable_collisions link1="right_wsg50_base_link" link2="right_wsg50_finger_left" reason="Never"/>
-    <disable_collisions link1="right_wsg50_base_link" link2="right_wsg50_finger_right" reason="Never"/>
-    <disable_collisions link1="right_wsg50_base_link" link2="right_wsg50_gripper_left" reason="Adjacent"/>
-    <disable_collisions link1="right_wsg50_base_link" link2="right_wsg50_gripper_right" reason="Adjacent"/>
-    <disable_collisions link1="right_wsg50_base_link" link2="right_wsg50_mounting_plate" reason="Adjacent"/>
-    <disable_collisions link1="right_wsg50_finger_left" link2="right_wsg50_finger_right" reason="Never"/>
-    <disable_collisions link1="right_wsg50_finger_left" link2="right_wsg50_gripper_left" reason="Adjacent"/>
-    <disable_collisions link1="right_wsg50_finger_left" link2="right_wsg50_gripper_right" reason="Never"/>
-    <disable_collisions link1="right_wsg50_finger_left" link2="right_wsg50_mounting_plate" reason="Never"/>
-    <disable_collisions link1="right_wsg50_finger_right" link2="right_wsg50_gripper_left" reason="Never"/>
-    <disable_collisions link1="right_wsg50_finger_right" link2="right_wsg50_gripper_right" reason="Adjacent"/>
-    <disable_collisions link1="right_wsg50_finger_right" link2="right_wsg50_mounting_plate" reason="Never"/>
-    <disable_collisions link1="right_wsg50_gripper_left" link2="right_wsg50_gripper_right" reason="Never"/>
-    <disable_collisions link1="right_wsg50_gripper_left" link2="right_wsg50_mounting_plate" reason="Never"/>
-    <disable_collisions link1="right_wsg50_gripper_right" link2="right_wsg50_mounting_plate" reason="Never"/>
 </robot>
