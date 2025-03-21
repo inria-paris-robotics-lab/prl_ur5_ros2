@@ -33,11 +33,11 @@ def launch_setup(context):
                 PathJoinSubstitution([
                     FindPackageShare('wsg_50_simulation'),
                     'launch',
-                    'wsg50_controllers.launch.py',
+                    'wsg_50_controllers.launch.py',
                 ])
             ]),
             launch_arguments=[
-                ('prefix', prefix),
+                ('prefix', prefix),('controller_file', PathJoinSubstitution([FindPackageShare('prl_ur5_control'), 'config', 'wsg50_integrate.yaml']))
             ],
         )
     else:
