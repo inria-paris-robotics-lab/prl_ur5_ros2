@@ -11,6 +11,8 @@
   <!-- ur5 arm -->
   <xacro:include filename="$(find prl_ur5_description)/urdf/ur5_complete_arm.urdf.xacro"/>
 
+  <!-- fixed camera-->
+  <xacro:include filename="$(find prl_ur5_description)/urdf/_fixed_cameras.urdf.xacro"/>
   
   <!-- Repere global -->
   <link name="prl_ur5_base"/>
@@ -41,9 +43,9 @@
   </joint>
   
   <!-- Cameras fixtures (if any) -->
-  <!-- <xacro:if value="${setup_file.get('fixed_cameras_file') is not None}">
+  <xacro:if value="${setup_file.get('fixed_cameras_file') is not None}">
     <xacro:fixed_cameras parent="prl_ur5_base" fixed_cameras_file="$(find prl_ur5_robot_configuration)/config/${setup_file['fixed_cameras_file']}" turn_on="true"/>
-  </xacro:if> -->
+  </xacro:if>
 
 
   <!-- back wall -->
