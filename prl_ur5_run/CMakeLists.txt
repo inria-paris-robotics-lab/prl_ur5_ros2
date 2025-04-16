@@ -1,10 +1,10 @@
 cmake_minimum_required(VERSION 3.8)
-project(prl_ur5_gazebo)
+project(prl_ur5_run)
 
 find_package(ament_cmake REQUIRED)
 
 install(
-  DIRECTORY launch rviz world config
+  DIRECTORY launch
   DESTINATION share/${PROJECT_NAME}
 )
 
