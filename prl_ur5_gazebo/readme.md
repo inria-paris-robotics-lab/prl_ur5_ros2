@@ -19,3 +19,13 @@ Refer to the built-in documentation in the launch file header for more details.
 ```bash
 ros2 launch prl_ur5_gazebo start_gazebo_sim.launch.py
 ```
+
+#### Parameters:
+- **`launch_rviz`**: Set to `true` to launch RViz alongside the simulation.
+- **`gazebo_gui`**: Set to `true` to enable the Gazebo graphical interface.
+
+Example usage:
+
+```bash
+ros2 launch prl_ur5_gazebo start_gazebo_sim.launch.py launch_rviz:=true gazebo_gui:=true
+```

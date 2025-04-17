@@ -8,10 +8,19 @@ This project combines a ROS 2 development environment with Docker and packages f
 This package provides a Docker environment for developing with ROS 2 (jazzy), including the **UR Driver** to interact with UR robots (UR3, UR5, UR10, etc.). The container is configured to work with these robots and includes all necessary tools for simulation and communication with both physical and simulated robots.
 
 ### 2. **prl_ur5_description**
-The **prl_ur5_description** package provides the UR5 workbench description, including 3D models files necessary for visualizing and simulating the UR5 robot in a ROS 2 environment. It is part of the PRL (Paris Robotics Lab) ecosystem and designed to facilitate the use of the UR5 robot in simulation.
+The `prl_ur5_description` package provides the UR5 workbench description, including 3D models files necessary for visualizing and simulating the UR5 robot in a ROS 2 environment. 
 
 ### 3. **prl_ur5_gazebo**
-The **prl_ur5_gazebo** package provides the UR5 workbench launch and files, necessary for simulating the UR5 robot in Gazebo. It is part of the PRL (Paris Robotics Lab) ecosystem and designed to facilitate the use of the UR5 robot in simulation.
+The `prl_ur5_gazebo` package provides the UR5 workbench launch and files, necessary for simulating the UR5 robot in Gazebo.
+
+### 4. **prl_ur5_control**
+The `prl_ur5_control` package provides configuration files for ROS 2 controllers and launch files to spawn the workbench parts' different controllers.
+
+### 5. **prl_ur5_moveit**
+The `prl_ur5_moveit` package provides configuration and launch files to control the UR5 robot using various path planning solvers in ROS 2 with MoveIt.
+
+### 6. **prl_ur5_run**
+The `prl_ur5_run` package provides a launch file to access the real robot by starting the driver and enabling control.
 
 ---
 
@@ -23,9 +32,6 @@ The **prl_ur5_gazebo** package provides the UR5 workbench launch and files, nece
 
 ---
 
-Certainly! Below is the updated README where the installation sections for Docker and the `prl_ur5_description` package are separated for clarity.
-
-
 ## **Installation**
 
 ### **1. Docker Setup (for `docker-ros2`)**
@@ -34,11 +40,11 @@ Certainly! Below is the updated README where the installation sections for Docke
 
 ---
 
-### **2. Install `prl_ur5_description` & `prl_ur5_gazebo` packages**
+### **2. Install `prl` packages**
 
 Follow the steps below to set up packages.
 
-#### Clone the `prl_ur5_description` and `prl_ur5_gazebo`repository into your ROS 2 workspace:
+#### Clone the prl repository into your ROS 2 workspace:
 
 ```bash
 cd ~/ws/src
@@ -104,10 +110,46 @@ source install/setup.bash
 ros2 launch prl_ur5_description view_workbench.launch.py
 ```
 
-### Simulate the workbench in Gazebo and visualize in Rviz
+### Simulate the Workbench in Gazebo and Visualize in RViz
+
+To simulate the UR5 workbench in Gazebo and visualize it in RViz, use the following command:
 
 ```bash
 ros2 launch prl_ur5_gazebo start_gazebo_sim.launch.py
+```
+
+
+### **Use with Real Robot**
+
+To use the UR5 robot with a real setup, you need to modify the robot's network information in the standard setup file of the `prl_ur5_robot_configuration` package.
+
+#### **Launching with Real Robot**
+
+Use the following command to launch the real robot:
+
+```bash
+ros2 launch prl_ur5_run real.launch.py
+```
+
+If the robot's IP address is different from the default IP, you need to specify it explicitly. For example:
+
+```bash
+ros2 launch prl_ur5_run real.launch.py right_robot_ip:=<right_ur_ip> left_robot_ip:=<left_ur_ip> 
+```
+
+
+### **Using MoveIt**
+
+To use MoveIt with the UR5 robot, launch it in a separate terminal window using the following command:
+
+```bash
+ros2 launch prl_ur5_moveit start_moveit.launch.py
+```
+
+> **Note**: Specify whether you are using a real robot or simulation by adding the appropriate parameter. By default, the MoveIt package is configured to work with simulation (`use_sim_time:=true`). For example, to use MoveIt with a real robot, set `use_sim_time` to `false`:
+
+```bash
+ros2 launch prl_ur5_moveit start_moveit.launch.py use_sim_time:=false
 ```
 
 ---

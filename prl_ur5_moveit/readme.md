@@ -8,23 +8,35 @@ This package is part of the PRL (Paris Robotics Lab) ecosystem and is designed t
 
 ### Launch Files
 - **`start_moveit.launch.py`**  
+    Launches the MoveIt configuration for the UR5 robot.
 - **`setup_assistant.launch.py`**  
-
+    Allows customization of the MoveIt package (e.g., solver, controller, etc.).
 
 Refer to the documentation in the launch file headers for detailed usage instructions.
 
-If you want to custom the moveit packagee (solver, controller, etc) use the `setup_assistant.launch.py`
-
 ### Configuration Files
 - **`moveit_controllers.yaml`**  
+    Defines the controllers for the UR5 robot.
 - **`kinematics.yaml`**  
-- **`ur5.srdf`**
+    Contains kinematic parameters for motion planning.
+- **`ur5.srdf`**  
+    Describes the robot's semantic information.
 
 ## Usage
 
 To launch the MoveIt configuration for the UR5 robot, use the following command:
 
 ```bash
-ros2 launch prl_ur5_moveit start_moveit.launch.py use_sim_time:=<true|false>
+ros2 launch prl_ur5_moveit start_moveit.launch.py
 ```
-Replace `<true|false>` with `true` if running in simulation, or `false` for real-world applications.
+
+### Parameters
+- **`use_sim_time`**: Indicates which clock MoveIt should use. Default: `true`.
+
+> **Note**: Specify whether you are using a real robot or simulation by adding the appropriate parameter. By default, the MoveIt package is configured to work with simulation (`use_sim_time:=true`). For example, to use MoveIt with a real robot, set `use_sim_time` to `false`:
+
+Example usage:
+
+```bash
+ros2 launch prl_ur5_moveit start_moveit.launch.py use_sim_time:=false
+```
