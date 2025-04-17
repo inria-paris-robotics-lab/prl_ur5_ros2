@@ -1,27 +1,37 @@
+############################################################################################################
+# Description: This launch file is used to load the controllers for the Ur5 workbench.
+# The controllers are loaded in the controller manager and can be activated or deactivated.
+# Arguments:
+# - headless_mode: Enable headless mode for robot control
+# - activate_joint_controller: Activate wanted loaded joint controller.
+# - initial_joint_controller: Initially activated robot controller (comma-separated). (used if activate_joint_controller is true)
+# Usage:
+# - ros2 launch ur5_workbench_bringup workbench_controllers.launch.py
+############################################################################################################
 from launch import LaunchDescription
 from launch_ros.actions import Node
 from launch.actions import DeclareLaunchArgument, OpaqueFunction
 from launch.substitutions import LaunchConfiguration
-from launch_ros.parameter_descriptions import ParameterFile
-from launch.substitutions import PathJoinSubstitution
-from launch_ros.substitutions import FindPackageShare
-
 
 def controller_spawner(controllers, active=True):
     inactive_flags = ["--inactive"] if not active else []
-    return Node(
-        package="controller_manager",
-        executable="spawner",
-        arguments=[
-            "--controller-manager",
-            "/controller_manager",
-            "--controller-manager-timeout",
-            "10",
-        ]
-        + inactive_flags
-        + controllers,
-    )
-
+    spawners=[]
+    for controller in controllers:
+        spawners.append(
+            Node(
+                package="controller_manager",
+                executable="spawner",
+                arguments=[
+                    "--controller-manager",
+                    "/controller_manager",
+                    "--controller-manager-timeout",
+                    "10",
+                ]
+                + inactive_flags
+                + [controller],
+            )
+        )
+    return spawners
 
 def launch_setup(context):
     # Arguments 
@@ -31,7 +41,7 @@ def launch_setup(context):
 
     # Convert string to list
     controllers_to_activate = initial_joint_controller.split(",")
-
+    
     # Default active controllers
     controllers_active = ["joint_state_broadcaster"]
     # Default inactive controllers
@@ -66,10 +76,10 @@ def launch_setup(context):
                 controllers_inactive.remove(controller)
             controllers_active.append(controller)
 
-    controller_spawners = [
-        controller_spawner(controllers_active),
-        controller_spawner(controllers_inactive, active=False),
-    ]
+    controller_spawners = (
+        controller_spawner(controllers_active)+
+        controller_spawner(controllers_inactive, active=False)
+    )
 
     return controller_spawners
 
@@ -84,12 +94,12 @@ def generate_launch_description():
         DeclareLaunchArgument(
             "activate_joint_controller",
             default_value="true",
-            description="Activate loaded joint controller.",
+            description="Activate wanted joint controller",
         ),
         DeclareLaunchArgument(
             "initial_joint_controller",
             default_value="left_joint_trajectory_controller,right_joint_trajectory_controller",
-            description="Initially loaded robot controller (comma-separated). The controllers need to be loaded in the controller manager. (used if activate_joint_controller is true)",
+            description="Initially activated robot controller (comma-separated). (used if activate_joint_controller is true)",
         ),
     ]
 

@@ -14,7 +14,7 @@
   <!-- ur5 arm -->
   <xacro:include filename="$(find prl_ur5_description)/urdf/ur5_complete_arm.urdf.xacro"/>
   <!-- fixed camera-->
-  <!-- <xacro:include filename="$(find prl_ur5_description)/urdf/_fixed_cameras.urdf.xacro"/> -->
+  <xacro:include filename="$(find prl_ur5_description)/urdf/_fixed_cameras.urdf.xacro"/>
 
 
   <!-- Repere global -->
@@ -45,9 +45,9 @@
   </joint>
   
   <!-- Cameras fixtures (if any) -->
-  <!-- <xacro:if value="${setup_file.get('fixed_cameras_file') is not None}">
+  <xacro:if value="${setup_file.get('fixed_cameras_file') is not None}">
     <xacro:fixed_cameras parent="prl_ur5_base" fixed_cameras_file="$(find prl_ur5_robot_configuration)/config/${setup_file['fixed_cameras_file']}" turn_on="true"/>
-  </xacro:if> -->
+  </xacro:if>
 
 
   <!-- back wall -->
@@ -97,7 +97,7 @@
   
   <!-- Left arm -->
   <xacro:property name="left" value="${setup_file.get('left')}"/>
-  <xacro:ur5 prefix="left_"
+  <xacro:arm prefix="left_"
                  parent="prl_ur5_base" 
                  pose="${left['arm_pose']}"
                  sensor="false"
@@ -106,12 +106,11 @@
                  gripper_pose="${left.get('gripper_pose')}"
                  joint_limits_parameters_file="$(find prl_ur5_robot_configuration)/config/${left.get('arm_joint_limits')}"
                  kinematics_parameters_file="$(find prl_ur5_robot_configuration)/config/${left.get('arm_kinematics')}"
-                 real_robot="$(arg real_robot)"
                  network = "${left.get('network')}"
                  />
   <!-- Right Arm -->
   <xacro:property name="right" value="${setup_file.get('right')}"/>
-  <xacro:ur5 prefix="right_"
+  <xacro:arm prefix="right_"
                  parent="prl_ur5_base" 
                  pose="${right['arm_pose']}"
                  sensor="false"
@@ -120,7 +119,6 @@
                  gripper_pose="${right.get('gripper_pose')}"
                  joint_limits_parameters_file="$(find prl_ur5_robot_configuration)/config/${right.get('arm_joint_limits')}"
                  kinematics_parameters_file="$(find prl_ur5_robot_configuration)/config/${right.get('arm_kinematics')}"
-                 real_robot="$(arg real_robot)"
                  network = "${right.get('network')}"
                  />
   

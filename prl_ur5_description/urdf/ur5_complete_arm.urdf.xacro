@@ -15,7 +15,7 @@
 
     
 
-    <xacro:macro name="ur5" params="
+    <xacro:macro name="arm" params="
         name:=ur
         ur_type:=ur5
         prefix
@@ -33,7 +33,6 @@
         safety_pos_margin:=0.15
         safety_k_position:=20
         gz_sim:=false
-        real_robot:=false
         headless_mode:=true 
         ur_output_recipe_filename:='$(find ur_robot_driver)/resources/rtde_output_recipe.txt'
         ur_input_recipe_filename:='$(find ur_robot_driver)/resources/rtde_input_recipe.txt'
@@ -73,7 +72,7 @@
         </xacro:if>
             
 
-        <xacro:if value="${real_robot}">
+        <xacro:unless value="${gz_sim}">
             <xacro:ur_ros2_control
                 name="${prefix}ur"
                 tf_prefix="${prefix}"
@@ -90,7 +89,7 @@
                 script_sender_port="${network['script_sender_port']}"
                 trajectory_port="${network['trajectory_port']}"
             /> 
-        </xacro:if>
+        </xacro:unless>
 
         
 

@@ -69,13 +69,6 @@ controller_manager:
     right_ur_configuration_controller:
       type: ur_controllers/URConfigurationController
 
-
-
-
-
-
-
-
 left_speed_scaling_state_broadcaster:
   ros__parameters:
     state_publish_rate: 100.0
@@ -128,7 +121,6 @@ right_force_torque_sensor_broadcaster:
       - torque.z
     frame_id: right_tool0
     topic_name: ft_data
-
 
 left_joint_trajectory_controller:
   ros__parameters:
