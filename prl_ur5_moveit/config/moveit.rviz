@@ -4,6 +4,7 @@ Panels:
     Name: Displays
     Property Tree Widget:
       Expanded:
+        - /Global Options1
         - /MotionPlanning1
       Splitter Ratio: 0.5
     Tree Height: 399
@@ -350,6 +351,122 @@ Visualization Manager:
             Show Trail: false
             Value: true
           fixed_hr_3:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          left_base:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+          left_base_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+          left_base_link_inertia:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          left_flange:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+          left_forearm_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          left_ft300_mounting_plate:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          left_ft300_sensor:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          left_ft_frame:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+          left_gripper_base_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          left_gripper_center:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+          left_gripper_finger_left:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          left_gripper_finger_right:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          left_gripper_gripper_left:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          left_gripper_gripper_right:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          left_gripper_mounting_plate:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          left_gripper_width:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+          left_robotiq_ft_frame_id:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+          left_shoulder_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          left_tool:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+          left_tool0:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+          left_upper_arm_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          left_wrist_1_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          left_wrist_2_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          left_wrist_3_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          left_wrist_connector_link:
             Alpha: 1
             Show Axes: false
             Show Trail: false
@@ -879,6 +996,122 @@ Visualization Manager:
             Show Axes: false
             Show Trail: false
             Value: true
+          left_base:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+          left_base_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+          left_base_link_inertia:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          left_flange:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+          left_forearm_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          left_ft300_mounting_plate:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          left_ft300_sensor:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          left_ft_frame:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+          left_gripper_base_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          left_gripper_center:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+          left_gripper_finger_left:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          left_gripper_finger_right:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          left_gripper_gripper_left:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          left_gripper_gripper_right:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          left_gripper_mounting_plate:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          left_gripper_width:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+          left_robotiq_ft_frame_id:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+          left_shoulder_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          left_tool:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+          left_tool0:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+          left_upper_arm_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          left_wrist_1_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          left_wrist_2_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          left_wrist_3_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          left_wrist_connector_link:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
           leftwall_link:
             Alpha: 1
             Show Axes: false
@@ -1077,7 +1310,7 @@ Visualization Manager:
       Velocity_Scaling_Factor: 0.1
   Enabled: true
   Global Options:
-    Background Color: 48; 48; 48
+    Background Color: 100; 100; 100
     Fixed Frame: base_link
     Frame Rate: 30
   Name: root
@@ -1093,7 +1326,7 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz_default_plugins/Orbit
-      Distance: 5.049712657928467
+      Distance: 6.338569641113281
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
@@ -1129,5 +1362,5 @@ Window Geometry:
   Views:
     collapsed: false
   Width: 1920
-  X: 0
-  Y: 27
+  X: 2560
+  Y: 263

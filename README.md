@@ -2,6 +2,10 @@
 
 This project combines a ROS 2 development environment with Docker and packages for the description and simulation of the UR5 workbench from paris robotics lab.
 
+<div align="center">
+    <img src="doc/bimanual.png" alt="Bimanual UR" width="600">
+</div>
+
 ## **Included Packages**
 
 ### 1. **docker-ros2**
@@ -89,7 +93,7 @@ rosdep install -r --from-paths . --ignore-src --rosdistro $ROS_DISTRO -y
 
 #### Build and source the Workspace
 
-After you had istalled all dependencies you can build every packages with 'colcon':
+After you had installed all dependencies you can build every packages with 'colcon':
 ```bash
 colcon build --symlink-install --packages-skip onrobot_control onrobot_gazebo onrobot_ros robotiq_ft_sensor_hardware realsense2_camera
 ```

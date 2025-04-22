@@ -112,7 +112,7 @@ def launch_setup(context):
         executable='create',
         output='screen',
         arguments=['-topic', 'robot_description',
-                   '-name', 'dual_ur',
+                   '-name', 'bimanual_robot',
                    '-allow_renaming', 'true'],
         parameters=[{"use_sim_time": use_sim_time}],
     )
