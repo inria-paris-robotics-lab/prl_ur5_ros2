@@ -33,14 +33,13 @@ def controller_spawner(controllers, active=True):
     return spawners
 
 def launch_setup(context):
-    # Arguments 
-    headless_mode = LaunchConfiguration("headless_mode").perform(context)
+    # Arguments
     activate_joint_controller = LaunchConfiguration("activate_joint_controller").perform(context)
     initial_joint_controller = LaunchConfiguration("initial_joint_controller").perform(context)
 
     # Convert string to list
     controllers_to_activate = initial_joint_controller.split(",")
-    
+
     # Default active controllers
     controllers_active = ["joint_state_broadcaster"]
     # Default inactive controllers
@@ -85,11 +84,6 @@ def launch_setup(context):
 
 def generate_launch_description():
     declared_arguments = [
-        DeclareLaunchArgument(
-            "headless_mode",
-            default_value="false",
-            description="Enable headless mode for robot control",
-        ),
         DeclareLaunchArgument(
             "activate_joint_controller",
             default_value="true",

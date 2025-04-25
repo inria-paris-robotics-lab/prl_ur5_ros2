@@ -13,7 +13,6 @@
 # Arguments:
 #               - left_robot_ip: IP address of the left robot
 #               - right_robot_ip: IP address of the right robot
-#               - headless_mode: Enable headless mode for robot control
 #               - activate_joint_controller: Activate wanted joint controller.
 #               - launch_rviz: Launch RViz
 #               - launch_dashboard_client: Launch Dashboard Client
@@ -60,7 +59,6 @@ def launch_setup(context):
     right_robot_ip = LaunchConfiguration("right_robot_ip")
     activate_joint_controller = LaunchConfiguration("activate_joint_controller")
     launch_rviz = LaunchConfiguration("launch_rviz")
-    headless_mode = LaunchConfiguration("headless_mode")
     launch_dashboard_client = LaunchConfiguration("launch_dashboard_client")
     launch_urscript_interface = LaunchConfiguration("launch_urscript_interface")
     activate_cameras = LaunchConfiguration("activate_cameras")
@@ -131,7 +129,6 @@ def launch_setup(context):
             ])
         ]),
         launch_arguments={
-            'headless_mode': headless_mode,
             'activate_joint_controller': activate_joint_controller,
             'initial_joint_controller': initial_joint_controller,
         }.items(),
@@ -167,7 +164,7 @@ def launch_setup(context):
         name="ur_robot_state_helper",
         output="screen",
         parameters=[
-            {"headless_mode": headless_mode},
+            {"headless_mode": True},
         ],
     )
 
@@ -286,13 +283,6 @@ def generate_launch_description():
                 ),
                 "/ur5_right.yaml",
             ],
-        )
-    )
-    declared_arguments.append(
-        DeclareLaunchArgument(
-            "headless_mode",
-            default_value="true",
-            description="Enable headless mode for robot control",
         )
     )
     declared_arguments.append(
