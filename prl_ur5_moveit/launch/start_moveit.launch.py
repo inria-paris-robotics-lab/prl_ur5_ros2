@@ -69,15 +69,7 @@ def generate_launch_description():
     #         ])
     #     ]),
     # )
-    # rsp= IncludeLaunchDescription(
-    #     PythonLaunchDescriptionSource([
-    #         PathJoinSubstitution([
-    #         FindPackageShare('prl_ur5_moveit'),
-    #         'launch',
-    #         'rsp.launch.py',
-    #         ])
-    #     ]),
-    # )
+
 
     # Launch RViz
     rviz_node = Node(
@@ -104,8 +96,6 @@ def generate_launch_description():
         executable="wait_for_robot_description",
         output="screen",
     )
-    
-
 
     return LaunchDescription([
         wait_robot_description,
@@ -114,7 +104,6 @@ def generate_launch_description():
             target_action=wait_robot_description,
             on_exit=[
                     node_move_group,
-                    # moveit_controller,
                     rviz_node,
                         ],
             )

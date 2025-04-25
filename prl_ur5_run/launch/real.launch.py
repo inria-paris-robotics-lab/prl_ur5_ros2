@@ -62,6 +62,7 @@ def launch_setup(context):
     launch_dashboard_client = LaunchConfiguration("launch_dashboard_client")
     launch_urscript_interface = LaunchConfiguration("launch_urscript_interface")
     activate_cameras = LaunchConfiguration("activate_cameras")
+    launch_moveit = LaunchConfiguration("launch_moveit")
 
     ###### Calibration ######
 
@@ -224,6 +225,20 @@ def launch_setup(context):
         parameters=[robot_description],
     )
 
+    ###### MoveIt ######
+    moveit_launch = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            PathJoinSubstitution([
+                FindPackageShare("prl_ur5_moveit"),
+                "launch",
+                "start_moveit.launch.py",
+            ])
+        ),
+        launch_arguments={
+            "use_sim_time": "true",
+        }.items(),
+    )
+
 
     return [
         right_calib,
@@ -237,6 +252,7 @@ def launch_setup(context):
         # robot_state_helper_node,
         rsp,
         rviz_node,
+        moveit_launch,
     ]
 
 def generate_launch_description():
@@ -328,6 +344,13 @@ def generate_launch_description():
                 ),
                 "/ur5_update_rate.yaml",
             ],
+        )
+    )
+    declared_arguments.append(
+        DeclareLaunchArgument(
+            name="launch_moveit",
+            default_value="true",
+            description="Launch MoveIt?",
         )
     )
     return LaunchDescription(declared_arguments + [OpaqueFunction(function=launch_setup)])
