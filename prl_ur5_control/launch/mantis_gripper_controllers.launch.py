@@ -26,8 +26,9 @@ def launch_setup(context):
     prefix = LaunchConfiguration("prefix").perform(context)
 
     # Start the controller based on the argument
+    controllers_to_start = []
     if controller == "weiss-gripper":
-        controller_to_start =IncludeLaunchDescription(
+        weiss_controller = IncludeLaunchDescription(
             PythonLaunchDescriptionSource([
                 PathJoinSubstitution([
                     FindPackageShare('wsg_50_simulation'),
@@ -39,9 +40,12 @@ def launch_setup(context):
                 ('prefix', prefix),('controller_file', PathJoinSubstitution([FindPackageShare('prl_ur5_control'), 'config', 'wsg50_integrate.yaml']))
             ],
         )
+        controllers_to_start.append(weiss_controller)
+    elif not controller or controller.lower() == "none":
+        pass
     else:
         raise RuntimeError("Unknown gripper controller '{}'".format(controller))
-    return [controller_to_start]
+    return controllers_to_start
 
 
 def generate_launch_description():
