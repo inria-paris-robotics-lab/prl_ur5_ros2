@@ -235,7 +235,7 @@ def launch_setup(context):
             ])
         ),
         launch_arguments={
-            "use_sim_time": "true",
+            "use_sim_time": "false",
         }.items(),
     )
 
