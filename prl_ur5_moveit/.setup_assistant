@@ -1,7 +1,7 @@
 moveit_setup_assistant_config:
   urdf:
     package: prl_ur5_description
-    relative_path: urdf/workbench_ur5.urdf.xacro
+    relative_path: urdf/mantis.urdf.xacro
     xacro_args: gz_sim:=true
   srdf:
     relative_path: config/ur5.srdf

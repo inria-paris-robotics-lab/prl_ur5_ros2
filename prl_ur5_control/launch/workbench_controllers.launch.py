@@ -1,12 +1,11 @@
 ############################################################################################################
-# Description: This launch file is used to load the controllers for the Ur5 workbench.
+# Description: This launch file is used to load the controllers for the mantis robot.
 # The controllers are loaded in the controller manager and can be activated or deactivated.
 # Arguments:
-# - headless_mode: Enable headless mode for robot control
 # - activate_joint_controller: Activate wanted loaded joint controller.
 # - initial_joint_controller: Initially activated robot controller (comma-separated). (used if activate_joint_controller is true)
 # Usage:
-# - ros2 launch ur5_workbench_bringup workbench_controllers.launch.py
+# - ros2 launch prl_ur5_control mantis_controllers.launch.py
 ############################################################################################################
 from launch import LaunchDescription
 from launch_ros.actions import Node

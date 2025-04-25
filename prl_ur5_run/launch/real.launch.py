@@ -1,5 +1,5 @@
 ############################################################################################################
-# Description: This file is used to connect the real workbench with the ros2 environment. 
+# Description: This file is used to connect to the real robot with the ros2 environment.
 #              The launch file starts the following nodes:
 #               - Controller Manager
 #               - Controller Spawners
@@ -8,8 +8,8 @@
 #               - URScript Interface
 #               - RViz
 #               - Joint State Publisher
-#              The launch file also includes the following launch files:            
-#               - workbench_controllers.launch.py
+#              The launch file also includes the following launch files:
+#               - mantis_controllers.launch.py
 # Arguments:
 #               - left_robot_ip: IP address of the left robot
 #               - right_robot_ip: IP address of the right robot
@@ -22,7 +22,7 @@
 #               - right_kinematics_file: Right robot kinematics file
 #               - update_rate_config_file: Update rate configuration file
 # Usage:
-#               $ ros2 launch prl_ur5_control reel.launch.py left_robot_ip:=<left_robot_ip> right_robot_ip:=<right_robot_ip> 
+#               $ ros2 launch prl_ur5_control real.launch.py left_robot_ip:=<left_robot_ip> right_robot_ip:=<right_robot_ip>
 ############################################################################################################
 from launch import LaunchDescription
 from launch.actions import (
@@ -127,7 +127,7 @@ def launch_setup(context):
             PathJoinSubstitution([
             FindPackageShare('prl_ur5_control'),
             'launch',
-            'workbench_controllers.launch.py',
+            'mantis_controllers.launch.py',
             ])
         ]),
         launch_arguments={
@@ -206,7 +206,7 @@ def launch_setup(context):
         [
             PathJoinSubstitution([FindExecutable(name="xacro")]),  # Find the xacro executable
             " ", 
-            PathJoinSubstitution([FindPackageShare("prl_ur5_description"), "urdf", "workbench_ur5.urdf.xacro"]),
+            PathJoinSubstitution([FindPackageShare("prl_ur5_description"), "urdf", "mantis.urdf.xacro"]),
             " ",
             "gz_sim:=",
             "false",

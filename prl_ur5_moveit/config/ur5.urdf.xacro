@@ -3,7 +3,7 @@
     <xacro:arg name="initial_positions_file" default="initial_positions.yaml" />
 
     <!-- Import ur5 urdf file -->
-    <xacro:include filename="$(find prl_ur5_description)/urdf/workbench_ur5.urdf.xacro" />
+    <xacro:include filename="$(find prl_ur5_description)/urdf/mantis.urdf.xacro" />
 
     <!-- Import control_xacro -->
     <xacro:include filename="ur5.ros2_control.xacro" />
