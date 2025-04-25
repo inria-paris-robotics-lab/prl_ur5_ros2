@@ -100,7 +100,7 @@ def generate_launch_description():
             PathJoinSubstitution([
                 FindPackageShare('prl_ur5_control'),
                 'launch',
-                'standart_setup_gripper_control.launch.py',
+                'mantis_gripper_controllers.launch.py',
             ])
         ]),
         launch_arguments=[
@@ -113,7 +113,7 @@ def generate_launch_description():
             PathJoinSubstitution([
                 FindPackageShare('prl_ur5_control'),
                 'launch',
-                'standart_setup_gripper_control.launch.py',
+                'mantis_gripper_controllers.launch.py',
             ])
         ]),
         launch_arguments=[

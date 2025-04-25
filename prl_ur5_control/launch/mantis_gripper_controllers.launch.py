@@ -4,7 +4,7 @@
 #   - gripper_controller: Gripper controller to use.
 #   - prefix: Robot prefix. Default is "".
 # Usage:
-#   - ros2 launch prl_ur5_control standart_setup_gripper_control.launch.py gripper_controller:=<gripper-type> prefix:=<tf-prefix>
+#   - ros2 launch prl_ur5_control mantis_gripper_controllers.launch.py gripper_controller:=<gripper-type> prefix:=<tf-prefix>
 ############################################################################################################
 from launch import LaunchDescription
 from launch.actions import (
