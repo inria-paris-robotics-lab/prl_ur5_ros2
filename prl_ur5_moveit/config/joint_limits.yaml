@@ -52,11 +52,12 @@ joint_limits:
     max_effort: 28.0
   left_gripper_joint:
     has_velocity_limits: true
-    max_velocity: 1.78
-    has_acceleration_limits: false
-    max_acceleration: 0.0
+    max_velocity: 1.0
+    has_acceleration_limits: true
+    max_acceleration: 1.0
     has_effort_limits: true
     max_effort: 5.0
+
   right_elbow_joint:
     has_velocity_limits: true
     max_velocity: 3.15
@@ -101,28 +102,13 @@ joint_limits:
     max_effort: 28.0
   right_gripper_joint:
     has_velocity_limits: true
-    max_velocity: 3.0
-    has_acceleration_limits: false
-    max_acceleration: 0.0
+    max_velocity: 1.0
+    has_acceleration_limits: true
+    max_acceleration: 1.0
     has_effort_limits: true
-    max_effort: 2.2
-  left_gripper_base_joint_gripper_left:
-    has_velocity_limits: true
-    max_velocity: 1.0
-    has_acceleration_limits: true
-    max_acceleration: 1.0
-  left_gripper_base_joint_gripper_right:
-    has_velocity_limits: true
-    max_velocity: 1.0
-    has_acceleration_limits: true
-    max_acceleration: 1.0
-  right_gripper_base_joint_gripper_left:
-    has_velocity_limits: true
-    max_velocity: 1.0
-    has_acceleration_limits: true
-    max_acceleration: 1.0
-  right_gripper_base_joint_gripper_right:
-    has_velocity_limits: true
-    max_velocity: 1.0
-    has_acceleration_limits: true
-    max_acceleration: 1.0
+    max_effort: 5.0
+
+
+
+
+    

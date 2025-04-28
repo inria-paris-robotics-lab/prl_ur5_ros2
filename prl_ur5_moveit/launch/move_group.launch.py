@@ -3,5 +3,5 @@ from moveit_configs_utils.launches import generate_move_group_launch
 
 
 def generate_launch_description():
-    moveit_config = MoveItConfigsBuilder("ur5", package_name="prl_ur5_moveit").to_moveit_configs()
+    moveit_config = MoveItConfigsBuilder("mantis", package_name="prl_ur5_moveit").to_moveit_configs()
     return generate_move_group_launch(moveit_config)

@@ -1,53 +1,17 @@
-left_wsg_50_gl:
+right_gripper_controller:
   ros__parameters:
     type: position_controllers/GripperActionController
-    joint: left_gripper_base_joint_gripper_left
+    action_monitor_rate: 100.0
+    allow_stalling: false
+    goal_tolerance: 0.002
+    joint: right_gripper_joint
+    max_effort: 0.0
 
-
-left_wsg_50_gr:
+left_gripper_controller:
   ros__parameters:
-    type: position_controllers/JointGroupPositionController
-    joints: 
-      - left_gripper_base_joint_gripper_right
-    pid:
-      p: 100.0
-      d: 10.0
-
-right_wsg_50_gl:
-  ros__parameters:
-    type: position_controllers/JointGroupPositionController
-
-    joints: 
-      - right_gripper_base_joint_gripper_left
-    pid:
-      p: 100.0
-      d: 10.0
-
-right_wsg_50_gr:
-  ros__parameters:
-    type: position_controllers/JointGroupPositionController
-    joints: 
-      - right_gripper_base_joint_gripper_right
-    pid:
-      p: 100.0
-      d: 10.0      
-
-left_wsg_50:
-  ros__parameters:
-    type: position_controllers/JointGroupPositionController
-    joints: 
-      - left_gripper_base_joint_gripper_right
-      - left_gripper_base_joint_gripper_left
-    pid:
-      p: 100.0
-      d: 10.0
-
-right_wsg_50:
-  ros__parameters:
-    type: position_controllers/JointGroupPositionController
-    joints: 
-      - right_gripper_base_joint_gripper_right
-      - right_gripper_base_joint_gripper_left
-    pid:
-      p: 100.0
-      d: 10.0
+    type: position_controllers/GripperActionController
+    action_monitor_rate: 100.0
+    allow_stalling: false
+    goal_tolerance: 0.0002
+    joint: left_gripper_joint
+    max_effort: 0.0

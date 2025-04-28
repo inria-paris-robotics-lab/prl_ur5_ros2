@@ -225,6 +225,42 @@ def launch_setup(context):
         parameters=[robot_description],
     )
 
+     ###### Gripper ######
+
+    config_path = Path(config_file) 
+    with config_path.open('r') as setup_file:
+        config = yaml.safe_load(setup_file)
+
+    left_gripper_controller = config.get('left')['gripper_controller']
+    right_gripper_controller = config.get('right')['gripper_controller']
+
+    left_gripper_controller_spawner = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource([
+            PathJoinSubstitution([
+                FindPackageShare('prl_ur5_control'),
+                'launch',
+                'mantis_gripper_controllers.launch.py',
+            ])
+        ]),
+        launch_arguments=[
+            ('gripper_controller', left_gripper_controller),
+            ('prefix', 'left_'),
+        ],
+    )
+    right_gripper_controller_spawner = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource([
+            PathJoinSubstitution([
+                FindPackageShare('prl_ur5_control'),
+                'launch',
+                'mantis_gripper_controllers.launch.py',
+            ])
+        ]),
+        launch_arguments=[
+            ('gripper_controller', right_gripper_controller),
+            ('prefix', 'right_'),
+        ],
+    )
+
     ###### MoveIt ######
     moveit_launch = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
@@ -245,6 +281,8 @@ def launch_setup(context):
         left_calib,
         control_node,
         controller_spawners,
+        left_gripper_controller_spawner,
+        right_gripper_controller_spawner,
         left_dashboard_client_node,
         right_dashboard_client_node,
         left_urscript_interface,

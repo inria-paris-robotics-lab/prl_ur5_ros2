@@ -6,13 +6,10 @@ moveit_simple_controller_manager:
   controller_names:
     - left_joint_trajectory_controller
     - right_joint_trajectory_controller
-    - left_wsg_50
-    - right_wsg_50
-    - left_wsg_50_gl
-    - left_wsg_50_gr
-    - right_wsg_50_gl
-    - right_wsg_50_gr
-
+    - left_gripper_controller
+    - right_gripper_controller
+  # Joint trajectory controllers
+  # These controllers are used for moving the robot's joints
   left_joint_trajectory_controller:
     action_ns: follow_joint_trajectory
     type: FollowJointTrajectory
@@ -36,44 +33,18 @@ moveit_simple_controller_manager:
       - right_wrist_1_joint
       - right_wrist_2_joint
       - right_wrist_3_joint
-
-  left_wsg_50:
-    type: FollowJointTrajectory
-    joints:
-      - left_gripper_base_joint_gripper_left
-      - left_gripper_base_joint_gripper_right
-    action_ns: follow_joint_trajectory
-    default: true
-  right_wsg_50:
-    type: FollowJointTrajectory
-    joints:
-      - right_gripper_base_joint_gripper_left
-      - right_gripper_base_joint_gripper_right
-    action_ns: follow_joint_trajectory
-    default: true
-
-  left_wsg_50_gl:
+  # Gripper controllers
+  # These controllers are used for controlling the grippers
+  left_gripper_controller:
     type: GripperCommand
     joints:
-      - left_gripper_base_joint_gripper_left
-    action_ns: follow_joint_trajectory
-    default: true
-  left_wsg_50_gr:
-    type: FollowJointTrajectory
-    joints:
-      - left_gripper_base_joint_gripper_right
-    action_ns: follow_joint_trajectory
+      - left_gripper_joint
+    action_ns: gripper_cmd
     default: true
 
-  right_wsg_50_gl:
-    type: FollowJointTrajectory
+  right_gripper_controller:
+    type: GripperCommand
     joints:
-      - right_gripper_base_joint_gripper_left
-    action_ns: follow_joint_trajectory
-    default: true
-  right_wsg_50_gr:
-    type: FollowJointTrajectory
-    joints:
-      - right_gripper_base_joint_gripper_right
-    action_ns: follow_joint_trajectory
+      - right_gripper_joint
+    action_ns: gripper_cmd
     default: true
