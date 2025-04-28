@@ -41,7 +41,7 @@ def launch_setup(context):
             ],
         )
         controllers_to_start.append(weiss_controller)
-    elif not controller or controller.lower() == "none":
+    elif not controller or controller.lower() == "None":
         pass
     else:
         raise RuntimeError("Unknown gripper controller '{}'".format(controller))

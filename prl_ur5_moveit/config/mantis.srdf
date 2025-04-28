@@ -5,7 +5,7 @@
 -->
 <robot name="mantis" xmlns:xacro="http://www.ros.org/wiki/xacro">
     <xacro:arg name="setup_name" default="standart_setup"/>
-    <xacro:property name="setup" value="${load_yaml('$(find prl_ur5_robot_configuration)/config/$(arg setup_name).yaml')}"/>
+    <xacro:property name="setup" value="${xacro.load_yaml('$(find prl_ur5_robot_configuration)/config/$(arg setup_name).yaml')}"/>
     <!--GROUPS: Representation of a set of joints and links. This can be useful for specifying DOF to plan for, defining arms, end effectors, etc-->
     <!--LINKS: When a link is specified, the parent joint of that link (if it exists) is automatically included-->
     <!--JOINTS: When a joint is specified, the child link of that joint (which will always exist) is automatically included-->
