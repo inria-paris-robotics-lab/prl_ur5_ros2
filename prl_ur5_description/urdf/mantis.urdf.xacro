@@ -1,22 +1,20 @@
 <?xml version="1.0"?>
-<robot xmlns:xacro="http://wiki.ros.org/xacro" name="ur5" >
-
-  
-  <xacro:arg name="controller_file" default="$(find prl_ur5_control)/config/dual_ur_controller.yaml"/>
+<robot xmlns:xacro="http://wiki.ros.org/xacro" name="mantis" >
+  <!-- Arguments-->
   <xacro:arg name="gz_sim" default="false"/>
+  <xacro:arg name="real_robot" default="false"/>
 
-  <!-- Load the setup file -->
+  <!-- Setup files -->
+  <xacro:arg name="controller_file" default="$(find prl_ur5_control)/config/dual_arm_controller.yaml"/>
   <xacro:property name="setup_file" value="${xacro.load_yaml('$(find prl_ur5_robot_configuration)/config/standart_setup.yaml')}"/>
 
   <!-- ur5 arm -->
   <xacro:include filename="$(find prl_ur5_description)/urdf/ur5_complete_arm.urdf.xacro"/>
-
   <!-- fixed camera-->
   <xacro:include filename="$(find prl_ur5_description)/urdf/_fixed_cameras.urdf.xacro"/>
-  
+
   <!-- Repere global -->
   <link name="prl_ur5_base"/>
-
   
   <!-- Table -->
   <material name="Blue">
@@ -90,12 +88,10 @@
     <origin xyz="-1.65 0 0.25" rpy="0.0 0.0 0.0"/>
   </joint>
 
-
   <!-- ARMS -->
-  
   <!-- Left arm -->
   <xacro:property name="left" value="${setup_file.get('left')}"/>
-  <xacro:ur5 prefix="left_"
+  <xacro:arm prefix="left_"
                  parent="prl_ur5_base" 
                  pose="${left['arm_pose']}"
                  sensor="false"
@@ -104,10 +100,11 @@
                  gripper_pose="${left.get('gripper_pose')}"
                  joint_limits_parameters_file="$(find prl_ur5_robot_configuration)/config/${left.get('arm_joint_limits')}"
                  kinematics_parameters_file="$(find prl_ur5_robot_configuration)/config/${left.get('arm_kinematics')}"
+                 network = "${left.get('network')}"
                  />
   <!-- Right Arm -->
   <xacro:property name="right" value="${setup_file.get('right')}"/>
-  <xacro:ur5 prefix="right_"
+  <xacro:arm prefix="right_"
                  parent="prl_ur5_base" 
                  pose="${right['arm_pose']}"
                  sensor="false"
@@ -116,8 +113,9 @@
                  gripper_pose="${right.get('gripper_pose')}"
                  joint_limits_parameters_file="$(find prl_ur5_robot_configuration)/config/${right.get('arm_joint_limits')}"
                  kinematics_parameters_file="$(find prl_ur5_robot_configuration)/config/${right.get('arm_kinematics')}"
+                 network = "${right.get('network')}"
                  />
-  
+  <!-- Gazebosim plugin -->
   <xacro:if value="$(arg gz_sim)">
     <gazebo>
         <plugin filename="gz_ros2_control-system" name="gz_ros2_control::GazeboSimROS2ControlPlugin">

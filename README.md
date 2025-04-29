@@ -1,6 +1,6 @@
-# PRL UR5 Workbench
+# PRL UR5 Bimanual Robot (Mantis)
 
-This project combines a ROS 2 development environment with Docker and packages for the description and simulation of the UR5 workbench from paris robotics lab.
+This project combines a ROS 2 development environment with Docker and packages for the description and simulation of Mantis (the UR5 bimanual robot from inria paris robotics lab).
 
 ## **Included Packages**
 
@@ -8,10 +8,10 @@ This project combines a ROS 2 development environment with Docker and packages f
 This package provides a Docker environment for developing with ROS 2 (jazzy), including the **UR Driver** to interact with UR robots (UR3, UR5, UR10, etc.). The container is configured to work with these robots and includes all necessary tools for simulation and communication with both physical and simulated robots.
 
 ### 2. **prl_ur5_description**
-The **prl_ur5_description** package provides the UR5 workbench description, including 3D models files necessary for visualizing and simulating the UR5 robot in a ROS 2 environment. It is part of the PRL (Paris Robotics Lab) ecosystem and designed to facilitate the use of the UR5 robot in simulation.
+The **prl_ur5_description** package provides Mantis description, including 3D models files necessary for visualizing and simulating the UR5 robot in a ROS 2 environment.
 
 ### 3. **prl_ur5_gazebo**
-The **prl_ur5_gazebo** package provides the UR5 workbench launch and files, necessary for simulating the UR5 robot in Gazebo. It is part of the PRL (Paris Robotics Lab) ecosystem and designed to facilitate the use of the UR5 robot in simulation.
+The **prl_ur5_gazebo** package provides Mantis necessary files for simulating the robot in Gazebo.
 
 ---
 
@@ -98,13 +98,13 @@ source install/setup.bash
 
 ## **Usage**
 
-### Only visualize the workbench in RViz
+### Only visualize the Mantis in RViz
 
 ```bash
-ros2 launch prl_ur5_description view_workbench.launch.py
+ros2 launch prl_ur5_description view_mantis.launch.py
 ```
 
-### Simulate the workbench in Gazebo and visualize in Rviz
+### Simulate the mantis in Gazebo and visualize in Rviz
 
 ```bash
 ros2 launch prl_ur5_gazebo start_gazebo_sim.launch.py

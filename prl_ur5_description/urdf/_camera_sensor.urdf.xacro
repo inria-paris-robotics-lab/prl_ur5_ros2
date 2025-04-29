@@ -3,6 +3,7 @@
 
   <!-- realsense d435i -->
   <xacro:include filename="$(find realsense2_description)/urdf/_d435i.urdf.xacro"/>
+  <xacro:include filename="$(find prl_ur5_description)/urdf/_d435_gazebo.urdf.xacro"/>
 
   <xacro:macro name="camera_sensor" params="prefix parent camera pose turn_on:=false">
 
@@ -16,7 +17,9 @@
       <xacro:sensor_d435i name="${prefix}camera" parent="${parent}" use_nominal_extrinsics="true">
         <origin xyz="${pose['x']} ${pose['y']} ${pose['z']}" rpy="${pose['roll']} ${pose['pitch']} ${pose['yaw']}"/>
       </xacro:sensor_d435i>
+      <xacro:gazebo_d435 name="${prefix}camera" turn_on="${turn_on}"/>
     </xacro:if>
+
 
   </xacro:macro>
 </robot>

@@ -4,6 +4,7 @@
     <!-- ur5 -->
     <xacro:include filename="$(find ur_description)/urdf/ur_macro.xacro"/>
     <xacro:include filename="$(find ur_description)/urdf/inc/ur_joint_control.xacro" />
+    <xacro:include filename="$(find ur_robot_driver)/urdf/ur.ros2_control.xacro"/>
 
     <!-- force sensor-->
     <xacro:include filename="$(find prl_ur5_description)/urdf/_force_sensor.urdf.xacro"/>
@@ -11,8 +12,9 @@
     <!-- gripper -->
     <xacro:include filename="$(find prl_ur5_description)/urdf/_gripper.urdf.xacro"/>
 
-    <xacro:macro name="ur5" params="
-        name:=ur
+    <!-- Macro to define the complete arm -->
+    <xacro:macro name="arm" params="
+        name:=arm
         ur_type:=ur5
         prefix
         parent
@@ -29,11 +31,16 @@
         safety_pos_margin:=0.15
         safety_k_position:=20
         gz_sim:=false
-        ros2_control:=false
+        headless_mode:=true 
+        ur_output_recipe_filename:='$(find ur_robot_driver)/resources/rtde_output_recipe.txt'
+        ur_input_recipe_filename:='$(find ur_robot_driver)/resources/rtde_input_recipe.txt'
+        ur_script_filename:='$(find ur_client_library)/resources/external_control.urscript'
+        network := ''
         ">
 
+        <!-- UR5 -->
         <xacro:ur_robot
-            name="${prefix}ur"
+            name="${prefix}arm"
             tf_prefix="${prefix}"
             parent="${parent}"
             joint_limits_parameters_file="${joint_limits_parameters_file}"
@@ -47,10 +54,11 @@
         >
         <origin xyz="${pose['x']} ${pose['y']} ${pose['z']}" rpy="${pose['roll']} ${pose['pitch']} ${pose['yaw']}"/> 
         </xacro:ur_robot>  
+        <!-- ROS2 control if simulation -->
+        <xacro:if value="${gz_sim}">
 
-        <xacro:if value="${gz_sim or ros2_control}">
-             <!-- ros2 control instance -->
-            <ros2_control name="${prefix}ur" type="system">
+            <ros2_control name="${prefix}arm" type="system">
+                
                 <hardware>
                     <plugin>gz_ros2_control/GazeboSimSystem</plugin>
                 </hardware>
@@ -61,15 +69,34 @@
                 />
             </ros2_control>
         </xacro:if>
-            
-        <!-- force sensor -->
+        <!-- ROS2 control if real robot -->
+        <xacro:unless value="${gz_sim}">
+            <xacro:ur_ros2_control
+                name="${prefix}arm"
+                tf_prefix="${prefix}"
+                kinematics_parameters_file="${kinematics_parameters_file}"
+                robot_ip="${network['ip']}"
+                script_filename="${ur_script_filename}"
+                output_recipe_filename="${ur_output_recipe_filename}"
+                input_recipe_filename="${ur_input_recipe_filename}"
+                use_mock_hardware="false"
+                mock_sensor_commands="false"
+                headless_mode="${headless_mode}"
+                script_command_port="${network['script_command_port']}"
+                reverse_port="${network['reverse_port']}"
+                script_sender_port="${network['script_sender_port']}"
+                trajectory_port="${network['trajectory_port']}"
+            /> 
+        </xacro:unless>
+
+        <!-- Force sensor -->
         <xacro:force_sensor
             prefix="${prefix}"
             parent="tool0"
             gz_sim="${gz_sim}"
         />
 
-        <!-- tool frame -->
+        <!-- Tool frame -->
         <link name="${prefix}tool"/>
 
         <joint name="${prefix}tool_joint" type="fixed">
@@ -78,7 +105,7 @@
             <child link="${prefix}tool"/>
         </joint>
 
-        <!-- gripper -->
+        <!-- Gripper -->
         <xacro:gripper gripper="${gripper}" prefix='${prefix}' parent="${prefix}tool" pose="${gripper_pose}" hardware_interface="${hw_interface}" gz_sim="${gz_sim}"/>
 
         <!-- Right angle connector -->
