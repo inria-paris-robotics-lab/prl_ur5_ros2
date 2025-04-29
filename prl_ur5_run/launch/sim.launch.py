@@ -10,7 +10,6 @@ from launch_ros.substitutions import FindPackageShare
 
 
 def launch_setup(context):
-    
     gazebo_launch = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
             PathJoinSubstitution([
