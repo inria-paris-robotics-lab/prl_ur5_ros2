@@ -60,17 +60,6 @@ def generate_launch_description():
         ]),
     )
 
-    # virtual_joint = IncludeLaunchDescription(
-    #     PythonLaunchDescriptionSource([
-    #         PathJoinSubstitution([
-    #         FindPackageShare('prl_ur5_moveit'),
-    #         'launch',
-    #         'static_virtual_joint_tfs.launch.py',
-    #         ])
-    #     ]),
-    # )
-
-
     # Launch RViz
     rviz_node = Node(
         package="rviz2",
