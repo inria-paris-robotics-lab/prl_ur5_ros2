@@ -14,7 +14,7 @@
 
     <!-- Macro to define the complete arm -->
     <xacro:macro name="arm" params="
-        name:=ur
+        name:=arm
         ur_type:=ur5
         prefix
         parent
@@ -40,7 +40,7 @@
 
         <!-- UR5 -->
         <xacro:ur_robot
-            name="${prefix}ur"
+            name="${prefix}arm"
             tf_prefix="${prefix}"
             parent="${parent}"
             joint_limits_parameters_file="${joint_limits_parameters_file}"
@@ -56,7 +56,8 @@
         </xacro:ur_robot>  
         <!-- ROS2 control if simulation -->
         <xacro:if value="${gz_sim}">
-            <ros2_control name="${prefix}ur" type="system">
+
+            <ros2_control name="${prefix}arm" type="system">
                 
                 <hardware>
                     <plugin>gz_ros2_control/GazeboSimSystem</plugin>
@@ -71,7 +72,7 @@
         <!-- ROS2 control if real robot -->
         <xacro:unless value="${gz_sim}">
             <xacro:ur_ros2_control
-                name="${prefix}ur"
+                name="${prefix}arm"
                 tf_prefix="${prefix}"
                 kinematics_parameters_file="${kinematics_parameters_file}"
                 robot_ip="${network['ip']}"

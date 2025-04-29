@@ -23,7 +23,7 @@ def generate_launch_description():
 
     #Config file
     moveit_config = (
-        MoveItConfigsBuilder(robot_name="ur", package_name="prl_ur5_moveit")
+        MoveItConfigsBuilder(robot_name="mantis", package_name="prl_ur5_moveit")
         .robot_description_semantic(Path("config") / "mantis.srdf")
         .to_moveit_configs()
     )

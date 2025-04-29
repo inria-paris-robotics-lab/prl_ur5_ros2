@@ -63,10 +63,10 @@ controller_manager:
     right_tcp_pose_broadcaster:
       type: pose_broadcaster/PoseBroadcaster
 
-    left_ur_configuration_controller:
+    left_arm_configuration_controller:
       type: ur_controllers/URConfigurationController
     
-    right_ur_configuration_controller:
+    right_arm_configuration_controller:
       type: ur_controllers/URConfigurationController
 
 left_speed_scaling_state_broadcaster:
@@ -88,11 +88,11 @@ right_io_and_status_controller:
     tf_prefix: "right_"
 
 
-left_ur_configuration_controller:
+left_arm_configuration_controller:
   ros__parameters:
     tf_prefix: "left_"
 
-right_ur_configuration_controller:
+right_arm_configuration_controller:
   ros__parameters:
     tf_prefix: "right_"
 

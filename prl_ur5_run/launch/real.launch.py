@@ -53,7 +53,7 @@ import yaml
 
 def launch_setup(context):
     # Setup file
-    controllers_file = PathJoinSubstitution([FindPackageShare("prl_ur5_control"), "config", "dual_ur_controller.yaml"])
+    controllers_file = PathJoinSubstitution([FindPackageShare("prl_ur5_control"), "config", "dual_arm_controller.yaml"])
     rviz_config_file = PathJoinSubstitution([FindPackageShare("ur_description"), "rviz", "view_robot.rviz"])
     right_kinematics_file = LaunchConfiguration("right_kinematics_file")
     left_kinematics_file = LaunchConfiguration("left_kinematics_file")

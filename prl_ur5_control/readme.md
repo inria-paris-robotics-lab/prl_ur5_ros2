@@ -13,9 +13,9 @@ It is part of the PRL (Paris Robotics Lab) ecosystem and is designed to facilita
 Refer to the built-in documentation in the launch file headers for more details.
 
 ### Configuration Files
-- **`dual_ur_controller.yaml`**
-- **`left_ur_controller.yaml`**
-- **`right_ur_controller.yaml`**
+- **`dual_arm_controller.yaml`**
+- **`left_arm_controller.yaml`**
+- **`right_arm_controller.yaml`**
 - **`wsg50_integrate.yaml`**<!--  -->
 
 ## Usage
