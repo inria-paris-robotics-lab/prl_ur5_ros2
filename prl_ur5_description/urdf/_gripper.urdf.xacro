@@ -4,6 +4,7 @@
   <!-- onrobot RG2(6) -->
   <xacro:include filename="$(find onrobot_description)/urdf/onrobot_rg.urdf.xacro"/>
 
+  <!-- Macro to generate gripper -->
   <xacro:macro name="gripper" params="gripper prefix parent pose hardware_interface gz_sim">
 
     <!-- check gripper type -->
@@ -65,4 +66,3 @@
 
   </xacro:macro>
 </robot>
-

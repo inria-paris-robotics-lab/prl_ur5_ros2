@@ -2,7 +2,6 @@
 <robot xmlns:xacro="http://wiki.ros.org/xacro">
     <!-- import main macro -->
     <xacro:include filename="$(find robotiq_ft_sensor_description)/urdf/robotiq_ft300.urdf.xacro" />
-    
 
     <xacro:macro name="force_sensor" params="
                         prefix:=''

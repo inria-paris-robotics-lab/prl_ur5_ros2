@@ -140,6 +140,42 @@
     <!--VIRTUAL JOINT: Purpose: this element defines a virtual joint between a robot link and an external frame of reference (considered fixed with respect to the robot)-->
     <virtual_joint name="wrldbase" type="fixed" parent_frame="world" child_link="base_link"/>
     <!--DISABLE COLLISIONS: By default it is assumed that any link of the robot could potentially come into collision with any other link in the robot. This tag disables collision checking between a specified pair of links. -->
+    <!-- External cameras -->
+        <xacro:macro name="external_camera_col" params="number camera">
+            <disable_collisions link1="fixed_camera_${number}_bb" link2="fixed_camera_${number}_sj" reason="Adjacent"/>
+            <disable_collisions link1="fixed_camera_${number}_vt" link2="fixed_camera_${number}_sj" reason="Adjacent"/>
+            <disable_collisions link1="fixed_camera_${number}_vt" link2="fixed_hr_${number}" reason="Adjacent"/>
+            <disable_collisions link1="fixed_camera_${number}_vt" link2="fixed_camera_${number}_bb" reason="Adjacent"/>
+
+            <disable_collisions link1="fixed_camera_${number}_bb" link2="table_link" reason="Adjacent"/>
+            <disable_collisions link1="fixed_camera_${number}_sj" link2="table_link" reason="Adjacent"/>
+            <disable_collisions link1="fixed_camera_${number}_vt" link2="table_link" reason="Adjacent"/>
+            <disable_collisions link1="fixed_hr_${number}" link2="table_link" reason="Adjacent"/>
+            
+
+            <disable_collisions link1="${camera['name_prefix']}_camera_link" link2="fixed_camera_${number}_vt" reason="Adjacent"/>
+            <disable_collisions link1="${camera['name_prefix']}_camera_link" link2="fixed_camera_${number}_sj" reason="Adjacent"/>
+            <disable_collisions link1="${camera['name_prefix']}_camera_link" link2="fixed_camera_${number}_bb" reason="Adjacent"/>
+        </xacro:macro>
+
+        <!-- Iterate voer all cameras using reccursive function-->
+        <xacro:property name="fixed_cameras_file" value="$(find prl_ur5_robot_configuration)/config/${setup['fixed_cameras_file']}"/>
+        <xacro:property name="fixed_cameras" value="${load_yaml(fixed_cameras_file)}"/>
+
+        <xacro:macro name="external_cameras_loop" params="cameras number">
+            <xacro:if value="${cameras}">
+                    <!-- pop first item from list -->
+                    <xacro:property name="camera" value="${cameras.pop(0)}"/>
+                    <xacro:external_camera_col number="${number}" camera="${camera}"/>
+
+                    <!-- recursive call -->
+                    <xacro:external_cameras_loop cameras="${cameras}" number="${number+1}"/>
+            </xacro:if>
+        </xacro:macro>
+
+        <xacro:external_cameras_loop cameras="${fixed_cameras}" number="0"/>
+
+    <!-- UR5 COLLISION DISABLES -->
     <disable_collisions link1="backwall_link" link2="left_base_link_inertia" reason="Adjacent"/>
     <disable_collisions link1="backwall_link" link2="left_forearm_link" reason="Never"/>
     <disable_collisions link1="backwall_link" link2="left_shoulder_link" reason="Never"/>

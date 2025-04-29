@@ -6,15 +6,13 @@
     <xacro:include filename="$(find ur_description)/urdf/inc/ur_joint_control.xacro" />
     <xacro:include filename="$(find ur_robot_driver)/urdf/ur.ros2_control.xacro"/>
 
-
     <!-- force sensor-->
     <xacro:include filename="$(find prl_ur5_description)/urdf/_force_sensor.urdf.xacro"/>
 
     <!-- gripper -->
     <xacro:include filename="$(find prl_ur5_description)/urdf/_gripper.urdf.xacro"/>
 
-    
-
+    <!-- Macro to define the complete arm -->
     <xacro:macro name="arm" params="
         name:=ur
         ur_type:=ur5
@@ -40,6 +38,7 @@
         network := ''
         ">
 
+        <!-- UR5 -->
         <xacro:ur_robot
             name="${prefix}ur"
             tf_prefix="${prefix}"
@@ -55,9 +54,8 @@
         >
         <origin xyz="${pose['x']} ${pose['y']} ${pose['z']}" rpy="${pose['roll']} ${pose['pitch']} ${pose['yaw']}"/> 
         </xacro:ur_robot>  
-
+        <!-- ROS2 control if simulation -->
         <xacro:if value="${gz_sim}">
-
             <ros2_control name="${prefix}ur" type="system">
                 
                 <hardware>
@@ -70,8 +68,7 @@
                 />
             </ros2_control>
         </xacro:if>
-            
-
+        <!-- ROS2 control if real robot -->
         <xacro:unless value="${gz_sim}">
             <xacro:ur_ros2_control
                 name="${prefix}ur"
@@ -91,17 +88,14 @@
             /> 
         </xacro:unless>
 
-        
-
-            
-        <!-- force sensor -->
+        <!-- Force sensor -->
         <xacro:force_sensor
             prefix="${prefix}"
             parent="tool0"
             gz_sim="${gz_sim}"
         />
 
-        <!-- tool frame -->
+        <!-- Tool frame -->
         <link name="${prefix}tool"/>
 
         <joint name="${prefix}tool_joint" type="fixed">
@@ -110,7 +104,7 @@
             <child link="${prefix}tool"/>
         </joint>
 
-        <!-- gripper -->
+        <!-- Gripper -->
         <xacro:gripper gripper="${gripper}" prefix='${prefix}' parent="${prefix}tool" pose="${gripper_pose}" hardware_interface="${hw_interface}" gz_sim="${gz_sim}"/>
 
         <!-- Right angle connector -->

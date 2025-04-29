@@ -1,12 +1,14 @@
 # prl_ur5_control
 
-The `prl_ur5_control` package provides configuration files for ROS 2 controllers and launch files to spawn mantis different controllers.
+The `prl_ur5_control` package provides configuration files for ROS 2 controllers and launch files to spawn the workbench parts different controllers.
+
+It is part of the PRL (Paris Robotics Lab) ecosystem and is designed to facilitate the use of the UR5 robot in simulation.
 
 ## Content
 
 ### Launch Files
-- **`mantis_controllers.launch.py`**
-- **`mantis_gripper_controllers.launch.py`**
+- **`workbench_controller.launch.py`**
+- **`standard_setup_gripper_controller.launch.py`**
 
 Refer to the built-in documentation in the launch file headers for more details.
 
@@ -14,7 +16,7 @@ Refer to the built-in documentation in the launch file headers for more details.
 - **`dual_ur_controller.yaml`**
 - **`left_ur_controller.yaml`**
 - **`right_ur_controller.yaml`**
-- **`wsg50_integrate.yaml`**
+- **`wsg50_integrate.yaml`**<!--  -->
 
 ## Usage
 

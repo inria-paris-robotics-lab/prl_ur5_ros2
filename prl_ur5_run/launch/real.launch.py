@@ -1,5 +1,5 @@
 ############################################################################################################
-# Description: This file is used to connect to the real robot with the ros2 environment.
+# Description: This file is used to connect the real workbench with the ros2 environment. 
 #              The launch file starts the following nodes:
 #               - Controller Manager
 #               - Controller Spawners
@@ -8,8 +8,10 @@
 #               - URScript Interface
 #               - RViz
 #               - Joint State Publisher
-#              The launch file also includes the following launch files:
+#              The launch file also includes the following launch files:            
 #               - mantis_controllers.launch.py
+#               - mantis_gripper_controllers.launch.py
+#               - sensors.launch.py
 # Arguments:
 #               - left_robot_ip: IP address of the left robot
 #               - right_robot_ip: IP address of the right robot
@@ -20,8 +22,10 @@
 #               - left_kinematics_file: Left robot kinematics file
 #               - right_kinematics_file: Right robot kinematics file
 #               - update_rate_config_file: Update rate configuration file
+#               - launch_moveit: Launch MoveIt
+#               - activate_cameras: Activate cameras
 # Usage:
-#               $ ros2 launch prl_ur5_control real.launch.py left_robot_ip:=<left_robot_ip> right_robot_ip:=<right_robot_ip>
+#               $ ros2 launch prl_ur5_control reel.launch.py left_robot_ip:=<left_robot_ip> right_robot_ip:=<right_robot_ip> 
 ############################################################################################################
 from launch import LaunchDescription
 from launch.actions import (
@@ -62,7 +66,6 @@ def launch_setup(context):
     launch_dashboard_client = LaunchConfiguration("launch_dashboard_client")
     launch_urscript_interface = LaunchConfiguration("launch_urscript_interface")
     activate_cameras = LaunchConfiguration("activate_cameras")
-    launch_moveit = LaunchConfiguration("launch_moveit")
 
     ###### Calibration ######
 
@@ -93,7 +96,6 @@ def launch_setup(context):
             'target_filename': left_kinematics_file,
         }.items(),
     )
-
 
     ###### Controllers ######
 
@@ -225,7 +227,7 @@ def launch_setup(context):
         parameters=[robot_description],
     )
 
-     ###### Gripper ######
+    ###### Gripper ######
 
     config_path = Path(config_file) 
     with config_path.open('r') as setup_file:
@@ -234,7 +236,7 @@ def launch_setup(context):
     left_gripper_controller = config.get('left')['gripper_controller']
     right_gripper_controller = config.get('right')['gripper_controller']
 
-    left_gripper_controller_spawner = IncludeLaunchDescription(
+    left_gripper_controller = IncludeLaunchDescription(
         PythonLaunchDescriptionSource([
             PathJoinSubstitution([
                 FindPackageShare('prl_ur5_control'),
@@ -247,7 +249,7 @@ def launch_setup(context):
             ('prefix', 'left_'),
         ],
     )
-    right_gripper_controller_spawner = IncludeLaunchDescription(
+    right_gripper_controller = IncludeLaunchDescription(
         PythonLaunchDescriptionSource([
             PathJoinSubstitution([
                 FindPackageShare('prl_ur5_control'),
@@ -259,6 +261,25 @@ def launch_setup(context):
             ('gripper_controller', right_gripper_controller),
             ('prefix', 'right_'),
         ],
+    )
+
+    ###### Sensors ######
+
+    camera_launch = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource([
+            PathJoinSubstitution([
+            FindPackageShare('prl_ur5_control'),
+            'launch',
+            'sensors.launch.py',
+            ])
+        ]),
+        launch_arguments={
+            'enable_alpha': "true",
+            'enable_bravo': "true",
+            'enable_charlie': "true",
+            'enable_delta': "true",
+        }.items(),
+        condition=IfCondition(activate_cameras),
     )
 
     ###### MoveIt ######
@@ -275,14 +296,13 @@ def launch_setup(context):
         }.items(),
     )
 
-
     return [
         right_calib,
         left_calib,
         control_node,
         controller_spawners,
-        left_gripper_controller_spawner,
-        right_gripper_controller_spawner,
+        left_gripper_controller,
+        right_gripper_controller,
         left_dashboard_client_node,
         right_dashboard_client_node,
         left_urscript_interface,
@@ -290,6 +310,7 @@ def launch_setup(context):
         # robot_state_helper_node,
         rsp,
         rviz_node,
+        camera_launch,
         moveit_launch,
     ]
 
@@ -388,7 +409,7 @@ def generate_launch_description():
         DeclareLaunchArgument(
             name="launch_moveit",
             default_value="true",
-            description="Launch MoveIt?",
+            description="Launch MoveIt ?",
         )
     )
     return LaunchDescription(declared_arguments + [OpaqueFunction(function=launch_setup)])
