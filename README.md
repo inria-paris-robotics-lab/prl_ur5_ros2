@@ -117,5 +117,3 @@ ros2 launch prl_ur5_gazebo start_gazebo_sim.launch.py
 - **ROS 2 Version**: Make sure you're using a compatible version of ROS 2. This guide assumes ROS 2 Jazzy.
 - **Gazebo**: If you're using Gazebo for simulation, ensure it's installed and properly configured to work with ROS 2.
 - **Dependency Issues**: If you face any issues with dependencies, refer to the individual documentation or open an issue in the relevant repository.
-
-

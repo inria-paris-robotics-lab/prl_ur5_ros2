@@ -67,6 +67,3 @@ def generate_launch_description():
 
     # Return the launch description
     return LaunchDescription(nodes_to_start)
-
-
-

@@ -159,5 +159,3 @@ WORKDIR /home/${USERNAME}
 
 # Create a directory to store data
 RUN mkdir share
-
-
