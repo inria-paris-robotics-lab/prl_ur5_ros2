@@ -18,7 +18,9 @@ def launch_setup(context):
                 "start_gazebo_sim.launch.py",
             ])
         ),
-        launch_arguments={}.items(),
+        launch_arguments={
+            "launch_rviz": "false"
+        }.items(),
     )
 
     moveit_launch = IncludeLaunchDescription(
