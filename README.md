@@ -1,6 +1,17 @@
-# PRL UR5 Bimanual Robot (Mantis)
+<table>
+  <tr>
+    <td><img src="doc/logo_mantis.png" alt="Logo" width="90"></td>
+    <td><h1>PRL MANTIS</h1></td>
+  </tr>
+</table>
 
-This project combines a ROS 2 development environment with Docker and packages for the description and simulation of Mantis (the UR5 bimanual robot from inria paris robotics lab).
+## **Project Overview**
+
+This project integrates a ROS 2 development environment with Docker and provides packages for the description and simulation of the UR5 workbench, developed by the Paris Robotics Lab and referred to as **Mantis**.
+
+<div align="center">
+    <img src="doc/bimanual.png" alt="Bimanual UR" width="550"> 
+</div>
 
 ## **Included Packages**
 
@@ -8,10 +19,19 @@ This project combines a ROS 2 development environment with Docker and packages f
 This package provides a Docker environment for developing with ROS 2 (jazzy), including the **UR Driver** to interact with UR robots (UR3, UR5, UR10, etc.). The container is configured to work with these robots and includes all necessary tools for simulation and communication with both physical and simulated robots.
 
 ### 2. **prl_ur5_description**
-The **prl_ur5_description** package provides Mantis description, including 3D models files necessary for visualizing and simulating the UR5 robot in a ROS 2 environment.
+The `prl_ur5_description` package provides the Mantis description, including 3D models files necessary for visualizing and simulating the UR5 robot in a ROS 2 environment. 
 
 ### 3. **prl_ur5_gazebo**
-The **prl_ur5_gazebo** package provides Mantis necessary files for simulating the robot in Gazebo.
+The `prl_ur5_gazebo` package provides the Mantis launch and files, necessary for simulating the UR5 robot in Gazebo.
+
+### 4. **prl_ur5_control**
+The `prl_ur5_control` package provides configuration files for ROS 2 controllers and launch files to spawn the **Mantis** parts' different controllers.
+
+### 5. **prl_ur5_moveit**
+The `prl_ur5_moveit` package provides configuration and launch files to control the UR5 robot using various path planning solvers in ROS 2 with MoveIt.
+
+### 6. **prl_ur5_run**
+The `prl_ur5_run` package provides a launch file to access the real robot by starting the driver and enabling control.
 
 ---
 
@@ -23,9 +43,6 @@ The **prl_ur5_gazebo** package provides Mantis necessary files for simulating th
 
 ---
 
-Certainly! Below is the updated README where the installation sections for Docker and the `prl_ur5_description` package are separated for clarity.
-
-
 ## **Installation**
 
 ### **1. Docker Setup (for `docker-ros2`)**
@@ -34,11 +51,11 @@ Certainly! Below is the updated README where the installation sections for Docke
 
 ---
 
-### **2. Install `prl_ur5_description` & `prl_ur5_gazebo` packages**
+### **2. Install `prl` packages**
 
 Follow the steps below to set up packages.
 
-#### Clone the `prl_ur5_description` and `prl_ur5_gazebo`repository into your ROS 2 workspace:
+#### Clone the prl repository into your ROS 2 workspace:
 
 ```bash
 cd ~/ws/src
@@ -83,7 +100,7 @@ rosdep install -r --from-paths . --ignore-src --rosdistro $ROS_DISTRO -y
 
 #### Build and source the Workspace
 
-After you had istalled all dependencies you can build every packages with 'colcon':
+After you had installed all dependencies you can build every packages with 'colcon':
 ```bash
 colcon build --symlink-install --packages-skip onrobot_control onrobot_gazebo onrobot_ros robotiq_ft_sensor_hardware realsense2_camera
 ```
@@ -94,21 +111,62 @@ Once the build process is finished, source your workspace so that ROS 2 recogniz
 source install/setup.bash
 ```
 
----
+### **3. Setup Your Environment**
 
-## **Usage**
+Before using Mantis, you need to make a few modifications to the configuration.
+### **prl_ur5_robot_configuration**
 
-### Only visualize the Mantis in RViz
+To configure your setup, edit the `standard_setup.yaml` file in the `prl_ur5_robot_configuration` package. Update the following parameters to match your hardware and network setup:
+
+- **IP Address and Ports**: Specify the network interface and ports for the robot.
+- **Cameras**: Configure the hand-eye cameras, including their model and pose.
+- **Gripper Type**: Define the type of gripper being used and its corresponding controller.
+- **Fixed Camera**: Set up any fixed cameras required for your application.
+
+Ensure all parameters are correctly adjusted to reflect your specific setup.
+
+### **Use with Simulate Mantis**
+#### Only visualize Mantis in RViz
 
 ```bash
 ros2 launch prl_ur5_description view_mantis.launch.py
 ```
 
-### Simulate the mantis in Gazebo and visualize in Rviz
+#### Simulate Mantis in Gazebo and Visualize in RViz
+
+To simulate Mantis in Gazebo and visualize it in RViz, use the following command:
 
 ```bash
 ros2 launch prl_ur5_gazebo start_gazebo_sim.launch.py
 ```
+
+#### Using Simulation and MoveIt 
+
+To use MoveIt with the Mantis, use the following command:
+
+```bash
+ros2 launch prl_ur5_run sim.launch.py
+```
+
+
+### **Use with Real Robot**
+
+To use the UR5 robot with a real setup, you need to modify the robot's network information in the standard setup file of the `prl_ur5_robot_configuration` package.
+
+#### **Launch and Control the real Mantis**
+
+Use the following command to launch control of the real robot with moveit:
+
+```bash
+ros2 launch prl_ur5_run real.launch.py
+```
+
+If the robot's IP address is different from the default IP, you need to specify it explicitly. For example:
+
+```bash
+ros2 launch prl_ur5_run real.launch.py right_robot_ip:=<right_ur_ip> left_robot_ip:=<left_ur_ip> 
+```
+
 
 ---
 
