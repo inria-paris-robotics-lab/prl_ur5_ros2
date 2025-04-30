@@ -7,7 +7,7 @@ It is part of the PRL (Paris Robotics Lab) ecosystem and is designed to facilita
 ## Content
 
 ### Launch Files
-- **`view_workbench.launch.py`**  
+- **`view_mantis.launch.py`**  
 
 Refer to the built-in documentation in the launch file header for more details.
 
@@ -29,5 +29,5 @@ Refer to the built-in documentation in the launch file header for more details.
 ## Usage
 
 ```bash
-ros2 launch prl_ur5_description view_workbench.launch.py
+ros2 launch prl_ur5_description view_mantis.launch.py
 ```

@@ -13,6 +13,7 @@ Refer to the built-in documentation in the launch file header for more details.
 
 ### Configuration files
 - **`gz_bridge.yaml`**
+- **`camera_bridge.yaml`**
 
 ## Usage
 

@@ -113,7 +113,6 @@
         <visual>
             <geometry>
                 <mesh filename="file://$(find prl_ur5_description)/model/RG_connector_simple.stl"/>
-
             </geometry>
             <material name="connector_green"><color rgba="0.2 0.8 0 1"/></material>
         </visual>
@@ -128,7 +127,6 @@
         <parent link="${prefix}wrist_3_link"/>
         <child link="${prefix}wrist_connector_link"/>
         </joint>
-
 
     </xacro:macro>
  

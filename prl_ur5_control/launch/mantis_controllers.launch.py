@@ -81,7 +81,6 @@ def launch_setup(context):
 
     return controller_spawners
 
-
 def generate_launch_description():
     declared_arguments = [
         DeclareLaunchArgument(
@@ -95,5 +94,4 @@ def generate_launch_description():
             description="Initially activated robot controller (comma-separated). (used if activate_joint_controller is true)",
         ),
     ]
-
     return LaunchDescription(declared_arguments + [OpaqueFunction(function=launch_setup)])
