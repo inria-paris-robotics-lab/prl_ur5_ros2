@@ -20,6 +20,5 @@
       <xacro:gazebo_d435 name="${prefix}camera" turn_on="${turn_on}"/>
     </xacro:if>
 
-
   </xacro:macro>
 </robot>

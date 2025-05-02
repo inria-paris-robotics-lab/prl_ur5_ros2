@@ -18,7 +18,6 @@ def launch_setup(context):
     enable_delta = LaunchConfiguration("enable_delta")
     delta_id = LaunchConfiguration("delta_id")
 
-
     alpha_camera = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
             [FindPackageShare("realsense2_camera"), "/launch","/rs_launch.py"]
@@ -74,9 +73,6 @@ def launch_setup(context):
         delta_camera,
     ]
 
-
-
-
 def generate_launch_description():
     declared_arguments = [
         DeclareLaunchArgument(
@@ -120,5 +116,4 @@ def generate_launch_description():
             description="Delta camera serial number",
         ),
     ]
-
     return LaunchDescription(declared_arguments + [OpaqueFunction(function=launch_setup)])
