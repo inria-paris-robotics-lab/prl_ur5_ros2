@@ -7,9 +7,17 @@ from launch.actions import (
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import PathJoinSubstitution
 from launch_ros.substitutions import FindPackageShare
+from launch.conditions import IfCondition
 
 
 def launch_setup(context):
+    # Get the launch arguments
+    launch_rviz = context.launch_configurations.get("launch_rviz", "false")
+    gazebo_gui = context.launch_configurations.get("gazebo_gui", "true")
+    launch_moveit = context.launch_configurations.get("launch_moveit", "true")
+
+
+
     gazebo_launch = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
             PathJoinSubstitution([
@@ -19,7 +27,8 @@ def launch_setup(context):
             ])
         ),
         launch_arguments={
-            "launch_rviz": "false"
+            "launch_rviz": launch_rviz,
+            "gazebo_gui": gazebo_gui,
         }.items(),
     )
 
@@ -34,6 +43,7 @@ def launch_setup(context):
         launch_arguments={
             "use_sim_time": "true",
         }.items(),
+        condition=IfCondition(launch_moveit),
     )
 
     return [
@@ -43,4 +53,25 @@ def launch_setup(context):
 
 def generate_launch_description():
     declared_arguments = []
+    declared_arguments.append(
+        DeclareLaunchArgument(
+            "launch_rviz",
+            default_value="false",
+            description="Launch RViz if true",
+        )
+    )
+    declared_arguments.append(
+        DeclareLaunchArgument(
+            "gazebo_gui",
+            default_value="true",
+            description="Launch Gazebo gui if true",
+        )
+    )
+    declared_arguments.append(
+        DeclareLaunchArgument(
+            "launch_moveit",
+            default_value="true",
+            description="Launch MoveIt if true",
+        )
+    )
     return LaunchDescription(declared_arguments + [OpaqueFunction(function=launch_setup)])

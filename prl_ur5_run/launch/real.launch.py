@@ -58,14 +58,18 @@ def launch_setup(context):
     right_kinematics_file = LaunchConfiguration("right_kinematics_file")
     left_kinematics_file = LaunchConfiguration("left_kinematics_file")
     config_file = os.path.join(get_package_share_directory('prl_ur5_robot_configuration'), 'config', 'standart_setup.yaml')
+    config_path = Path(config_file) 
+    with config_path.open('r') as setup_file:
+        config = yaml.safe_load(setup_file)
+    left_robot_ip = config.get('left')['network']['ip']
+    right_robot_ip = config.get('right')['network']['ip']
     # Generals Arguments
-    left_robot_ip = LaunchConfiguration("left_robot_ip")
-    right_robot_ip = LaunchConfiguration("right_robot_ip")
     activate_joint_controller = LaunchConfiguration("activate_joint_controller")
     launch_rviz = LaunchConfiguration("launch_rviz")
     launch_dashboard_client = LaunchConfiguration("launch_dashboard_client")
     launch_urscript_interface = LaunchConfiguration("launch_urscript_interface")
     activate_cameras = LaunchConfiguration("activate_cameras")
+    launch_moveit = LaunchConfiguration("launch_moveit")
 
     ###### Calibration ######
 
@@ -229,10 +233,6 @@ def launch_setup(context):
 
     ###### Gripper ######
 
-    config_path = Path(config_file) 
-    with config_path.open('r') as setup_file:
-        config = yaml.safe_load(setup_file)
-
     left_gripper_controller = config.get('left')['gripper_controller']
     right_gripper_controller = config.get('right')['gripper_controller']
 
@@ -294,6 +294,7 @@ def launch_setup(context):
         launch_arguments={
             "use_sim_time": "false",
         }.items(),
+        condition=IfCondition(launch_moveit),
     )
 
     return [
@@ -316,20 +317,6 @@ def launch_setup(context):
 
 def generate_launch_description():
     declared_arguments = []
-    declared_arguments.append(
-        DeclareLaunchArgument(
-            "left_robot_ip",
-            default_value="192.168.56.101",
-            description="IP address of the left robot",
-        )
-    )
-    declared_arguments.append(
-        DeclareLaunchArgument(
-            "right_robot_ip",
-            default_value="192.168.56.202",
-            description="IP address of the right robot",
-        )
-    )
     declared_arguments.append(
         DeclareLaunchArgument(
             "left_kinematics_file",
@@ -375,7 +362,7 @@ def generate_launch_description():
         )
     )
     declared_arguments.append(
-        DeclareLaunchArgument("launch_rviz", default_value="true", description="Launch RViz?")
+        DeclareLaunchArgument("launch_rviz", default_value="false", description="Launch RViz?")
     )
     declared_arguments.append(
         DeclareLaunchArgument(
