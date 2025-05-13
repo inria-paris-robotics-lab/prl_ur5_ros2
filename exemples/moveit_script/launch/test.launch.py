@@ -15,11 +15,11 @@ from ament_index_python.packages import get_package_share_directory
 
 def generate_launch_description():
     moveit_config = (
-        MoveItConfigsBuilder(robot_name="ur", package_name="prl_ur5_moveit")
-        .robot_description(file_path="config/ur5.urdf.xacro")
+        MoveItConfigsBuilder(robot_name="mantis", package_name="prl_ur5_moveit")
+        .robot_description(file_path="config/mantis.urdf.xacro")
         
         .moveit_cpp(
-            file_path=get_package_share_directory("prl_ur5_moveit")
+            file_path=get_package_share_directory("moveit_script")
             + "/config/planner.yaml"
         )
         .to_moveit_configs()
