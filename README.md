@@ -164,7 +164,7 @@ ros2 launch prl_ur5_run real.launch.py
 If the robot's IP address is different from the default IP, you need to specify it explicitly. For example:
 
 ```bash
-ros2 launch prl_ur5_run real.launch.py right_robot_ip:=<right_ur_ip> left_robot_ip:=<left_ur_ip> 
+ros2 launch prl_ur5_run real.launch.py 
 ```
 
 
