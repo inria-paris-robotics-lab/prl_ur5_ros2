@@ -66,6 +66,9 @@
     <xacro:call macro="${left_gripper_name}_col_with" prefix='left_gripper' link='left_wrist_3_link'/>
     <xacro:call macro="${left_gripper_name}_col_with" prefix='left_gripper' link='left_ft300_mounting_plate'/>
     <xacro:call macro="${left_gripper_name}_col_with" prefix='left_gripper' link='left_ft300_sensor'/>
+    <xacro:if value="${'camera' in setup['left']}">
+        <xacro:call macro="${left_gripper_name}_col_with" prefix='left_gripper' link='left_camera_link'/>
+    </xacro:if>
     
     <!-- RIGHT GRIPPER-->
     <xacro:if value="${setup['right']['gripper'].startswith('custom:')}">
@@ -85,6 +88,9 @@
     <xacro:call macro="${right_gripper_name}_col_with" prefix='right_gripper' link='right_wrist_3_link'/>
     <xacro:call macro="${right_gripper_name}_col_with" prefix='right_gripper' link='right_ft300_mounting_plate'/>
     <xacro:call macro="${right_gripper_name}_col_with" prefix='right_gripper' link='right_ft300_sensor'/>
+    <xacro:if value="${'camera' in setup['right']}">
+        <xacro:call macro="${right_gripper_name}_col_with" prefix='right_gripper' link='right_camera_link'/>
+    </xacro:if>
 
 
     <!--GROUP STATES: Purpose: Define a named state for a particular group, in terms of joint values. This is useful to define states like 'folded arms'-->

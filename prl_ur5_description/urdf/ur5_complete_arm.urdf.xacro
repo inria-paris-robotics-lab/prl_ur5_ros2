@@ -12,6 +12,9 @@
     <!-- gripper -->
     <xacro:include filename="$(find prl_ur5_description)/urdf/_gripper.urdf.xacro"/>
 
+    <!-- camera -->
+    <xacro:include filename="$(find prl_ur5_description)/urdf/_camera_sensor.urdf.xacro"/>
+
     <!-- Macro to define the complete arm -->
     <xacro:macro name="arm" params="
         name:=arm
@@ -19,9 +22,11 @@
         prefix
         parent
         pose
-        sensor
+        sensors
         gripper
         gripper_pose
+        camera:= None
+        camera_pose:= None
         joint_limits_parameters_file:='$(find ur_description)/config/ur5/joint_limits.yaml'
         kinematics_parameters_file:='$(find ur_description)/config/ur5/default_kinematics.yaml'
         hw_interface:=hardware_interface/PositionJointInterface
@@ -127,6 +132,11 @@
         <parent link="${prefix}wrist_3_link"/>
         <child link="${prefix}wrist_connector_link"/>
         </joint>
+
+        <!-- hand-eye camera -->
+        <xacro:unless value="${camera is None}">
+            <xacro:camera_sensor camera="${camera}" prefix='${prefix}' parent="${prefix}tool" pose="${camera_pose}" turn_on="${sensors}"/>
+        </xacro:unless>
 
     </xacro:macro>
  
