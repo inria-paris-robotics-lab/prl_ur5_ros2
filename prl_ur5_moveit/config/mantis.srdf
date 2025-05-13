@@ -160,7 +160,7 @@
 
         <!-- Iterate voer all cameras using reccursive function-->
         <xacro:property name="fixed_cameras_file" value="$(find prl_ur5_robot_configuration)/config/${setup['fixed_cameras_file']}"/>
-        <xacro:property name="fixed_cameras" value="${load_yaml(fixed_cameras_file)}"/>
+        <xacro:property name="fixed_cameras" value="${xacro.load_yaml(fixed_cameras_file)}"/>
 
         <xacro:macro name="external_cameras_loop" params="cameras number">
             <xacro:if value="${cameras}">
