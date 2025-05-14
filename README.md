@@ -51,15 +51,25 @@ The `prl_ur5_run` package provides a launch file to access the real robot by sta
 
 ---
 
-### **2. Install `prl` packages**
+### **2. Install `prl` Packages**
 
-Follow the steps below to set up packages.
+Follow the steps below to set up the `prl` packages. These steps can be performed both inside and outside the Docker container. Ensure that the setup is done in the shared folder to maintain consistency and accessibility.
+
+> **Note**: Before proceeding with the setup, ensure you follow good practices for organizing your ROS 2 workspace. Create a folder to contain all your ROS 2 setup files. You can name it as you prefer, but in this guide, we will use `ws`. Inside this folder, create another folder named `src` to hold the source files.
+
+To create these folders, use the following commands:
+
+```bash
+mkdir -p ws/src
+```
+
+This will create the `ws` directory in your home folder and the `src` directory inside it.
 
 #### Clone the prl repository into your ROS 2 workspace:
 
 ```bash
-cd ~/ws/src
-git clone git@github.com:inria-paris-robotics-lab/prl_ur5_ros2.git
+cd ws/src
+git clone https://github.com/inria-paris-robotics-lab/prl_ur5_ros2.git
 ```
 
 #### Install Dependencies
@@ -71,6 +81,8 @@ The **prl_ur5_description** package requires the following dependencies:
 - [universal_robot_gazebo](https://github.com/UniversalRobots/Universal_Robots_ROS2_GZ_Simulation/tree/ros2)
 - [rq_fts_ros2_driver](https://github.com/panagelak/rq_fts_ros2_driver)
 - [realsense-ros](https://github.com/IntelRealSense/realsense-ros)
+- [weiss_wsg50_ros](https://github.com/inria-paris-robotics-lab/wsg50-ros-pkg)
+
 
 These packages provide configuration files, robot descriptions, simulation models, and force-torque sensor drivers that are necessary for the UR5 robot to operate properly in a ROS2 ecosystem.
 
@@ -140,13 +152,21 @@ To simulate Mantis in Gazebo and visualize it in RViz, use the following command
 ros2 launch prl_ur5_gazebo start_gazebo_sim.launch.py
 ```
 
-#### Using Simulation and MoveIt 
+### **Using Simulation and MoveIt**
 
-To use MoveIt with the Mantis, use the following command:
+To use MoveIt with the Mantis, you can launch the simulation with the following command:
 
 ```bash
 ros2 launch prl_ur5_run sim.launch.py
 ```
+
+Alternatively, you can customize the launch by enabling or disabling specific components such as RViz, Gazebo GUI, or MoveIt. Use the following command with the desired parameters:
+
+```bash
+ros2 launch prl_ur5_run sim.launch.py launch_rviz:=<true|false> gazebo_gui:=<true|false> launch_moveit:=<true|false>
+```
+
+Replace `<true|false>` with `true` to enable or `false` to disable each component as needed.
 
 
 ### **Use with Real Robot**
@@ -160,18 +180,17 @@ Use the following command to launch control of the real robot with moveit:
 ```bash
 ros2 launch prl_ur5_run real.launch.py
 ```
-
-If the robot's IP address is different from the default IP, you need to specify it explicitly. For example:
-
+Alternatively, you can customize the launch by enabling or disabling specific components such as RViz or MoveIt. Use the following command with the desired parameters:
 ```bash
-ros2 launch prl_ur5_run real.launch.py 
+ros2 launch prl_ur5_run real.launch.py launch_rviz:=<true|false> launch_moveit:=<true|false>
 ```
-
+Replace `<true|false>` with `true` to enable or `false` to disable each component as needed.
 
 ---
 
 ## **Important Notes**
+For users intending to use the setup locally:
+- **ROS 2 Version**: Ensure you are using a compatible version of ROS 2. This guide assumes ROS 2 Humble.
+- **Gazebo**: Verify that Gazebo is installed and properly configured to work with ROS 2 for simulation purposes.
 
-- **ROS 2 Version**: Make sure you're using a compatible version of ROS 2. This guide assumes ROS 2 Jazzy.
-- **Gazebo**: If you're using Gazebo for simulation, ensure it's installed and properly configured to work with ROS 2.
-- **Dependency Issues**: If you face any issues with dependencies, refer to the individual documentation or open an issue in the relevant repository.
+**Dependency Issues**: If you face any issues with dependencies, refer to the individual documentation or open an issue in the relevant repository.
