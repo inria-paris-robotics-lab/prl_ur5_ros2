@@ -2,7 +2,7 @@ xhost +local:docker > /dev/null 2>&1
 
 # Check if the number of arguments is valid
 if [ "$#" -lt 2 ] || [ "$#" -gt 3 ]; then
-  echo "Usage: $0 <container_name> <docker volume name> <user(optional)> "
+  echo "Usage: $0 <container_name> <share directory path> <user(optional)> "
   exit 1
 fi
 container_name=$1
@@ -34,7 +34,7 @@ docker run -it --rm \
 --name="$container_name" \
 --user="$user" \
 --workdir="$workdir" \
---mount type=bind,source=./test_share,target=$workdir/share \
+--mount type=bind,source=$storage,target=$workdir/share \
 prl_ros2:jazzy \
 bash
 
