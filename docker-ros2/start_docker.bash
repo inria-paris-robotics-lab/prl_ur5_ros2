@@ -34,10 +34,14 @@ docker run -it --rm \
 --name="$container_name" \
 --user="$user" \
 --workdir="$workdir" \
---volume $storage:"$workdir/share" \
+--mount type=bind,source=./test_share,target=$workdir/share \
 prl_ros2:jazzy \
 bash
 
 xhost -local:docker > /dev/null 2>&1
 
+<<<<<<< Updated upstream
 echo "Container exited"
+=======
+echo "Container exited"
+>>>>>>> Stashed changes
