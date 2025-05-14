@@ -40,8 +40,4 @@ bash
 
 xhost -local:docker > /dev/null 2>&1
 
-<<<<<<< Updated upstream
 echo "Container exited"
-=======
-echo "Container exited"
->>>>>>> Stashed changes
