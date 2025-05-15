@@ -1,7 +1,7 @@
 from setuptools import find_packages, setup
 import os
 from glob import glob
-package_name = 'moveit_script'
+package_name = 'prl_moveit_exemple'
 
 setup(
     name=package_name,
@@ -23,7 +23,7 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
-            'moveit_cmd = moveit_script.moveit_cmd:main',
+            'moveit_cmd = prl_moveit_exemple.moveit_cmd:main',
         ],
     },
 )

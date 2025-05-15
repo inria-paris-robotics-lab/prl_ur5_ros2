@@ -19,7 +19,7 @@ def generate_launch_description():
         .robot_description(file_path="config/mantis.urdf.xacro")
         
         .moveit_cpp(
-            file_path=get_package_share_directory("moveit_script")
+            file_path=get_package_share_directory("prl_moveit_exemple")
             + "/config/planner.yaml"
         )
         .to_moveit_configs()
@@ -29,7 +29,7 @@ def generate_launch_description():
 
     moveit_py_node = Node(
         name="moveit_cmd",
-        package="moveit_script",
+        package="prl_moveit_exemple",
         executable="moveit_cmd",
         output="both",
         parameters=[moveit_config.to_dict(), {'use_sim_time': True}],
