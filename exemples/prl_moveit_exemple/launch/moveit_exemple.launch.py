@@ -31,7 +31,7 @@ def launch_setup(context):
         package="prl_moveit_exemple",
         executable="moveit_cmd",
         output="both",
-        parameters=[moveit_config.to_dict(), {'use_sim_time': True}],
+        parameters=[moveit_config.to_dict(), {'use_sim_time': use_sim_time}],
 
     )
 
