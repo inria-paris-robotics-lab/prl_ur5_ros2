@@ -1,3 +1,4 @@
+#!/bin/bash
 xhost +local:docker > /dev/null 2>&1
 
 # Check if the number of arguments is valid
