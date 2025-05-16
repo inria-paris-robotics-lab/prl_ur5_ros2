@@ -18,15 +18,7 @@ Clone this Git repository to your local machine:
 git clone https://github.com/inria-paris-robotics-lab/prl_ur5_ros2.git
 ```
 
-#### 2) Build the Docker image
-
-Build the Docker image by running the following command in the project directory:
-```bash
-docker build -t prl_ros2:jazzy . --build-arg USER_UID=$(id -u) --build-arg USER_GID=$(id -g)
-```
-This will download the base ROS 2 image and install all the necessary dependencies, tools, and the ROS 2 Universal Robot driver.
-
-#### 3) Set Up Your Environment and run the Docker Container
+#### 2) Set Up Your Environment 
 
 > **Warning:** To ensure that your files are preserved inside the Docker container, a local folder is mounted into the container. Please create a dedicated folder on your host machine for this purpose before proceeding.
 
@@ -34,11 +26,24 @@ For example, you can create a folder named `docker_shared` in your home director
 ```bash
 mkdir ~/docker_shared
 ```
+#### 3) Build and Run the Docker Image
 
-When running the Docker container, specify the absolute path of this folder as the shared path:
+To build and run the Docker container, use the provided script. Make sure to specify the absolute path of the shared folder you created earlier:
+
 ```bash
 ./start_docker.bash <container_name> </absolute/path/to/shared_dir> <user(optional)>
 ```
+
+- Replace `<container_name>` with a name of your choice for the container.
+- Replace `</absolute/path/to/shared_dir>` with the absolute path to the shared folder on your host machine.
+- Optionally, specify `<user>` as `ros` (default) or `root`.
+
+For example:
+```bash
+./start_docker.bash my_container ~/docker_shared ros
+```
+
+This command will start the Docker container with the specified configuration.
 The container name is flexible and allows you to run multiple containers with the same image simultaneously.
 There are by default two users: **root** and **ros**. It is recommended to use the **ros** user (non-root) to avoid creating root-owned files in the directory linked to the container on your machine.\
 **ros** is the default user.
