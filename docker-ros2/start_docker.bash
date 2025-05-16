@@ -1,8 +1,16 @@
+#!/bin/bash
+IMAGE_NAME="prl_ros2"
+IMAGE_TAG="jazzy"
+# Check if the image exists locally
+if !(docker image inspect "${IMAGE_NAME}:${IMAGE_TAG}" > /dev/null 2>&1); then
+  docker build -t "${IMAGE_NAME}:${IMAGE_TAG}" . --build-arg USER_UID=$(id -u) --build-arg USER_GID=$(id -g)
+fi
+
 xhost +local:docker > /dev/null 2>&1
 
 # Check if the number of arguments is valid
 if [ "$#" -lt 2 ] || [ "$#" -gt 3 ]; then
-  echo "Usage: $0 <container_name> <docker volume name> <user(optional)> "
+  echo "Usage: $0 <container_name> <share directory path> <user(optional)> "
   exit 1
 fi
 container_name=$1
@@ -34,8 +42,8 @@ docker run -it --rm \
 --name="$container_name" \
 --user="$user" \
 --workdir="$workdir" \
---volume $storage:"$workdir/share" \
-prl_ros2:jazzy \
+--mount type=bind,source=$storage,target=$workdir/share \
+"${IMAGE_NAME}:${IMAGE_TAG}" \
 bash
 
 xhost -local:docker > /dev/null 2>&1
