@@ -26,6 +26,7 @@ For example, you can create a folder named `docker_shared` in your home director
 ```bash
 mkdir ~/docker_shared
 ```
+
 #### 3) Build and Run the Docker Image
 
 To build and run the Docker container, use the provided script. Make sure to specify the absolute path of the shared folder you created earlier:
