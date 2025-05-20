@@ -52,6 +52,9 @@ RUN sudo curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.ke
    ros-${ROS_DISTRO}-ros2-control \
    ros-${ROS_DISTRO}-ros2-controllers \
    ros-${ROS_DISTRO}-ur \
+   ros-${ROS_DISTRO}-librealsense2* \
+   ros-${ROS_DISTRO}-realsense2-* \
+   ros-${ROS_DISTRO}-moveit \
   && rm -rf /var/lib/apt-get/lists/*
 
 
@@ -139,23 +142,21 @@ ARG USER_GID=$USER_UID
 # Create new user and his home directory
 RUN deluser --remove-home `id -nu ${USER_GID}` || true \
  ; groupadd --gid $USER_GID $USERNAME \
- && useradd --uid ${USER_GID} --gid ${USER_GID} --create-home ${USERNAME} \
+ && useradd --uid ${USER_UID} --gid ${USER_GID} --create-home ${USERNAME} \
  # support du sudo par l'user
  && echo ${USERNAME} ALL=\(root\) NOPASSWD:ALL > /etc/sudoers.d/${USERNAME} \
  && chmod 0440 /etc/sudoers.d/${USERNAME} \
  && mkdir -p /home/${USERNAME} \
- && chown -R ${USER_GID}:${USER_GID} /home/${USERNAME} 
-
+ && chown -R ${USER_UID}:${USER_GID} /home/${USERNAME} 
 RUN sudo usermod -aG docker $USERNAME
 
-
-# Set default user ros
-USER ${USERNAME}
 # RUN echo "export XDG_RUNTIME_DIR=/tmp/runtime-circleci" >> /home/${USERNAME}/.bashrc
 RUN echo "source /opt/ros/${ROS_DISTRO}/setup.bash " >> /home/${USERNAME}/.bashrc
 RUN echo 'export PS1="\[\e]0;\u@$ROS_DISTRO-container: \w\a\]${debian_chroot:+($debian_chroot)}\[\033[01;34m\]\u@$ROS_DISTRO-container\[\033[00m\]:\[\033[01;35m\]\w\[\033[00m\]\$ "' >> /home/${USERNAME}/.bashrc
+
+# Set default user ros
+USER ${USERNAME}
 # Set default working directory
 WORKDIR /home/${USERNAME}
-
 # Create a directory to store data
 RUN mkdir share
