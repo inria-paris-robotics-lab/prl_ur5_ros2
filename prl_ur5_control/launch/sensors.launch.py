@@ -1,119 +1,58 @@
 from launch import LaunchDescription
-from launch_ros.actions import Node
-from launch.actions import DeclareLaunchArgument, OpaqueFunction, IncludeLaunchDescription
-from launch.conditions import IfCondition
-from launch.substitutions import LaunchConfiguration
+from launch.actions import OpaqueFunction, IncludeLaunchDescription
 from launch.launch_description_sources import PythonLaunchDescriptionSource
-
 from launch_ros.substitutions import FindPackageShare
+import yaml
+from pathlib import Path
+from ament_index_python.packages import get_package_share_directory
 
 def launch_setup(context):
-    # Arguments 
-    enable_alpha = LaunchConfiguration("enable_alpha")
-    alpha_id = LaunchConfiguration("alpha_id")
-    enable_bravo = LaunchConfiguration("enable_bravo")
-    bravo_id = LaunchConfiguration("bravo_id")
-    enable_charlie = LaunchConfiguration("enable_charlie")
-    charlie_id = LaunchConfiguration("charlie_id")
-    enable_delta = LaunchConfiguration("enable_delta")
-    delta_id = LaunchConfiguration("delta_id")
-
-    alpha_camera = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource(
-            [FindPackageShare("realsense2_camera"), "/launch","/rs_launch.py"]
-        ),
-        launch_arguments={
-            "camera_name": "alpha_camera",
-            "serial_no":str(alpha_id),
-            "enable_depth": "true",
-        }.items(),
-        condition=IfCondition(enable_alpha),
-    )
-
-    bravo_camera = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource(
-            [FindPackageShare("realsense2_camera"), "/launch","/rs_launch.py"]
-        ),
-        launch_arguments={
-            "camera_name": "bravo_camera",
-            "serial_no":str(bravo_id),
-            "enable_depth": "true",
-        }.items(),
-        condition=IfCondition(enable_bravo),
-    )
+    # Chemin absolu vers le fichier de configuration YAML
+    config_file = Path(get_package_share_directory('prl_ur5_robot_configuration')) / 'config/fixed_cameras/cameras_config.yaml'
     
-    charlie_camera = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource(
-            [FindPackageShare("realsense2_camera"), "/launch","/rs_launch.py"]
-        ),
-        launch_arguments={
-            "camera_name": "charlie_camera",
-            "serial_no":str(charlie_id),
-            "enable_depth": "true",
-        }.items(),
-        condition=IfCondition(enable_charlie),
-    )
+    # Chargement du fichier YAML
+    with config_file.open('r') as setup_file:
+        config = yaml.safe_load(setup_file)
 
-    delta_camera = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource(
-            [FindPackageShare("realsense2_camera"), "/launch","/rs_launch.py"]
-        ),
-        launch_arguments={
-            "camera_name": "delta_camera",
-            "serial_no":str(delta_id),
-            "enable_depth": "true",
-        }.items(),
-        condition=IfCondition(enable_delta),
-    )
+    cameras = config.get('cameras', {})
+    camera_launches = []
 
-    return [
-        alpha_camera,
-        bravo_camera,
-        charlie_camera,
-        delta_camera,
-    ]
+    for camera_name, camera_info in cameras.items():
+        activate = camera_info.get('activate', False)
+        serial_no = camera_info.get('serial_no')
+        enable_depth = str(camera_info.get('enable_depth', False)).lower()
+        pointcloud = str(camera_info.get('pointcloud', False)).lower()
+        enable_infra = str(camera_info.get('enable_infra', False)).lower()
+        enable_infra1 = str(camera_info.get('enable_infra1', False)).lower()
+        enable_infra2 = str(camera_info.get('enable_infra2', False)).lower()
+        enable_color = str(camera_info.get('enable_color', False)).lower()
+        enable_gyro = str(camera_info.get('enable_gyro', False)).lower()
+        enable_accel = str(camera_info.get('enable_accel', False)).lower()
+        enable_rgbd = str(camera_info.get('enable_rgbd', False)).lower()
+
+        if activate and serial_no:
+            camera_node = IncludeLaunchDescription(
+                PythonLaunchDescriptionSource([
+                    FindPackageShare("realsense2_camera"), "/launch", "/rs_launch.py"
+                ]),
+                launch_arguments={
+                    "camera_name": camera_name,
+                    "serial_no": serial_no,
+                    "enable_depth": enable_depth,
+                    "pointcloud.enable": pointcloud,
+                    "enable_infra": enable_infra,
+                    "enable_infra1": enable_infra1,
+                    "enable_infra2": enable_infra2,
+                    "enable_color": enable_color,
+                    "enable_gyro": enable_gyro,
+                    "enable_accel": enable_accel,
+                    "enable_rgbd" : enable_rgbd,
+
+                }.items()
+            )
+            camera_launches.append(camera_node)
+
+    return camera_launches
 
 def generate_launch_description():
-    declared_arguments = [
-        DeclareLaunchArgument(
-            "enable_alpha",
-            default_value="true",
-            description="Enable (or disable) alpha_camera",
-        ),
-        DeclareLaunchArgument(
-            "alpha_id",
-            default_value="0",
-            description="Alpha camera serial number",
-        ),
-        DeclareLaunchArgument(
-            "enable_bravo",
-            default_value="true",
-            description="Enable (or disable) bravo_camera",
-        ),
-        DeclareLaunchArgument(
-            "bravo_id",
-            default_value="0",
-            description="Bravo camera serial number",
-        ),
-        DeclareLaunchArgument(
-            "enable_charlie",
-            default_value="true",
-            description="Enable (or disable) charlie_camera",
-        ),
-        DeclareLaunchArgument(
-            "charlie_id",
-            default_value="0",
-            description="Charlie camera serial number",
-        ),
-        DeclareLaunchArgument(
-            "enable_delta",
-            default_value="true",
-            description="Enable (or disable) delta_camera",
-        ),
-        DeclareLaunchArgument(
-            "delta_id",
-            default_value="0",
-            description="Delta camera serial number",
-        ),
-    ]
-    return LaunchDescription(declared_arguments + [OpaqueFunction(function=launch_setup)])
+    return LaunchDescription([OpaqueFunction(function=launch_setup)])
