@@ -19,7 +19,7 @@ user="${3:-ros}"
 gpu_enabled=false
 
 for arg in "$@"; do
-  if [[ "$arg" == "--gpu" || "$arg" == "-g" ]]; then
+  if ["$arg" == "--gpu"]; then
     gpu_enabled=true
     break
   fi
@@ -31,6 +31,7 @@ if [ "$user" = "root" ]; then
   workdir="/root"
 elif [ "$user" = "ros" ]; then
   workdir="/home/ros"
+elif [ "$user" = "-gpu" ]; then
 else
   echo "Invalid user"
   exit 1
