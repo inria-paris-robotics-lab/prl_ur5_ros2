@@ -19,14 +19,14 @@ fi
 container_name=$1
 storage=$2
 user="ros"
-gpu_enabled=false
+gpu_enabled=true
 
 # Shift out container_name and storage so we can parse remaining args
 shift 2
 
 for arg in "$@"; do
-  if [ "$arg" = "--gpu" ]; then
-    gpu_enabled=true
+  if [ "$arg" = "--no-gpu" ]; then
+    gpu_enabled=false
   else
     user="$arg"
   fi
