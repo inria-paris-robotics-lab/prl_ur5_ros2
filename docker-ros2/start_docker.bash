@@ -43,6 +43,8 @@ docker run -it --rm \
 --user="$user" \
 --workdir="$workdir" \
 --mount type=bind,source=$storage,target=$workdir/share \
+--runtime=nvidia \
+--gpu all \
 "${IMAGE_NAME}:${IMAGE_TAG}" \
 bash
 
