@@ -41,7 +41,7 @@ To build and run the Docker container, use the provided script. Make sure to spe
 - Replace `</absolute/path/to/shared_dir>` with the absolute path to the shared folder on your host machine.
 - Optionally, specify `<user>` as `ros` (default) or `root`.
 
-> **Warning:** If you want to enable GPU sharing, add the `-gpu` option when running the `./start_docker.bash` script.
+> **Warning:** If you want to enable GPU sharing, add the `--gpu` option when running the `./start_docker.bash` script.
 
 For example:
 ```bash
