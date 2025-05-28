@@ -31,7 +31,7 @@ if [ "$user" = "root" ]; then
   workdir="/root"
 elif [ "$user" = "ros" ]; then
   workdir="/home/ros"
-elif [ "$user" = "-gpu" ]; then
+elif [ "$user" = "--gpu" ]; then
 else
   echo "Invalid user"
   exit 1
