@@ -16,7 +16,14 @@ fi
 container_name=$1
 storage=$2
 user="${3:-ros}"
+gpu_enabled=false
 
+for arg in "$@"; do
+  if [[ "$arg" == "--gpu" || "$arg" == "-g" ]]; then
+    gpu_enabled=true
+    break
+  fi
+done
 
 
 # Set the working directory based on the user
@@ -31,22 +38,39 @@ fi
 
 echo "Launching your container..."
 
-docker run -it --rm \
---env="DISPLAY" \
---env="QT_X11_NO_MITSHM=1" \
---volume="/tmp/.X11-unix:/tmp/.X11-unix:rw" \
---volume="$XAUTHORITY:/dot.Xauthority" \
---privileged \
---net="host" \
--v /var/run/docker.sock:/var/run/docker.sock \
---name="$container_name" \
---user="$user" \
---workdir="$workdir" \
---mount type=bind,source=$storage,target=$workdir/share \
---runtime=nvidia \
---gpu all \
-"${IMAGE_NAME}:${IMAGE_TAG}" \
-bash
+if gpu_enabled; then
+  docker run -it --rm \
+  --env="DISPLAY" \
+  --env="QT_X11_NO_MITSHM=1" \
+  --volume="/tmp/.X11-unix:/tmp/.X11-unix:rw" \
+  --volume="$XAUTHORITY:/dot.Xauthority" \
+  --privileged \
+  --net="host" \
+  -v /var/run/docker.sock:/var/run/docker.sock \
+  --name="$container_name" \
+  --user="$user" \
+  --workdir="$workdir" \
+  --mount type=bind,source=$storage,target=$workdir/share \
+  --runtime=nvidia \
+  --gpu all \
+  "${IMAGE_NAME}:${IMAGE_TAG}" \
+  bash
+else
+  docker run -it --rm \
+  --env="DISPLAY" \
+  --env="QT_X11_NO_MITSHM=1" \
+  --volume="/tmp/.X11-unix:/tmp/.X11-unix:rw" \
+  --volume="$XAUTHORITY:/dot.Xauthority" \
+  --privileged \
+  --net="host" \
+  -v /var/run/docker.sock:/var/run/docker.sock \
+  --name="$container_name" \
+  --user="$user" \
+  --workdir="$workdir" \
+  --mount type=bind,source=$storage,target=$workdir/share \
+  "${IMAGE_NAME}:${IMAGE_TAG}" \
+  bash
+fi
 
 xhost -local:docker > /dev/null 2>&1
 

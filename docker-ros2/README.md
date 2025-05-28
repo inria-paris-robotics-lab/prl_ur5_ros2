@@ -10,6 +10,8 @@ This Dockerfile sets up a ROS 2 development environment with the ability to inte
 Before starting, make sure you have Docker installed on your machine.\
 You can download and install Docker from the [official website](https://docs.docker.com/engine/install/).
 
+> **Note:** This setup uses the NVIDIA Container Toolkit to leverage your local GPU if you have an NVIDIA GPU. Please follow the [official NVIDIA Container Toolkit installation guide](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html) to install and configure the toolkit on your system.
+
 ## Installation
 
 #### 1) Clone this repository
@@ -37,6 +39,8 @@ To build and run the Docker container, use the provided script. Make sure to spe
 - Replace `<container_name>` with a name of your choice for the container.
 - Replace `</absolute/path/to/shared_dir>` with the absolute path to the shared folder on your host machine.
 - Optionally, specify `<user>` as `ros` (default) or `root`.
+
+> **Warning:** If you want to enable GPU sharing, add the `-gpu` option when running the `./start_docker.bash` script.
 
 For example:
 ```bash
