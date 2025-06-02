@@ -85,7 +85,7 @@ rosdep install -r --from-paths . --ignore-src --rosdistro $ROS_DISTRO -y
 
 After you had istalled all dependencies you can build every packages with 'colcon':
 ```bash
-colcon build --symlink-install --packages-skip onrobot_control onrobot_gazebo onrobot_ros robotiq_ft_sensor_hardware realsense2_camera
+colcon build --symlink-install --packages-skip onrobot_control onrobot_gazebo onrobot_ros robotiq_ft_sensor_hardware
 ```
 
 Once the build process is finished, source your workspace so that ROS 2 recognizes the new packages:
