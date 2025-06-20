@@ -140,14 +140,15 @@ ARG USER_UID=1001
 ARG USER_GID=$USER_UID
 
 # Create new user and his home directory
-RUN deluser --remove-home `id -nu ${USER_GID}` || true \
- ; groupadd --gid $USER_GID $USERNAME \
- # support du sudo par l'user
- && echo ${USERNAME} ALL=\(root\) NOPASSWD:ALL > /etc/sudoers.d/${USERNAME} \
- && chmod 0440 /etc/sudoers.d/${USERNAME} \
- && mkdir -p /home/${USERNAME} \
-RUN sudo usermod -aG docker $USERNAME
-RUN sudo usermod -aG video $USERNAME
+RUN if id -u ${USER_GID} >/dev/null 2>&1; then \
+      deluser --remove-home $(id -nu ${USER_GID}); \
+    fi \
+ && groupadd --gid $USER_GID $USERNAME \
+ && useradd --uid $USER_UID --gid $USER_GID --create-home $USERNAME \
+ && echo "$USERNAME ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/$USERNAME \
+ && chmod 0440 /etc/sudoers.d/$USERNAME \
+ && usermod -aG docker $USERNAME \
+ && usermod -aG video $USERNAME
 
 # Set default user ros
 USER ${USERNAME}
