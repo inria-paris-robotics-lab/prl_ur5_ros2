@@ -77,7 +77,7 @@ def launch_setup(context):
         package='robot_state_publisher',
         executable='robot_state_publisher',
         output='both',
-        parameters=[robot_description, {'use_sim_time': use_sim_time}],
+        parameters=[robot_description, {'use_sim_time': True}],
     )
 
     ###### Rviz ######
@@ -114,7 +114,7 @@ def launch_setup(context):
         arguments=['-topic', 'robot_description',
                    '-name', 'mantis',
                    '-allow_renaming', 'true'],
-        parameters=[{"use_sim_time": use_sim_time}],
+        parameters=[{"use_sim_time": True}],
     )
 
     # Bridge

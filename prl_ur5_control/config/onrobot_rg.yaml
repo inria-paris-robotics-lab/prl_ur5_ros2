@@ -1,0 +1,17 @@
+right_gripper_controller:
+  ros__parameters:
+    type: position_controllers/GripperActionController
+    action_monitor_rate: 100.0
+    allow_stalling: true
+    goal_tolerance: 0.002
+    joint: right_gripper_joint
+    max_effort: 0.0
+
+left_gripper_controller:
+  ros__parameters:
+    type: position_controllers/GripperActionController
+    action_monitor_rate: 100.0
+    allow_stalling: true
+    goal_tolerance: 0.002
+    joint: left_gripper_joint
+    max_effort: 0.0
