@@ -273,12 +273,6 @@ def launch_setup(context):
             'sensors.launch.py',
             ])
         ]),
-        launch_arguments={
-            'enable_alpha': "true",
-            'enable_bravo': "true",
-            'enable_charlie': "true",
-            'enable_delta': "true",
-        }.items(),
         condition=IfCondition(activate_cameras),
     )
 
