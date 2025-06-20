@@ -6,8 +6,10 @@ Panels:
       Expanded:
         - /Global Options1
         - /MotionPlanning1
+        - /Marker1
+        - /Axes2
       Splitter Ratio: 0.5
-    Tree Height: 291
+    Tree Height: 402
   - Class: rviz_common/Help
     Name: Help
   - Class: rviz_common/Views
@@ -575,53 +577,16 @@ Visualization Manager:
             Show Axes: false
             Show Trail: false
             Value: true
-          right_gripper_finger_1_origin:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-          right_gripper_finger_1_safety_shield:
+          right_gripper_gripper_right:
             Alpha: 1
             Show Axes: false
             Show Trail: false
             Value: true
-          right_gripper_finger_1_truss_arm:
+          right_gripper_mounting_plate:
             Alpha: 1
             Show Axes: false
             Show Trail: false
             Value: true
-          right_gripper_finger_2_finger_tip:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-            Value: true
-          right_gripper_finger_2_flex_finger:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-            Value: true
-          right_gripper_finger_2_moment_arm:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-            Value: true
-          right_gripper_finger_2_origin:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-          right_gripper_finger_2_safety_shield:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-            Value: true
-          right_gripper_finger_2_truss_arm:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-            Value: true
-          right_gripper_grasp_frame:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
           right_robotiq_ft_frame_id:
             Alpha: 1
             Show Axes: false
@@ -1284,53 +1249,16 @@ Visualization Manager:
             Show Axes: false
             Show Trail: false
             Value: true
-          right_gripper_finger_1_origin:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-          right_gripper_finger_1_safety_shield:
+          right_gripper_gripper_right:
             Alpha: 1
             Show Axes: false
             Show Trail: false
             Value: true
-          right_gripper_finger_1_truss_arm:
+          right_gripper_mounting_plate:
             Alpha: 1
             Show Axes: false
             Show Trail: false
             Value: true
-          right_gripper_finger_2_finger_tip:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-            Value: true
-          right_gripper_finger_2_flex_finger:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-            Value: true
-          right_gripper_finger_2_moment_arm:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-            Value: true
-          right_gripper_finger_2_origin:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-          right_gripper_finger_2_safety_shield:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-            Value: true
-          right_gripper_finger_2_truss_arm:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
-            Value: true
-          right_gripper_grasp_frame:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
           right_robotiq_ft_frame_id:
             Alpha: 1
             Show Axes: false
@@ -1443,7 +1371,7 @@ Visualization Manager:
         Show Robot Collision: false
         Show Robot Visual: true
       Value: true
-      Velocity_Scaling_Factor: 0.1
+      Velocity_Scaling_Factor: 0.3
   Enabled: true
   Global Options:
     Background Color: 100; 100; 100
@@ -1485,7 +1413,7 @@ Visualization Manager:
 Window Geometry:
   Displays:
     collapsed: false
-  Height: 1016
+  Height: 995
   Help:
     collapsed: false
   Hide Left Dock: false
@@ -1494,9 +1422,9 @@ Window Geometry:
     collapsed: false
   MotionPlanning - Trajectory Slider:
     collapsed: false
-  QMainWindow State: 000000ff00000000fd0000000100000000000001c9000003a2fc0200000005fb00000044004d006f00740069006f006e0050006c0061006e006e0069006e00670020002d0020005400720061006a006500630074006f0072007900200053006c00690064006500720000000000ffffffff0000003f00fffffffb000000100044006900730070006c006100790073010000003b000001a4000000c700fffffffb0000001c004d006f00740069006f006e0050006c0061006e006e0069006e006701000001e5000001f80000016900fffffffb0000000800480065006c0070000000029a0000006e0000006e00fffffffb0000000a00560069006500770073000000030d000000bb000000a000ffffff000005b1000003a200000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
+  QMainWindow State: 000000ff00000000fd0000000100000000000002b40000038dfc0200000005fb00000044004d006f00740069006f006e0050006c0061006e006e0069006e00670020002d0020005400720061006a006500630074006f0072007900200053006c00690064006500720000000000ffffffff0000003f00fffffffb000000100044006900730070006c006100790073010000003b00000213000000c700fffffffb0000001c004d006f00740069006f006e0050006c0061006e006e0069006e00670100000254000001740000016900fffffffb0000000800480065006c0070000000029a0000006e0000006e00fffffffb0000000a00560069006500770073000000030d000000bb000000a000ffffff000006e40000038d00000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
   Views:
     collapsed: false
-  Width: 1920
-  X: 0
-  Y: 27
+  Width: 2462
+  X: 2015
+  Y: 95
