@@ -140,23 +140,23 @@ ARG USER_UID=1001
 ARG USER_GID=$USER_UID
 
 # Create new user and his home directory
-RUN deluser --remove-home `id -nu ${USER_GID}` || true \
- ; groupadd --gid $USER_GID $USERNAME \
- && useradd --uid ${USER_UID} --gid ${USER_GID} --create-home ${USERNAME} \
- # support du sudo par l'user
- && echo ${USERNAME} ALL=\(root\) NOPASSWD:ALL > /etc/sudoers.d/${USERNAME} \
- && chmod 0440 /etc/sudoers.d/${USERNAME} \
- && mkdir -p /home/${USERNAME} \
- && chown -R ${USER_UID}:${USER_GID} /home/${USERNAME} 
-RUN sudo usermod -aG docker $USERNAME
-
-# RUN echo "export XDG_RUNTIME_DIR=/tmp/runtime-circleci" >> /home/${USERNAME}/.bashrc
-RUN echo "source /opt/ros/${ROS_DISTRO}/setup.bash " >> /home/${USERNAME}/.bashrc
-RUN echo 'export PS1="\[\e]0;\u@$ROS_DISTRO-container: \w\a\]${debian_chroot:+($debian_chroot)}\[\033[01;34m\]\u@$ROS_DISTRO-container\[\033[00m\]:\[\033[01;35m\]\w\[\033[00m\]\$ "' >> /home/${USERNAME}/.bashrc
+RUN if id -u ${USER_GID} >/dev/null 2>&1; then \
+      deluser --remove-home $(id -nu ${USER_GID}); \
+    fi \
+ && groupadd --gid $USER_GID $USERNAME \
+ && useradd --uid $USER_UID --gid $USER_GID --create-home $USERNAME \
+ && echo "$USERNAME ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/$USERNAME \
+ && chmod 0440 /etc/sudoers.d/$USERNAME \
+ && usermod -aG docker $USERNAME \
+ && usermod -aG video $USERNAME
 
 # Set default user ros
 USER ${USERNAME}
+# RUN echo "export XDG_RUNTIME_DIR=/tmp/runtime-circleci" >> /home/${USERNAME}/.bashrc
+RUN echo "source /opt/ros/${ROS_DISTRO}/setup.bash " >> /home/${USERNAME}/.bashrc
+RUN echo 'export PS1="\[\e]0;\u@$ROS_DISTRO-container: \w\a\]${debian_chroot:+($debian_chroot)}\[\033[01;34m\]\u@$ROS_DISTRO-container\[\033[00m\]:\[\033[01;35m\]\w\[\033[00m\]\$ "' >> /home/${USERNAME}/.bashrc
 # Set default working directory
 WORKDIR /home/${USERNAME}
+
 # Create a directory to store data
 RUN mkdir share
