@@ -53,7 +53,7 @@ The `prl_ur5_run` package provides a launch file to access the real robot by sta
 
 ### **2. Install `prl` Packages**
 
-Follow the steps below to set up the `prl` packages. These steps can be performed both inside and outside the Docker container. Ensure that the setup is done in the shared folder to maintain consistency and accessibility.
+Follow the steps below to set up the `prl` packages. These steps can be performed both inside (only if you have ros2 jazzy locally) and outside the Docker container. Ensure that the setup is done in the shared folder to maintain consistency and accessibility.
 
 > **Note**: Before proceeding with the setup, ensure you follow good practices for organizing your ROS 2 workspace. Create a folder to contain all your ROS 2 setup files. You can name it as you prefer, but in this guide, we will use `ws`. Inside this folder, create another folder named `src` to hold the source files.
 
