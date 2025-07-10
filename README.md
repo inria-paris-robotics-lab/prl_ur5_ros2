@@ -68,8 +68,7 @@ mkdir -p ws/src
 #### If you are working locally on your machine
 
 ```bash
-cd ~
-mkdir -p ws/src
+mkdir -p ~/ws/src
 ```
 
 This will create the `ws` directory in your home folder and the `src` directory inside it.
@@ -100,7 +99,7 @@ These packages provide configuration files, robot descriptions, simulation model
 To install these dependencies, clone them into your workspace using the following commands:
 
 ```bash
-cd ~/ws/src
+cd ws/src
 git clone -b ros2 https://github.com/inria-paris-robotics-lab/prl_ur5_robot_configuration.git
 git clone https://github.com/UniversalRobots/Universal_Robots_ROS2_Description.git
 git clone https://github.com/panagelak/rq_fts_ros2_driver.git
@@ -116,7 +115,7 @@ git clone https://github.com/inria-paris-robotics-lab/wsg50-ros-pkg.git
 After cloning the dependencies, check and install others dependencies linked to each packages with `rosdep`:
 
 ```bash
-cd ~/ws
+cd ..
 sudo apt update
 rosdep init
 rosdep update
