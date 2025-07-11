@@ -55,7 +55,9 @@ RUN sudo curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.ke
    ros-${ROS_DISTRO}-librealsense2* \
    ros-${ROS_DISTRO}-realsense2-* \
    ros-${ROS_DISTRO}-moveit \
-  && rm -rf /var/lib/apt-get/lists/*
+   sudo apt install ros-${ROS_DISTRO}-tf-transformations \
+   sudo apt-get install ros-${ROS_DISTRO}-moveit-py \
+   && rm -rf /var/lib/apt-get/lists/*
 
 
 ENV AMENT_PREFIX_PATH=/opt/ros/${ROS_DISTRO}
