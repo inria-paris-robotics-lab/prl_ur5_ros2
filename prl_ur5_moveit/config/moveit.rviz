@@ -6,10 +6,8 @@ Panels:
       Expanded:
         - /Global Options1
         - /MotionPlanning1
-        - /Marker1
-        - /Axes2
       Splitter Ratio: 0.5
-    Tree Height: 303
+    Tree Height: 291
   - Class: rviz_common/Help
     Name: Help
   - Class: rviz_common/Views
@@ -581,6 +579,11 @@ Visualization Manager:
             Alpha: 1
             Show Axes: false
             Show Trail: false
+          right_gripper_finger_1_safety_shield:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
           right_gripper_finger_1_truss_arm:
             Alpha: 1
             Show Axes: false
@@ -605,6 +608,11 @@ Visualization Manager:
             Alpha: 1
             Show Axes: false
             Show Trail: false
+          right_gripper_finger_2_safety_shield:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
           right_gripper_finger_2_truss_arm:
             Alpha: 1
             Show Axes: false
@@ -1280,6 +1288,11 @@ Visualization Manager:
             Alpha: 1
             Show Axes: false
             Show Trail: false
+          right_gripper_finger_1_safety_shield:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
           right_gripper_finger_1_truss_arm:
             Alpha: 1
             Show Axes: false
@@ -1304,6 +1317,11 @@ Visualization Manager:
             Alpha: 1
             Show Axes: false
             Show Trail: false
+          right_gripper_finger_2_safety_shield:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
           right_gripper_finger_2_truss_arm:
             Alpha: 1
             Show Axes: false
@@ -1426,46 +1444,6 @@ Visualization Manager:
         Show Robot Visual: true
       Value: true
       Velocity_Scaling_Factor: 0.1
-    - Class: rviz_default_plugins/Marker
-      Enabled: false
-      Name: Marker
-      Namespaces:
-        {}
-      Topic:
-        Depth: 5
-        Durability Policy: Volatile
-        Filter size: 10
-        History Policy: Keep Last
-        Reliability Policy: Reliable
-        Value: /trajectory_marker
-      Value: false
-    - Class: rviz_default_plugins/Axes
-      Enabled: false
-      Length: 1
-      Name: Axes
-      Radius: 0.10000000149011612
-      Reference Frame: base_link
-      Value: false
-    - Class: rviz_default_plugins/Marker
-      Enabled: false
-      Name: Marker
-      Namespaces:
-        {}
-      Topic:
-        Depth: 5
-        Durability Policy: Volatile
-        Filter size: 10
-        History Policy: Keep Last
-        Reliability Policy: Reliable
-        Value: /object_bounds
-      Value: false
-    - Class: rviz_default_plugins/Axes
-      Enabled: false
-      Length: 0.5
-      Name: Axes
-      Radius: 0.05000000074505806
-      Reference Frame: object_frame
-      Value: false
   Enabled: true
   Global Options:
     Background Color: 100; 100; 100
@@ -1507,7 +1485,7 @@ Visualization Manager:
 Window Geometry:
   Displays:
     collapsed: false
-  Height: 1043
+  Height: 1016
   Help:
     collapsed: false
   Hide Left Dock: false
@@ -1516,9 +1494,9 @@ Window Geometry:
     collapsed: false
   MotionPlanning - Trajectory Slider:
     collapsed: false
-  QMainWindow State: 000000ff00000000fd0000000100000000000001c9000003bdfc0200000005fb00000044004d006f00740069006f006e0050006c0061006e006e0069006e00670020002d0020005400720061006a006500630074006f0072007900200053006c00690064006500720000000000ffffffff0000003f00fffffffb000000100044006900730070006c006100790073010000003b000001b0000000c700fffffffb0000001c004d006f00740069006f006e0050006c0061006e006e0069006e006701000001f1000002070000016900fffffffb0000000800480065006c0070000000029a0000006e0000006e00fffffffb0000000a00560069006500770073000000030d000000bb000000a000ffffff000005b1000003bd00000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
+  QMainWindow State: 000000ff00000000fd0000000100000000000001c9000003a2fc0200000005fb00000044004d006f00740069006f006e0050006c0061006e006e0069006e00670020002d0020005400720061006a006500630074006f0072007900200053006c00690064006500720000000000ffffffff0000003f00fffffffb000000100044006900730070006c006100790073010000003b000001a4000000c700fffffffb0000001c004d006f00740069006f006e0050006c0061006e006e0069006e006701000001e5000001f80000016900fffffffb0000000800480065006c0070000000029a0000006e0000006e00fffffffb0000000a00560069006500770073000000030d000000bb000000a000ffffff000005b1000003a200000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
   Views:
     collapsed: false
   Width: 1920
   X: 0
-  Y: 360
+  Y: 27
