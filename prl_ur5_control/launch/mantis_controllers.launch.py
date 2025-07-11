@@ -64,8 +64,8 @@ def launch_setup(context):
         "right_tcp_pose_broadcaster",
         # "left_arm_configuration_controller",
         # "right_arm_configuration_controller",
-        "left_scaled_joint_trajectory_controller",
-        "right_scaled_joint_trajectory_controller",
+        # "left_scaled_joint_trajectory_controller",
+        # "right_scaled_joint_trajectory_controller",
     ]
     # Update active and inactive controllers with initial joint controller
     if activate_joint_controller.lower() == "true":
