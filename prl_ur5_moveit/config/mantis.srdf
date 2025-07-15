@@ -153,11 +153,11 @@
         <joint name="left_wrist_3_joint" value="0"/>
     </group_state>
     <group_state name="glue" group="left_arm">
-        <joint name="left_elbow_joint" value="0"/>
+        <joint name="left_elbow_joint" value="1.39"/>
         <joint name="left_shoulder_lift_joint" value="-1.22173"/>
-        <joint name="left_shoulder_pan_joint" value="-3.1415"/>
-        <joint name="left_wrist_1_joint" value="0"/>
-        <joint name="left_wrist_2_joint" value="1.5708"/>
+        <joint name="left_shoulder_pan_joint" value="0"/>
+        <joint name="left_wrist_1_joint" value="-1.75"/>
+        <joint name="left_wrist_2_joint" value="-1.5708"/>
         <joint name="left_wrist_3_joint" value="0"/>
     </group_state>
     <group_state name="work" group="right_arm">
