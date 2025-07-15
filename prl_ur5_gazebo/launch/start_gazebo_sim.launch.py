@@ -18,9 +18,9 @@
 #              - World file that contains the workbench setup world
 #              - Standart setup file that contains the configuration of the workbench setup
 # Arguments:
-#   - use_sim_time: Use simulation (Gazebo) clock if true
 #   - launch_rviz: Launch rviz
 #   - gazebo_gui: Launch gazebo with GUI
+#   - activate_cameras: Activate cameras in the simulation
 # Usage:
 #   $ ros2 launch prl_ur5_gazebo start_gazebo_sim.launch.py
 ############################################################################################################
@@ -46,17 +46,17 @@ from pathlib import Path
 
 def launch_setup(context):
     # Launch Arguments 
-    use_sim_time = LaunchConfiguration('use_sim_time', default=True)
     launch_rviz = LaunchConfiguration('launch_rviz', default=True)
     gazebo_gui = LaunchConfiguration('gazebo_gui', default=True)
     # Load the configuration file
     config_file = os.path.join(get_package_share_directory('prl_ur5_robot_configuration'), 'config', 'standart_setup.yaml')
     description_file=PathJoinSubstitution([FindPackageShare('prl_ur5_description'),'urdf', 'mantis.urdf.xacro'])
-    dual_controller_file=PathJoinSubstitution([FindPackageShare('prl_ur5_control'),'config', 'dual_arm_controller.yaml'])
     bridge_params = os.path.join(get_package_share_directory('prl_ur5_gazebo'), 'config', 'gz_bridge.yaml')
     rviz_config_file = PathJoinSubstitution([FindPackageShare('prl_ur5_gazebo'),'rviz', 'config.rviz'])
-    world_file = PathJoinSubstitution([FindPackageShare('prl_ur5_gazebo'),'world', 'default.sdf'])
+    default_world_file = PathJoinSubstitution([FindPackageShare('prl_ur5_gazebo'),'world', 'default_world.sdf'])
+    onrobot_world_file = PathJoinSubstitution([FindPackageShare('prl_ur5_gazebo'),'world', 'onrobot_world.sdf'])
     camera_bridge_params = os.path.join(get_package_share_directory('prl_ur5_gazebo'), 'config', 'camera_bridge.yaml')
+    config_file = Path(get_package_share_directory('prl_ur5_robot_configuration')) / 'config/standart_setup.yaml'
 
     ###### Robot description ######
 
@@ -93,6 +93,18 @@ def launch_setup(context):
     ###### Gazebo ######
 
     # Gazebo launch 
+
+    with config_file.open('r') as setup_file:
+        config = yaml.safe_load(setup_file)
+
+    gripper = config.get('left', {}).get('gripper_controller', {})
+
+    if gripper == 'onrobot-rg':
+        world_file = onrobot_world_file
+        print("Using OnRobot world file for simulation.")
+    else:
+        world_file = default_world_file
+
     gazebo = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
             [FindPackageShare("ros_gz_sim"), "/launch/gz_sim.launch.py"]
@@ -138,6 +150,7 @@ def launch_setup(context):
             f'config_file:={camera_bridge_params}',
         ],
         output='screen',
+        condition=IfCondition(LaunchConfiguration('activate_cameras')),
     )
 
     ###### Controllers ######
@@ -197,7 +210,7 @@ def launch_setup(context):
                         controller_launch,
                         left_gripper_controller,
                         right_gripper_controller,
-                        # camera_bridge,
+                        camera_bridge,
                             ],
                 )
             ),
@@ -206,12 +219,6 @@ def launch_setup(context):
 
 def generate_launch_description():
     declared_arguments = []
-    declared_arguments.append(
-        DeclareLaunchArgument(
-            'use_sim_time',
-            default_value='True',
-            description='Use simulation (Gazebo) clock if true'),
-    )   
     declared_arguments.append(
         DeclareLaunchArgument(
             'launch_rviz',
@@ -223,5 +230,11 @@ def generate_launch_description():
             'gazebo_gui',
             default_value='True',
             description='Launch gazebo with GUI'),
+    )
+    declared_arguments.append(
+        DeclareLaunchArgument(
+            'activate_cameras',
+            default_value='False',
+            description='Activate cameras in the simulation'),
     )
     return LaunchDescription(declared_arguments + [OpaqueFunction(function=launch_setup)])
