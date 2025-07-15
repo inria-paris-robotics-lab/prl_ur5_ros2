@@ -53,17 +53,27 @@ The `prl_ur5_run` package provides a launch file to access the real robot by sta
 
 ### **2. Install `prl` Packages**
 
-Follow the steps below to set up the `prl` packages. These steps can be performed both inside (only if you have ros2 jazzy locally) and outside the Docker container. Ensure that the setup is done in the shared folder to maintain consistency and accessibility.
+Follow the steps below to set up the `prl` packages. These steps can be performed both inside and outside (only if you have ros2 jazzy locally) the Docker container. Ensure that the setup is done in the shared folder to maintain consistency and accessibility.
 
 > **Note**: Before proceeding with the setup, ensure you follow good practices for organizing your ROS 2 workspace. Create a folder to contain all your ROS 2 setup files. You can name it as you prefer, but in this guide, we will use `ws`. Inside this folder, create another folder named `src` to hold the source files.
 
 To create these folders, use the following commands:
+#### If you are using Docker
 
 ```bash
+cd ~/share
 mkdir -p ws/src
 ```
 
+#### If you are working locally on your machine
+
+```bash
+mkdir -p ~/ws/src
+```
+
 This will create the `ws` directory in your home folder and the `src` directory inside it.
+
+> **Note**: Remember that in the container, any changes made outside the `share` directory will not be saved after you shut down the container.
 
 #### Clone the prl repository into your ROS 2 workspace:
 
@@ -89,7 +99,7 @@ These packages provide configuration files, robot descriptions, simulation model
 To install these dependencies, clone them into your workspace using the following commands:
 
 ```bash
-cd ~/ws/src
+cd ws/src
 git clone -b ros2 https://github.com/inria-paris-robotics-lab/prl_ur5_robot_configuration.git
 git clone https://github.com/UniversalRobots/Universal_Robots_ROS2_Description.git
 git clone https://github.com/panagelak/rq_fts_ros2_driver.git
@@ -100,10 +110,12 @@ git clone https://github.com/inria-paris-robotics-lab/wsg50-ros-pkg.git
 
 #### Install Workspace dependencies
 
+> **Important**: To install dependencies and build the packages, you must have ROS 2 Jazzy installed locally. If you do not have ROS 2 Jazzy on your system, use the provided Docker environment (`docker-ros2`) for building and development.
+
 After cloning the dependencies, check and install others dependencies linked to each packages with `rosdep`:
 
 ```bash
-cd ~/ws
+cd ..
 sudo apt update
 rosdep init
 rosdep update
@@ -113,11 +125,17 @@ rosdep install -r --from-paths . --ignore-src --rosdistro $ROS_DISTRO -y
 #### Build and source the Workspace
 
 After you had installed all dependencies you can build every packages with 'colcon':
+
+> **Note:** After the build, you may see an error related to the realsense package. You can ignore this error, as it does not affect the setup.
+
+
 ```bash
 colcon build --symlink-install --packages-skip onrobot_control onrobot_gazebo onrobot_ros robotiq_ft_sensor_hardware
 ```
 
 Once the build process is finished, source your workspace so that ROS 2 recognizes the new packages:
+
+> **Note:** If you reopen your Docker container after installation, or open a new terminal (e.g., using byobu, tmux, etc.), you need to source the workspace again to be able to launch the project or see the running nodes in different terminals.
 
 ```bash
 source install/setup.bash
@@ -128,7 +146,7 @@ source install/setup.bash
 Before using Mantis, you need to make a few modifications to the configuration.
 ### **prl_ur5_robot_configuration**
 
-To configure your setup, edit the `standard_setup.yaml` file in the `prl_ur5_robot_configuration` package. Update the following parameters to match your hardware and network setup:
+To configure your setup, edit the `prl_ur5_robot_configuration/config/standart_setup.yaml` file. Update the following parameters to match your hardware and network setup:
 
 - **IP Address and Ports**: Specify the network interface and ports for the robot.
 - **Cameras**: Configure the hand-eye cameras, including their model and pose.
@@ -137,7 +155,12 @@ To configure your setup, edit the `standard_setup.yaml` file in the `prl_ur5_rob
 
 Ensure all parameters are correctly adjusted to reflect your specific setup.
 
+### **4. Usage Tips**
+
 ### **Use with Simulate Mantis**
+
+> **Note:** The following instructions are simple examples. For the full list of launch arguments, refer to the README file in each respective package.
+
 #### Only visualize Mantis in RViz
 
 ```bash

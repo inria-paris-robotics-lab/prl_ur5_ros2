@@ -7,8 +7,6 @@ FROM ubuntu:24.04 AS base
 # Here you can choose your ros distro
 ENV ROS_DISTRO=jazzy
 
-ARG DOCKERGRP=999
-
 # Prevents any interaction during installation by selecting the default response
 ENV DEBIAN_FRONTEND=noninteractive
 
@@ -45,16 +43,18 @@ RUN sudo add-apt-repository universe
 RUN sudo curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.key -o /usr/share/keyrings/ros-archive-keyring.gpg \
   && echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/ros-archive-keyring.gpg] http://packages.ros.org/ros2/ubuntu $(. /etc/os-release && echo $UBUNTU_CODENAME) main" | sudo tee /etc/apt/sources.list.d/ros2.list > /dev/null \
   && apt-get update && apt-get -y upgrade \
-  python3-argcomplete \
   && apt-get install -y --no-install-recommends \
-   ros-${ROS_DISTRO}-desktop \
-   ros-dev-tools \
-   ros-${ROS_DISTRO}-ros2-control \
-   ros-${ROS_DISTRO}-ros2-controllers \
-   ros-${ROS_DISTRO}-ur \
-   ros-${ROS_DISTRO}-librealsense2* \
-   ros-${ROS_DISTRO}-realsense2-* \
-   ros-${ROS_DISTRO}-moveit \
+  python3-argcomplete \
+  ros-${ROS_DISTRO}-desktop \
+  ros-dev-tools \
+  ros-${ROS_DISTRO}-ros2-control \
+  ros-${ROS_DISTRO}-ros2-controllers \
+  ros-${ROS_DISTRO}-ur \
+  ros-${ROS_DISTRO}-librealsense2* \
+  ros-${ROS_DISTRO}-realsense2-* \
+  ros-${ROS_DISTRO}-moveit \
+  ros-${ROS_DISTRO}-moveit-py \
+  ros-${ROS_DISTRO}-tf-transformations \
   && rm -rf /var/lib/apt-get/lists/*
 
 
@@ -72,19 +72,10 @@ RUN rosdep init \
 
 
 ################################
-#  UR ros driver
+# Complete ros2 image with gazebo 
 ################################
 
 FROM base AS ros2_complete
-
-RUN sudo apt-get install -y ros-${ROS_DISTRO}-ur
-
-
-################################
-# Complete image with gazebo 
-################################
-
-FROM ros2_complete AS full
 ENV DEBIAN_FRONTEND=noninteractive
 
 RUN wget https://packages.osrfoundation.org/gazebo.gpg -O /usr/share/keyrings/pkgs-osrf-archive-keyring.gpg \
@@ -95,12 +86,11 @@ RUN wget https://packages.osrfoundation.org/gazebo.gpg -O /usr/share/keyrings/pk
   && rm -rf /var/lib/apt/lists/*
 
 
-
 ################################
 #  Dev tools and non root user
 ################################
 
-FROM full AS final
+FROM ros2_complete AS full
 ENV DEBIAN_FRONTEND=noninteractive
 
 # Install xauth for gui applications
@@ -121,15 +111,36 @@ RUN sudo apt-get update && apt-get install -y ca-certificates curl \
 
 RUN sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 
-# RUN sudo groupmod -g ${DOCKERGRP} docker 
-
 # Install dev tools
 RUN apt-get update && apt-get install -y --no-install-recommends\
   byobu \
   bash-completion \
   net-tools \
   nano \
+  vim \
+  git \
+  tmux \
   && rm -rf /var/lib/apt-get/lists/*
+
+# Install Pinocchio 
+# Installer les dépendances pour la gestion des dépôts
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    ca-certificates \
+    curl \
+    gnupg \
+    lsb-release \
+# Créer le répertoire pour les clés
+ && mkdir -p /etc/apt/keyrings \
+# Télécharger la clé GPG, la convertir et la stocker au bon endroit
+ && curl -fsSL http://robotpkg.openrobots.org/packages/debian/robotpkg.asc | gpg --dearmor -o /etc/apt/keyrings/robotpkg.gpg \
+# Ajouter le dépôt en spécifiant la clé de signature
+ && echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/robotpkg.gpg] http://robotpkg.openrobots.org/packages/debian/pub $(lsb_release -cs) robotpkg" > /etc/apt/sources.list.d/robotpkg.list \
+# Mettre à jour les sources et installer le paquet
+ && apt-get update \
+ && apt-get install -y robotpkg-py3*-pinocchio \
+# Nettoyer le cache apt pour réduire la taille de l'image
+ && rm -rf /var/lib/apt/lists/*
+
 
 #byobu disable by default 
 RUN byobu-enable 
@@ -137,26 +148,42 @@ RUN byobu-enable
 # Create non root user matching host user
 ARG USERNAME=ros
 ARG USER_UID=1001
-ARG USER_GID=$USER_UID
+ARG USER_GID=1001
+
+
+RUN if getent group ${USER_GID} >/dev/null 2>&1; then \
+        EXISTING_GROUP_NAME=$(getent group ${USER_GID} | cut -d: -f1); \
+        echo "Deleting conflicting group ${EXISTING_GROUP_NAME} with GID ${USER_GID}"; \
+        delgroup ${EXISTING_GROUP_NAME}; \
+    fi \
+ && if getent passwd ${USER_UID} >/dev/null 2>&1; then \
+        EXISTING_USER_NAME=$(getent passwd ${USER_UID} | cut -d: -f1); \
+        echo "Deleting conflicting user ${EXISTING_USER_NAME} with UID ${USER_UID}"; \
+        deluser --remove-home ${EXISTING_USER_NAME}; \
+    fi 
 
 # Create new user and his home directory
-RUN if id -u ${USER_GID} >/dev/null 2>&1; then \
-      deluser --remove-home $(id -nu ${USER_GID}); \
-    fi \
- && groupadd --gid $USER_GID $USERNAME \
- && useradd --uid $USER_UID --gid $USER_GID --create-home $USERNAME \
- && echo "$USERNAME ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/$USERNAME \
- && chmod 0440 /etc/sudoers.d/$USERNAME \
- && usermod -aG docker $USERNAME \
- && usermod -aG video $USERNAME
+RUN groupadd --gid $USER_GID $USERNAME \
+  && useradd --uid $USER_UID --gid $USER_GID --create-home --shell /bin/bash $USERNAME \
+  && echo "$USERNAME ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/$USERNAME \
+  && chmod 0440 /etc/sudoers.d/$USERNAME \
+  && (getent group docker || groupadd docker) \
+  && usermod -aG docker $USERNAME \
+  && usermod -aG video $USERNAME \
+  && echo "source /opt/ros/${ROS_DISTRO}/setup.bash " >> /home/${USERNAME}/.bashrc \
+  && echo 'export PS1="\[\e]0;\u@$ROS_DISTRO-container: \w\a\]${debian_chroot:+($debian_chroot)}\[\033[01;34m\]\u@$ROS_DISTRO-container\[\033[00m\]:\[\033[01;35m\]\w\[\033[00m\]\$ "' >> /home/${USERNAME}/.bashrc
+
+
+## ADD pinocchio 
+RUN echo "export PATH=/opt/openrobots/bin:\$PATH" >> /home/${USERNAME}/.bashrc \
+ && echo "export PKG_CONFIG_PATH=/opt/openrobots/lib/pkgconfig:\$PKG_CONFIG_PATH" >> /home/${USERNAME}/.bashrc \
+ && echo "export LD_LIBRARY_PATH=/opt/openrobots/lib:\$LD_LIBRARY_PATH" >> /home/${USERNAME}/.bashrc \
+ && echo "export PYTHONPATH=/opt/openrobots/lib/python3.10/site-packages:\$PYTHONPATH" >> /home/${USERNAME}/.bashrc \
+ && echo "export CMAKE_PREFIX_PATH=/opt/openrobots:\$CMAKE_PREFIX_PATH" >> /home/${USERNAME}/.bashrc
 
 # Set default user ros
 USER ${USERNAME}
-# RUN echo "export XDG_RUNTIME_DIR=/tmp/runtime-circleci" >> /home/${USERNAME}/.bashrc
-RUN echo "source /opt/ros/${ROS_DISTRO}/setup.bash " >> /home/${USERNAME}/.bashrc
-RUN echo 'export PS1="\[\e]0;\u@$ROS_DISTRO-container: \w\a\]${debian_chroot:+($debian_chroot)}\[\033[01;34m\]\u@$ROS_DISTRO-container\[\033[00m\]:\[\033[01;35m\]\w\[\033[00m\]\$ "' >> /home/${USERNAME}/.bashrc
 # Set default working directory
 WORKDIR /home/${USERNAME}
-
 # Create a directory to store data
 RUN mkdir share
