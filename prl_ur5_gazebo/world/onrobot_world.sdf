@@ -1,7 +1,6 @@
 <?xml version="1.0"?>
         <sdf version="1.6">
           <world name="mantis_world">
-            <gravity>0 0 -9.81</gravity>
             <physics name="1ms" type="ignored">
               <max_step_size>0.001</max_step_size>
               <real_time_factor>1.0</real_time_factor>
@@ -10,7 +9,7 @@
             <!-- Plugin system -->
             <plugin filename="gz-sim-physics-system" name="gz::sim::systems::Physics">
               <engine>
-                <filename>gz-physics-dartsim-plugin</filename>
+                <filename>gz-physics-bullet-featherstone-plugin</filename>
               </engine>
             </plugin>
             <plugin filename="gz-sim-user-commands-system" name="gz::sim::systems::UserCommands">
