@@ -42,9 +42,7 @@ Example usage:
 
 ```bash
 ros2 launch prl_ur5_run real.launch.py \
-    left_robot_ip:=192.168.56.101 \
-    right_robot_ip:=192.168.56.202 \
-    headless_mode:=true \
+    activate_cameras:=true \
     activate_joint_controller:=true \
-    launch_rviz:=true
+    launch_rviz:=false
 ```

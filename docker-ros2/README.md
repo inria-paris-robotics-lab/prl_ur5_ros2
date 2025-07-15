@@ -31,11 +31,12 @@ For example, you can create a folder named `docker_shared` in your home director
 mkdir ~/docker_shared
 ```
 
-#### 3) Build and Run the Docker Image
+#### 3) Build and Run the Docker 
 
 To build and run the Docker container, use the provided script. Make sure to specify the absolute path of the shared folder you created earlier:
 
 ```bash
+cd prl_ur5_ros2/docker_ros2
 ./start_docker.bash <container_name> </absolute/path/to/shared_dir> <user(optional)>
 ```
 

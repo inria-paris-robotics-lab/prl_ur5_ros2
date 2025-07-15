@@ -125,11 +125,17 @@ rosdep install -r --from-paths . --ignore-src --rosdistro $ROS_DISTRO -y
 #### Build and source the Workspace
 
 After you had installed all dependencies you can build every packages with 'colcon':
+
+> **Note:** After the build, you may see an error related to the realsense package. You can ignore this error, as it does not affect the setup.
+
+
 ```bash
 colcon build --symlink-install --packages-skip onrobot_control onrobot_gazebo onrobot_ros robotiq_ft_sensor_hardware
 ```
 
 Once the build process is finished, source your workspace so that ROS 2 recognizes the new packages:
+
+> **Note:** If you reopen your Docker container after installation, or open a new terminal (e.g., using byobu, tmux, etc.), you need to source the workspace again to be able to launch the project or see the running nodes in different terminals.
 
 ```bash
 source install/setup.bash
@@ -152,6 +158,9 @@ Ensure all parameters are correctly adjusted to reflect your specific setup.
 ### **4. Usage Tips**
 
 ### **Use with Simulate Mantis**
+
+> **Note:** The following instructions are simple examples. For the full list of launch arguments, refer to the README file in each respective package.
+
 #### Only visualize Mantis in RViz
 
 ```bash
