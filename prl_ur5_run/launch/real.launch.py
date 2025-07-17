@@ -273,12 +273,6 @@ def launch_setup(context):
             'sensors.launch.py',
             ])
         ]),
-        launch_arguments={
-            'enable_alpha': "true",
-            'enable_bravo': "true",
-            'enable_charlie': "true",
-            'enable_delta': "true",
-        }.items(),
         condition=IfCondition(activate_cameras),
     )
 
@@ -297,6 +291,20 @@ def launch_setup(context):
         condition=IfCondition(launch_moveit),
     )
 
+    right_tool_communication_node = Node(
+        package="ur_robot_driver",
+        executable="tool_communication.py",
+        name="ur_tool_comm",
+        output="screen",
+        parameters=[
+            {
+                "robot_ip": right_robot_ip,
+                "tcp_port": 54321,
+                "device_name": "/tmp/ttyUR",
+            }
+        ],
+    )
+
     return [
         right_calib,
         left_calib,
@@ -308,7 +316,7 @@ def launch_setup(context):
         right_dashboard_client_node,
         left_urscript_interface,
         right_urscript_interface,
-        # robot_state_helper_node,
+        robot_state_helper_node,
         rsp,
         rviz_node,
         camera_launch,

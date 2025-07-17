@@ -41,6 +41,21 @@ def launch_setup(context):
             ],
         )
         controllers_to_start.append(weiss_controller)
+    elif controller == "onrobot-rg":
+        onrobot_controller = IncludeLaunchDescription(
+            PythonLaunchDescriptionSource([
+                PathJoinSubstitution([
+                    FindPackageShare('onrobot_control'),
+                    'launch',
+                    'onrobot_rg_controller.launch.py',
+                ])
+            ]),
+            launch_arguments=[
+                ('prefix', prefix),
+                ('controller_file', PathJoinSubstitution([FindPackageShare('prl_ur5_control'), 'config', 'onrobot_rg.yaml']))
+            ],
+        )
+        controllers_to_start.append(onrobot_controller)
     elif not controller or controller.lower() == "none":
         pass
     else:

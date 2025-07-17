@@ -7,7 +7,9 @@ Panels:
         - /Global Options1
         - /Status1
         - /RobotModel1
-      Splitter Ratio: 0.5
+        - /RobotModel1/Links1
+        - /RobotModel1/Links1/left_gripper_body1
+      Splitter Ratio: 0.8294117450714111
     Tree Height: 555
   - Class: rviz_common/Selection
     Name: Selection
@@ -66,6 +68,67 @@ Visualization Manager:
         Expand Link Details: false
         Expand Tree: false
         Link Tree Style: Links in Alphabetic Order
+        alpha_camera_accel_frame:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        alpha_camera_accel_optical_frame:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        alpha_camera_bottom_screw_frame:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        alpha_camera_calibration_pose:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        alpha_camera_color_frame:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        alpha_camera_color_optical_frame:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        alpha_camera_depth_frame:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        alpha_camera_depth_optical_frame:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        alpha_camera_gyro_frame:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        alpha_camera_gyro_optical_frame:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        alpha_camera_infra1_frame:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        alpha_camera_infra1_optical_frame:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        alpha_camera_infra2_frame:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        alpha_camera_infra2_optical_frame:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        alpha_camera_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
         backwall_link:
           Alpha: 1
           Show Axes: false
@@ -75,6 +138,208 @@ Visualization Manager:
           Alpha: 1
           Show Axes: false
           Show Trail: false
+        bravo_camera_accel_frame:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        bravo_camera_accel_optical_frame:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        bravo_camera_bottom_screw_frame:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        bravo_camera_calibration_pose:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        bravo_camera_color_frame:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        bravo_camera_color_optical_frame:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        bravo_camera_depth_frame:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        bravo_camera_depth_optical_frame:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        bravo_camera_gyro_frame:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        bravo_camera_gyro_optical_frame:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        bravo_camera_infra1_frame:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        bravo_camera_infra1_optical_frame:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        bravo_camera_infra2_frame:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        bravo_camera_infra2_optical_frame:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        bravo_camera_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        charlie_camera_accel_frame:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        charlie_camera_accel_optical_frame:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        charlie_camera_bottom_screw_frame:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        charlie_camera_calibration_pose:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        charlie_camera_color_frame:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        charlie_camera_color_optical_frame:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        charlie_camera_depth_frame:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        charlie_camera_depth_optical_frame:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        charlie_camera_gyro_frame:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        charlie_camera_gyro_optical_frame:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        charlie_camera_infra1_frame:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        charlie_camera_infra1_optical_frame:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        charlie_camera_infra2_frame:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        charlie_camera_infra2_optical_frame:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        charlie_camera_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        fixed_camera_0_bb:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        fixed_camera_0_sj:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        fixed_camera_0_vt:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        fixed_camera_1_bb:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        fixed_camera_1_sj:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        fixed_camera_1_vt:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        fixed_camera_2_bb:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        fixed_camera_2_sj:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        fixed_camera_2_vt:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        fixed_camera_3_bb:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        fixed_camera_3_sj:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        fixed_camera_3_vt:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        fixed_hr_0:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        fixed_hr_1:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        fixed_hr_2:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        fixed_hr_3:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
         left_base:
           Alpha: 1
           Show Axes: false
@@ -97,7 +362,83 @@ Visualization Manager:
           Show Axes: false
           Show Trail: false
           Value: true
+        left_ft300_mounting_plate:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        left_ft300_sensor:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
         left_ft_frame:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        left_gripper_body:
+          Alpha: 1
+          Show Axes: true
+          Show Trail: false
+          Value: true
+        left_gripper_bracket:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        left_gripper_finger_1_finger_tip:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        left_gripper_finger_1_flex_finger:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        left_gripper_finger_1_moment_arm:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        left_gripper_finger_1_origin:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        left_gripper_finger_1_truss_arm:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        left_gripper_finger_2_finger_tip:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        left_gripper_finger_2_flex_finger:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        left_gripper_finger_2_moment_arm:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        left_gripper_finger_2_origin:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        left_gripper_finger_2_truss_arm:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        left_gripper_grasp_frame:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        left_robotiq_ft_frame_id:
           Alpha: 1
           Show Axes: false
           Show Trail: false
@@ -106,6 +447,10 @@ Visualization Manager:
           Show Axes: false
           Show Trail: false
           Value: true
+        left_tool:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
         left_tool0:
           Alpha: 1
           Show Axes: false
@@ -130,11 +475,32 @@ Visualization Manager:
           Show Axes: false
           Show Trail: false
           Value: true
+        left_wrist_connector_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
         leftwall_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
+        mantis/base_link/alpha_camera_depth:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        mantis/base_link/bravo_camera_depth:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        mantis/base_link/charlie_camera_depth:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        mantis/base_link/spare_camera_depth:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
         prl_ur5_base:
           Alpha: 1
           Show Axes: false
@@ -161,7 +527,83 @@ Visualization Manager:
           Show Axes: false
           Show Trail: false
           Value: true
+        right_ft300_mounting_plate:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        right_ft300_sensor:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
         right_ft_frame:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        right_gripper_body:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        right_gripper_bracket:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        right_gripper_finger_1_finger_tip:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        right_gripper_finger_1_flex_finger:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        right_gripper_finger_1_moment_arm:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        right_gripper_finger_1_origin:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        right_gripper_finger_1_truss_arm:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        right_gripper_finger_2_finger_tip:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        right_gripper_finger_2_flex_finger:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        right_gripper_finger_2_moment_arm:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        right_gripper_finger_2_origin:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        right_gripper_finger_2_truss_arm:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        right_gripper_grasp_frame:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        right_robotiq_ft_frame_id:
           Alpha: 1
           Show Axes: false
           Show Trail: false
@@ -170,6 +612,10 @@ Visualization Manager:
           Show Axes: false
           Show Trail: false
           Value: true
+        right_tool:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
         right_tool0:
           Alpha: 1
           Show Axes: false
@@ -190,6 +636,72 @@ Visualization Manager:
           Show Trail: false
           Value: true
         right_wrist_3_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        right_wrist_connector_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        spare_camera_accel_frame:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        spare_camera_accel_optical_frame:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        spare_camera_bottom_screw_frame:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        spare_camera_calibration_pose:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        spare_camera_color_frame:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        spare_camera_color_optical_frame:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        spare_camera_depth_frame:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        spare_camera_depth_optical_frame:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        spare_camera_gyro_frame:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        spare_camera_gyro_optical_frame:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        spare_camera_infra1_frame:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        spare_camera_infra1_optical_frame:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        spare_camera_infra2_frame:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        spare_camera_infra2_optical_frame:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        spare_camera_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
@@ -290,4 +802,4 @@ Window Geometry:
     collapsed: false
   Width: 1200
   X: 60
-  Y: 220
+  Y: 360
