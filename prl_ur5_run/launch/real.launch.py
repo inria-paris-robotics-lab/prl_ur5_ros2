@@ -312,16 +312,15 @@ def launch_setup(context):
         controller_spawners,
         left_gripper_controller,
         right_gripper_controller,
-        # left_dashboard_client_node,
-        # right_dashboard_client_node,
-        # left_urscript_interface,
-        # right_urscript_interface,
-        # robot_state_helper_node,
+        left_dashboard_client_node,
+        right_dashboard_client_node,
+        left_urscript_interface,
+        right_urscript_interface,
+        robot_state_helper_node,
         rsp,
         rviz_node,
         camera_launch,
         moveit_launch,
-        # right_tool_communication_node,
     ]
 
 def generate_launch_description():
