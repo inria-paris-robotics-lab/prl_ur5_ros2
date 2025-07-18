@@ -64,18 +64,22 @@ def launch_setup(context):
             if activate:
                 ip = camera_info.get('ip')
                 port = camera_info.get('port')
+                sync_mode = camera_info.get('sync_mode', 'standalone')
                 camera_node = IncludeLaunchDescription(
-                    PythonLaunchDescriptionSource(
-                        FindPackageShare("orbbec_camera"), "/launch", "femto_mega.launch.py"
-                    ),
+                    PythonLaunchDescriptionSource([
+                        FindPackageShare("orbbec_camera"), "/launch", "/femto_mega.launch.py"
+                    ]),
                     launch_arguments={
                         "camera_name": camera_name,
                         "net_device_ip": str(ip),
                         "net_device_port": str(port),
-                        "sync_mode": "standalone",
+                        "sync_mode": sync_mode,
+                        "enable_colored_point_cloud": "true",
+                        "depth_registration": "true",
                     }.items(),
                 )
                 camera_launches.append(camera_node)
+
 
 
     return camera_launches

@@ -56,6 +56,21 @@ RUN sudo curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.ke
   ros-${ROS_DISTRO}-moveit-py \
   ros-${ROS_DISTRO}-tf-transformations \
   && rm -rf /var/lib/apt-get/lists/*
+  
+# Orbbec driver dependencies
+
+RUN sudo apt-get update && apt-get install -y \
+  libgflags-dev nlohmann-json3-dev \
+  ros-${ROS_DISTRO}-image-transport \
+  ros-${ROS_DISTRO}-image-transport-plugins \
+  ros-${ROS_DISTRO}-compressed-image-transport \
+  ros-${ROS_DISTRO}-image-publisher \
+  ros-${ROS_DISTRO}-camera-info-manager \
+  ros-${ROS_DISTRO}-diagnostic-updater \
+  ros-${ROS_DISTRO}-diagnostic-msgs \
+  ros-${ROS_DISTRO}-statistics-msgs \
+  ros-${ROS_DISTRO}-backward-ros libdw-dev \
+  && rm -rf /var/lib/apt-get/lists/*
 
 
 ENV AMENT_PREFIX_PATH=/opt/ros/${ROS_DISTRO}
