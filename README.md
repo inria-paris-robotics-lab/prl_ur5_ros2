@@ -107,7 +107,6 @@ git clone https://github.com/panagelak/rq_fts_ros2_driver.git
 git clone -b ros2 https://github.com/inria-paris-robotics-lab/onrobot_ros.git
 git clone https://github.com/IntelRealSense/realsense-ros.git -b ros2-master
 git clone https://github.com/inria-paris-robotics-lab/wsg50-ros-pkg.git
-git clone https://github.com/orbbec/OrbbecSDK_ROS2.git -b v2-main
 ```
 > **Warning:** If you plan to use the Orbbec Femto Mega, you must install the Orbbec SDK ROS 2 on your local machine. Follow these steps:
 

@@ -202,3 +202,20 @@ USER ${USERNAME}
 WORKDIR /home/${USERNAME}
 # Create a directory to store data
 RUN mkdir share
+
+################################
+# Orbbec driver
+# Build OrbbecSDK_ROS2
+RUN mkdir -p ~/ros2_utils_ws/src && \
+    cd ~/ros2_utils_ws/src && \
+    git clone https://github.com/orbbec/OrbbecSDK_ROS2.git -b v2-main && \
+    # On se place à la racine du workspace
+    cd ~/ros2_utils_ws && \
+    # On source DIRECTEMENT le setup de ROS2
+    . /opt/ros/${ROS_DISTRO}/setup.bash && \
+    # On lance la compilation. L'environnement est maintenant correctement chargé.
+    colcon build --symlink-install --cmake-args -DCMAKE_BUILD_TYPE=Release
+
+# --- MISE À JOUR DU .bashrc ---
+# Correction de la faute de frappe pour pointer vers le bon workspace.
+RUN echo "source ~/ros2_utils_ws/install/setup.bash" >> ~/.bashrc
