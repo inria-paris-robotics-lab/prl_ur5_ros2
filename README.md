@@ -92,6 +92,7 @@ The **prl_ur5_description** package requires the following dependencies:
 - [rq_fts_ros2_driver](https://github.com/panagelak/rq_fts_ros2_driver)
 - [realsense-ros](https://github.com/IntelRealSense/realsense-ros)
 - [weiss_wsg50_ros](https://github.com/inria-paris-robotics-lab/wsg50-ros-pkg)
+- [OrbbecSDK_ROS2](https://github.com/orbbec/OrbbecSDK_ROS2/tree/v2-main)
 
 
 These packages provide configuration files, robot descriptions, simulation models, and force-torque sensor drivers that are necessary for the UR5 robot to operate properly in a ROS2 ecosystem.
@@ -106,7 +107,23 @@ git clone https://github.com/panagelak/rq_fts_ros2_driver.git
 git clone -b ros2 https://github.com/inria-paris-robotics-lab/onrobot_ros.git
 git clone https://github.com/IntelRealSense/realsense-ros.git -b ros2-master
 git clone https://github.com/inria-paris-robotics-lab/wsg50-ros-pkg.git
+git clone https://github.com/orbbec/OrbbecSDK_ROS2.git -b v2-main
 ```
+> **Warning:** If you plan to use the Orbbec Femto Mega, you must install the Orbbec SDK ROS 2 on your local machine. Follow these steps:
+
+1. Clone the Orbbec SDK ROS 2 repository:
+  ```bash
+  git clone https://github.com/orbbec/OrbbecSDK_ROS2.git -b v2-main
+  ```
+
+2. Install the udev rules:
+  ```bash
+  cd OrbbecSDK_ROS2/orbbec_camera/scripts
+  sudo bash install_udev_rules.sh
+  sudo udevadm control --reload-rules && sudo udevadm trigger
+  ```
+
+Ensure these steps are completed before proceeding with the setup.
 
 #### Install Workspace dependencies
 
