@@ -1,7 +1,8 @@
 #!/bin/bash
 
 IMAGE_NAME="prl_ros2"
-IMAGE_TAG="test"
+IMAGE_TAG="dev"
+
 
 # Build the image if it doesn't exist
 if ! docker image inspect "${IMAGE_NAME}:${IMAGE_TAG}" > /dev/null 2>&1; then
