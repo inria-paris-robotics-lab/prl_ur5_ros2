@@ -1,7 +1,7 @@
 #!/bin/bash
 
 IMAGE_NAME="prl_ros2"
-IMAGE_TAG="dev"
+IMAGE_TAG=$(id -un)
 
 
 # Build the image if it doesn't exist
