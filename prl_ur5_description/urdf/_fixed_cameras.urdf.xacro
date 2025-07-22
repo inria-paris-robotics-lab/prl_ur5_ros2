@@ -29,8 +29,8 @@
     <!-- Build one camera with its stand -->
     <xacro:macro name="fixed_camera" params="parent number camera turn_on">
         <!-- Spawn camera -->
-            <!-- check camera type -->
-        <xacro:unless value="${camera['type'] in ['realsense-d435i', 'femto-mega']}">
+        <!-- check camera type -->
+        <xacro:unless value="${camera['type'] in ['realsense-d435i', 'femto-mega', 'None']}">
             <xacro:unknown_camera_type/>
         </xacro:unless>
 
@@ -52,11 +52,18 @@
                                 />
         </xacro:if>
         <xacro:if value="${camera['type'] == 'femto-mega'}">
-            <xacro:femto_bolt prefix="${camera['name_prefix']}_camera" parent="${parent}" use_nominal_extrinsics="true">
+            <link name="${camera['name_prefix']}_camera_calibration_pose"/>
+            <joint name="${camera['name_prefix']}_camera_calibration_pose_joint" type="fixed">
                 <origin xyz="${camera['pose']['x']} ${camera['pose']['y']} ${camera['pose']['z']}" rpy="${camera['pose']['roll']} ${camera['pose']['pitch']} ${camera['pose']['yaw']}"/>
-            </xacro:femto_bolt>
+                <parent link="${parent}"/>
+                <child link="${camera['name_prefix']}_camera_calibration_pose"/>
+            </joint>
+            <xacro:camera_sensor camera="${camera['type']}"
+                                 prefix="${camera['name_prefix']}_"
+                                 parent="${camera['name_prefix']}_camera_calibration_pose"
+                                 turn_on="${turn_on}"
+                                pose="${dict(x=0.0, y=0.028, z=-0.0106, roll=pi, pitch=.0, yaw=pi/2.0)}" />
         </xacro:if>
-            
 
         <!-- Numerical dimensions for the fixtures -->
         <xacro:property name="extrusion_width" value="${0.045 +0.06}"/> <!-- +/-3cm margin on the real size -->
