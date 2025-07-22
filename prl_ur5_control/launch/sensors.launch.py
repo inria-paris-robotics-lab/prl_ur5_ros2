@@ -6,6 +6,9 @@ import yaml
 from pathlib import Path
 from ament_index_python.packages import get_package_share_directory
 
+from launch.actions import GroupAction
+from launch_ros.actions import PushRosNamespace
+
 def launch_setup(context):
     # Chemin absolu vers le fichier de configuration YAML
     config_file = Path(get_package_share_directory('prl_ur5_robot_configuration')) / 'config/fixed_cameras/cameras_config.yaml'
@@ -25,8 +28,9 @@ def launch_setup(context):
                 nb_orbbec_activate += 1
 
     for camera_name, camera_info in cameras.items():
-        if not camera_info.get('type') == 'realsense':
+        if camera_info.get('type') == 'realsense':
             activate = camera_info.get('activate', False)
+            print(f"Camera {camera_name} activation status: {activate}")
             serial_no = camera_info.get('serial_no')
             enable_depth = str(camera_info.get('enable_depth', False)).lower()
             pointcloud = str(camera_info.get('pointcloud', False)).lower()
@@ -39,6 +43,7 @@ def launch_setup(context):
             enable_rgbd = str(camera_info.get('enable_rgbd', False)).lower()
 
             if activate and serial_no:
+                print(f"Activating camera {camera_name} with serial number {serial_no}")
                 camera_node = IncludeLaunchDescription(
                     PythonLaunchDescriptionSource([
                         FindPackageShare("realsense2_camera"), "/launch", "/rs_launch.py"
@@ -78,7 +83,15 @@ def launch_setup(context):
                         "depth_registration": "true",
                     }.items(),
                 )
-                camera_launches.append(camera_node)
+
+                camera_launch_group = GroupAction(
+                    actions=[
+                        PushRosNamespace('camera'),
+                        camera_node
+                    ]
+                )
+
+                camera_launches.append(camera_launch_group)
 
 
 
