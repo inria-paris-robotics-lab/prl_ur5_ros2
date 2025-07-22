@@ -191,13 +191,23 @@
             <disable_collisions link1="fixed_camera_${number}_sj" link2="table_link" reason="Adjacent"/>
             <disable_collisions link1="fixed_camera_${number}_vt" link2="table_link" reason="Adjacent"/>
             <disable_collisions link1="fixed_hr_${number}" link2="table_link" reason="Adjacent"/>
-
-            <disable_collisions link1="${camera['name_prefix']}_camera_link" link2="fixed_camera_${number}_vt" reason="Adjacent"/>
-            <disable_collisions link1="${camera['name_prefix']}_camera_link" link2="fixed_camera_${number}_sj" reason="Adjacent"/>
-            <disable_collisions link1="${camera['name_prefix']}_camera_link" link2="fixed_camera_${number}_bb" reason="Adjacent"/>
+            
+            <xacro:if value="${camera['type'] == 'femto-mega'}">
+                <disable_collisions link1="${camera['name_prefix']}_camera_base_link" link2="fixed_camera_${number}_vt" reason="Adjacent"/>
+                <disable_collisions link1="${camera['name_prefix']}_camera_base_link" link2="fixed_camera_${number}_sj" reason="Adjacent"/>
+                <disable_collisions link1="${camera['name_prefix']}_camera_base_link" link2="fixed_camera_${number}_bb" reason="Adjacent"/>
+                <disable_collisions link1="${camera['name_prefix']}_camera_base_link" link2="table_link" reason="Never"/>
+            </xacro:if>
+            <xacro:unless value="${camera['type'] == 'femto-mega'}">
+                <disable_collisions link1="${camera['name_prefix']}_camera_link" link2="fixed_camera_${number}_vt" reason="Adjacent"/>
+                <disable_collisions link1="${camera['name_prefix']}_camera_link" link2="fixed_camera_${number}_sj" reason="Adjacent"/>
+                <disable_collisions link1="${camera['name_prefix']}_camera_link" link2="fixed_camera_${number}_bb" reason="Adjacent"/>
+                <disable_collisions link1="${camera['name_prefix']}_camera_link" link2="table_link" reason="Never"/>
+            </xacro:unless>
+            
         </xacro:macro>
 
-        <!-- Iterate voer all cameras using reccursive function-->
+        <!-- Iterate over all cameras using recursive function-->
         <xacro:property name="fixed_cameras_file" value="$(find prl_ur5_robot_configuration)/config/${setup['fixed_cameras_file']}"/>
         <xacro:property name="fixed_cameras" value="${xacro.load_yaml(fixed_cameras_file)}"/>
 
