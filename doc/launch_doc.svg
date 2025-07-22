@@ -7,7 +7,7 @@
    viewBox="0 0 951.54246 641.90735"
    version="1.1"
    id="svg1"
-   inkscape:version="1.4.1 (1:1.4.1+202503302257+93de688d07)"
+   inkscape:version="1.4.2 (1:1.4.2+202505120738+ebf0e940d0)"
    sodipodi:docname="launch_doc.svg"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
@@ -25,13 +25,13 @@
      inkscape:document-units="mm"
      inkscape:export-bgcolor="#ffffffff"
      inkscape:connector-spacing="40"
-     inkscape:zoom="0.26681047"
-     inkscape:cx="1079.4179"
-     inkscape:cy="1716.5743"
+     inkscape:zoom="0.37732699"
+     inkscape:cx="1405.9424"
+     inkscape:cy="1623.2605"
      inkscape:window-width="2560"
-     inkscape:window-height="1403"
+     inkscape:window-height="1376"
      inkscape:window-x="1920"
-     inkscape:window-y="0"
+     inkscape:window-y="27"
      inkscape:window-maximized="1"
      inkscape:current-layer="layer1">
     <inkscape:page
@@ -95,6 +95,120 @@
          d="M 5.77,0 -2.88,5 V -5 Z"
          id="path135-0" />
     </marker>
+    <marker
+       style="overflow:visible"
+       id="Triangle-2"
+       refX="0"
+       refY="0"
+       orient="auto-start-reverse"
+       inkscape:stockid="Triangle arrow"
+       markerWidth="1"
+       markerHeight="1"
+       viewBox="0 0 1 1"
+       inkscape:isstock="true"
+       inkscape:collect="always"
+       preserveAspectRatio="xMidYMid">
+      <path
+         transform="scale(0.5)"
+         style="fill:context-stroke;fill-rule:evenodd;stroke:context-stroke;stroke-width:1pt"
+         d="M 5.77,0 -2.88,5 V -5 Z"
+         id="path135-7" />
+    </marker>
+    <marker
+       style="overflow:visible"
+       id="Triangle-55"
+       refX="0"
+       refY="0"
+       orient="auto-start-reverse"
+       inkscape:stockid="Triangle arrow"
+       markerWidth="1"
+       markerHeight="1"
+       viewBox="0 0 1 1"
+       inkscape:isstock="true"
+       inkscape:collect="always"
+       preserveAspectRatio="xMidYMid">
+      <path
+         transform="scale(0.5)"
+         style="fill:context-stroke;fill-rule:evenodd;stroke:context-stroke;stroke-width:1pt"
+         d="M 5.77,0 -2.88,5 V -5 Z"
+         id="path135-4" />
+    </marker>
+    <marker
+       style="overflow:visible"
+       id="Triangle-5-7"
+       refX="0"
+       refY="0"
+       orient="auto-start-reverse"
+       inkscape:stockid="Triangle arrow"
+       markerWidth="1"
+       markerHeight="1"
+       viewBox="0 0 1 1"
+       inkscape:isstock="true"
+       inkscape:collect="always"
+       preserveAspectRatio="xMidYMid">
+      <path
+         transform="scale(0.5)"
+         style="fill:context-stroke;fill-rule:evenodd;stroke:context-stroke;stroke-width:1pt"
+         d="M 5.77,0 -2.88,5 V -5 Z"
+         id="path135-0-8" />
+    </marker>
+    <marker
+       style="overflow:visible"
+       id="Triangle-5-7-7"
+       refX="0"
+       refY="0"
+       orient="auto-start-reverse"
+       inkscape:stockid="Triangle arrow"
+       markerWidth="1"
+       markerHeight="1"
+       viewBox="0 0 1 1"
+       inkscape:isstock="true"
+       inkscape:collect="always"
+       preserveAspectRatio="xMidYMid">
+      <path
+         transform="scale(0.5)"
+         style="fill:context-stroke;fill-rule:evenodd;stroke:context-stroke;stroke-width:1pt"
+         d="M 5.77,0 -2.88,5 V -5 Z"
+         id="path135-0-8-1" />
+    </marker>
+    <marker
+       style="overflow:visible"
+       id="Triangle-5-7-7-6"
+       refX="0"
+       refY="0"
+       orient="auto-start-reverse"
+       inkscape:stockid="Triangle arrow"
+       markerWidth="1"
+       markerHeight="1"
+       viewBox="0 0 1 1"
+       inkscape:isstock="true"
+       inkscape:collect="always"
+       preserveAspectRatio="xMidYMid">
+      <path
+         transform="scale(0.5)"
+         style="fill:context-stroke;fill-rule:evenodd;stroke:context-stroke;stroke-width:1pt"
+         d="M 5.77,0 -2.88,5 V -5 Z"
+         id="path135-0-8-1-1" />
+    </marker>
+    <marker
+       style="overflow:visible"
+       id="Triangle-5-7-7-6-5"
+       refX="0"
+       refY="0"
+       orient="auto-start-reverse"
+       inkscape:stockid="Triangle arrow"
+       markerWidth="1"
+       markerHeight="1"
+       viewBox="0 0 1 1"
+       inkscape:isstock="true"
+       inkscape:collect="always"
+       preserveAspectRatio="xMidYMid">
+      <path
+         transform="scale(0.5)"
+         style="fill:context-stroke;fill-rule:evenodd;stroke:context-stroke;stroke-width:1pt"
+         d="M 5.77,0 -2.88,5 V -5 Z"
+         id="path135-0-8-1-1-9" />
+    </marker>
   </defs>
   <g
      inkscape:label="Calque 1"
@@ -114,7 +228,7 @@
          y="81.811348" /></text>
     <g
        id="g22"
-       transform="translate(82.727092,177.92869)"
+       transform="translate(81.548348,177.92869)"
        inkscape:connector-avoid="true">
       <rect
          style="fill:#f61a1a;stroke:#000000;stroke-width:0.705556;stroke-linejoin:round;stroke-miterlimit:20.5;stroke-dasharray:none;paint-order:markers fill stroke"
@@ -127,18 +241,18 @@
          inkscape:connector-avoid="true" />
       <text
          xml:space="preserve"
-         style="font-size:8.46667px;font-family:FreeSans;-inkscape-font-specification:'FreeSans, Normal';text-align:center;writing-mode:lr-tb;direction:ltr;white-space:pre-wrap;shape-inside:url(#rect1);fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.058;stroke-linejoin:miter;stroke-miterlimit:20.5;stroke-dasharray:none;paint-order:markers fill stroke"
+         style="font-size:8.46667px;font-family:FreeSans;-inkscape-font-specification:'FreeSans, Normal';text-align:center;writing-mode:lr-tb;direction:ltr;white-space:pre-wrap;shape-inside:url(#rect1);display:inline;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.058;stroke-linejoin:miter;stroke-miterlimit:20.5;stroke-dasharray:none;paint-order:markers fill stroke"
          x="299.47916"
          y="83.794662"
          id="text15"
          transform="translate(-0.10170882,12.967852)"><tspan
            x="318.46931"
            y="71.052373"
-           id="tspan2">sim.launch.py</tspan></text>
+           id="tspan4">sim.launch.py</tspan></text>
     </g>
     <g
        id="g23"
-       transform="translate(35.696565,140.52425)"
+       transform="translate(44.125613,126.14529)"
        inkscape:connector-avoid="true">
       <rect
          style="fill:#00ffff;stroke:#000000;stroke-width:0.785905;stroke-linejoin:round;stroke-miterlimit:20.5;stroke-dasharray:none;paint-order:markers fill stroke"
@@ -163,7 +277,7 @@
     </g>
     <g
        id="g24"
-       transform="translate(-41.324163,151.95494)"
+       transform="translate(-41.498798,151.95494)"
        inkscape:connector-avoid="true">
       <rect
          style="fill:#ffff00;fill-opacity:1;stroke:#000000;stroke-width:0.847234;stroke-linejoin:round;stroke-miterlimit:20.5;stroke-dasharray:none;paint-order:markers fill stroke"
@@ -195,8 +309,8 @@
          id="rect1-52"
          width="75.038376"
          height="37.273006"
-         x="332.94003"
-         y="308.60336"
+         x="331.94839"
+         y="307.61172"
          ry="6.9728241"
          inkscape:connector-avoid="true" />
       <text
@@ -238,7 +352,7 @@
     </g>
     <g
        id="g27"
-       transform="translate(8.8393763,94.2892)"
+       transform="translate(3.8811126,99.247464)"
        inkscape:connector-avoid="true">
       <rect
          style="fill:#00ff00;stroke:#000000;stroke-width:0.927149;stroke-linejoin:round;stroke-miterlimit:20.5;stroke-dasharray:none;paint-order:markers fill stroke"
@@ -263,7 +377,7 @@
     </g>
     <g
        id="g29"
-       transform="translate(-54.634949,40.566647)"
+       transform="translate(-121.24936,39.938338)"
        inkscape:connector-avoid="true">
       <rect
          style="fill:#666666;stroke:#000000;stroke-width:0.906075;stroke-linejoin:round;stroke-miterlimit:20.5;stroke-dasharray:none;paint-order:markers fill stroke"
@@ -287,8 +401,34 @@
            y="479.79517">wsg_50_controllers.launch.py</tspan></text>
     </g>
     <g
+       id="g29-3"
+       transform="translate(174.21804,39.938338)"
+       inkscape:connector-avoid="true"
+       style="fill:#00ccff">
+      <rect
+         style="fill:#00ccff;stroke:#000000;stroke-width:0.906075;stroke-linejoin:round;stroke-miterlimit:20.5;stroke-dasharray:none;paint-order:markers fill stroke"
+         id="rect1-52-4-5"
+         width="124.42049"
+         height="37.072487"
+         x="333.15704"
+         y="459.0957"
+         ry="6.9353123"
+         inkscape:connector-avoid="true" />
+      <text
+         xml:space="preserve"
+         style="font-size:8.46667px;font-family:FreeSans;-inkscape-font-specification:'FreeSans, Normal';text-align:center;writing-mode:lr-tb;direction:ltr;text-anchor:middle;fill:#00ccff;fill-opacity:1;stroke:none;stroke-width:1.058;stroke-linejoin:miter;stroke-miterlimit:20.5;stroke-dasharray:none;paint-order:markers fill stroke"
+         x="395.36731"
+         y="479.79517"
+         id="text21-6"><tspan
+           sodipodi:role="line"
+           id="tspan21-2"
+           style="fill:#000000;stroke-width:1.058"
+           x="395.36731"
+           y="479.79517">wsg_50_controllers.launch.py</tspan></text>
+    </g>
+    <g
        id="g28"
-       transform="translate(-98.3296,74.373957)"
+       transform="translate(-156.26662,74.23618)"
        inkscape:connector-avoid="true">
       <rect
          style="fill:#ffffff;stroke:#000000;stroke-width:0.705556;stroke-linejoin:round;stroke-miterlimit:20.5;stroke-dasharray:none;paint-order:markers fill stroke"
@@ -318,10 +458,10 @@
        inkscape:connector-curvature="80"
        inkscape:connection-end="#rect1-52"
        inkscape:connection-start="#rect1-6"
-       d="m 425.32539,388.9522 v 10.75884 c 0,10.58334 -10.58333,21.16667 -21.16666,21.16667 h -78.44768" />
+       d="m 425.15076,388.9522 v 9.76721 c 0,10.58333 -10.58334,21.16666 -21.16667,21.16666 h -79.26468" />
     <path
        style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1.05833;stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#Triangle)"
-       d="m 426.3295,278.4222 v 32.59235 c 0,10.58333 -10.58333,21.16667 -21.16667,21.16667 h -43.18476"
+       d="m 425.15076,278.4222 v 18.21339 c 0,10.58333 -10.58334,21.16667 -21.16667,21.16667 h -33.57697"
        id="path6"
        inkscape:connector-type="orthogonal"
        inkscape:connector-curvature="80"
@@ -329,15 +469,23 @@
        inkscape:connection-start="#rect1" />
     <path
        style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1.05833;stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#Triangle)"
-       d="m 426.3295,278.4222 0,70.79767 c 0,0.86896 -0.003,1.73791 -0.01,2.60101"
+       d="m 425.15076,278.4222 v 70.79767 c 0,0.86896 0,1.73791 0,2.60101"
        id="path7"
        inkscape:connector-type="orthogonal"
        inkscape:connector-curvature="80"
        inkscape:connection-end="#rect1-6"
        inkscape:connection-start="#rect1" />
     <path
+       style="display:inline;fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1.05833;stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#Triangle-55)"
+       id="path7-5"
+       inkscape:connector-type="orthogonal"
+       inkscape:connector-curvature="80"
+       inkscape:connection-end="#g29-3-8"
+       inkscape:connection-start="#g26-0"
+       d="m -51.340456,311.57454 v 59.19225 c 0,10.58334 -10.583333,21.16667 -21.166666,21.16667 H -110.9052" />
+    <path
        style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1.05833;stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#Triangle)"
-       d="m 479.63184,370.38654 h 103.44631 c 10.58333,0 21.16667,10.58333 21.16667,21.16667 v 11.45016"
+       d="m 479.4572,370.38654 h 98.66269 c 10.58333,0 21.16666,10.58333 21.16666,21.16667 v 16.40843"
        id="path10"
        inkscape:connector-type="orthogonal"
        inkscape:connector-curvature="80"
@@ -350,10 +498,10 @@
        inkscape:connector-curvature="80"
        inkscape:connection-end="#rect1-4"
        inkscape:connection-start="#rect1-6"
-       d="m 425.32539,388.9522 v 28.03475 c 0,0.89548 -6.2e-4,1.79097 -0.002,2.68004" />
+       d="m 425.15076,388.9522 c 0,0.8631 0,1.73205 0,2.60101 l 0,28.11378" />
     <path
        style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1.05833;stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#Triangle)"
-       d="m 482.86689,456.64025 c 0.14512,0.88907 0.22089,1.78455 0.22089,2.68004 l 0,39.75127"
+       d="m 425.15076,456.64025 c 0,0.88907 0,1.78455 0,2.68004 v 39.61349"
        id="path13"
        inkscape:connector-type="orthogonal"
        inkscape:connector-curvature="80"
@@ -361,15 +509,23 @@
        inkscape:connection-start="#rect1-4" />
     <path
        style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1.05833;stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#Triangle)"
-       d="m 425.15076,456.64025 v 40.39168 c 0,10.58333 -10.58334,21.16666 -21.16667,21.16666 h -1.04151"
+       d="m 425.15076,456.64025 v 39.76337 c 0,10.58333 -10.58334,21.16666 -21.16667,21.16666 h -67.65592"
        id="path12"
        inkscape:connector-type="orthogonal"
        inkscape:connector-curvature="80"
        inkscape:connection-end="#rect1-52-4"
        inkscape:connection-start="#rect1-4" />
+    <path
+       style="display:inline;fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1.05833;stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#Triangle-2)"
+       d="m 501.93827,438.15362 h 46.48039 c 10.58333,0 21.16667,10.58333 21.16667,21.16667 v 39.71375"
+       id="path12-3"
+       inkscape:connector-type="orthogonal"
+       inkscape:connector-curvature="80"
+       inkscape:connection-start="#g26"
+       inkscape:connection-end="#g29-3" />
     <g
        id="g26-0"
-       transform="translate(-526.26781,-75.353448)"
+       transform="translate(-517.02659,-79.021433)"
        inkscape:connector-avoid="true">
       <rect
          style="fill:#00ff00;stroke:#000000;stroke-width:1.0053;stroke-linejoin:round;stroke-miterlimit:20.5;stroke-dasharray:none;paint-order:markers fill stroke"
@@ -394,7 +550,7 @@
     </g>
     <g
        id="g27-9"
-       transform="translate(-495.68201,-28.746838)"
+       transform="translate(-495.82358,-127.06155)"
        inkscape:connector-avoid="true">
       <rect
          style="fill:#00ff00;stroke:#000000;stroke-width:0.927149;stroke-linejoin:round;stroke-miterlimit:20.5;stroke-dasharray:none;paint-order:markers fill stroke"
@@ -418,8 +574,61 @@
            id="tspan20-6">mantis_controllers.launch.py</tspan></text>
     </g>
     <g
+       id="g3"
+       transform="translate(-148.75092,48.383102)">
+      <rect
+         style="fill:#00ff00;stroke:#000000;stroke-width:0.7918;stroke-linejoin:round;stroke-miterlimit:20.5;stroke-dasharray:none;paint-order:markers fill stroke"
+         id="rect1-68-7-7"
+         width="94.723259"
+         height="37.186764"
+         x="201.4669"
+         y="181.87231"
+         ry="6.9566903"
+         inkscape:connector-avoid="true" />
+      <text
+         xml:space="preserve"
+         style="font-size:8.46667px;font-family:FreeSans;-inkscape-font-specification:'FreeSans, Normal';text-align:center;writing-mode:lr-tb;direction:ltr;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.058;stroke-linejoin:miter;stroke-miterlimit:20.5;stroke-dasharray:none;paint-order:markers fill stroke"
+         x="248.72696"
+         y="202.62892"
+         id="text19-7-4"><tspan
+           sodipodi:role="line"
+           style="stroke-width:1.058"
+           x="248.72696"
+           y="202.62892"
+           id="tspan20-6-4">sensors.launch.py</tspan></text>
+    </g>
+    <g
+       id="g3-4"
+       transform="translate(-110.18467,458.71082)"
+       style="fill:#ff7f2a">
+      <g
+         id="g6"
+         transform="translate(-38.566241,-352.0046)">
+        <rect
+           style="fill:#ff7f2a;stroke:#000000;stroke-width:0.7918;stroke-linejoin:round;stroke-miterlimit:20.5;stroke-dasharray:none;paint-order:markers fill stroke"
+           id="rect1-68-7-7-9"
+           width="94.723259"
+           height="37.186764"
+           x="201.4669"
+           y="181.87231"
+           ry="6.9566903"
+           inkscape:connector-avoid="true" />
+        <text
+           xml:space="preserve"
+           style="font-size:8.46667px;font-family:FreeSans;-inkscape-font-specification:'FreeSans, Normal';text-align:center;writing-mode:lr-tb;direction:ltr;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.058;stroke-linejoin:miter;stroke-miterlimit:20.5;stroke-dasharray:none;paint-order:markers fill stroke"
+           x="248.72696"
+           y="202.62892"
+           id="text19-7-4-5"><tspan
+             sodipodi:role="line"
+             style="fill:#000000;stroke-width:1.058"
+             x="248.72696"
+             y="202.62892"
+             id="tspan20-6-4-0">rs.launch.py</tspan></text>
+      </g>
+    </g>
+    <g
        id="g22-7"
-       transform="translate(-404.76816,99.634195)"
+       transform="translate(-398.90948,112.3714)"
        inkscape:connector-avoid="true">
       <rect
          style="fill:#f61a1a;stroke:#000000;stroke-width:0.705556;stroke-linejoin:round;stroke-miterlimit:20.5;stroke-dasharray:none;paint-order:markers fill stroke"
@@ -437,13 +646,24 @@
          y="83.794662"
          id="text15-2"
          transform="translate(-0.10170882,12.967852)"><tspan
-           x="322.93986"
+           x="322.03393"
            y="77.001592"
-           id="tspan4">rea.launch.py</tspan></text>
+           id="tspan5">real.launch.py</tspan></text>
+      <text
+         xml:space="preserve"
+         style="font-size:19.7556px;font-family:FreeSans;-inkscape-font-specification:'FreeSans, Normal';text-align:center;writing-mode:lr-tb;direction:ltr;text-anchor:middle;fill:#000000;stroke-width:1.05833;stroke-miterlimit:20.5;paint-order:markers fill stroke"
+         x="616.56677"
+         y="148.09106"
+         id="text3"><tspan
+           sodipodi:role="line"
+           id="tspan3"
+           style="stroke-width:1.05833"
+           x="616.56677"
+           y="148.09106"></tspan></text>
     </g>
     <g
        id="g23-6"
-       transform="translate(-454.26516,31.743977)"
+       transform="translate(-485.0922,95.1201)"
        inkscape:connector-avoid="true">
       <rect
          style="fill:#00ffff;stroke:#000000;stroke-width:0.785905;stroke-linejoin:round;stroke-miterlimit:20.5;stroke-dasharray:none;paint-order:markers fill stroke"
@@ -468,7 +688,7 @@
     </g>
     <g
        id="g29-9"
-       transform="translate(-528.49884,-75.042721)"
+       transform="translate(-307.77491,-85.698487)"
        inkscape:connector-avoid="true">
       <rect
          style="fill:#666666;stroke:#000000;stroke-width:0.906075;stroke-linejoin:round;stroke-miterlimit:20.5;stroke-dasharray:none;paint-order:markers fill stroke"
@@ -493,7 +713,7 @@
     </g>
     <g
        id="g28-2"
-       transform="translate(-569.09114,-40.744879)"
+       transform="translate(-632.75784,-51.400645)"
        inkscape:connector-avoid="true">
       <rect
          style="fill:#ffffff;stroke:#000000;stroke-width:0.705556;stroke-linejoin:round;stroke-miterlimit:20.5;stroke-dasharray:none;paint-order:markers fill stroke"
@@ -518,20 +738,36 @@
     </g>
     <path
        style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1.05833;stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#Triangle-5)"
-       d="m -57.649945,206.07762 c -2.124122,9.1583 -11.41999,17.32332 -20.715859,17.32332 h -49.617846"
+       d="m -51.340457,218.81482 v 46.79558 c 0,10.58333 -10.583333,21.16667 -21.166667,21.16667 h -86.303566"
        id="path29"
        inkscape:connector-type="orthogonal"
        inkscape:connector-curvature="80"
        inkscape:connection-start="#g22-7"
        inkscape:connection-end="#g23-6" />
     <path
+       style="display:inline;fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1.05833;stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#Triangle-5-7)"
+       d="m -13.821269,200.17832 h 92.732216 c 10.583333,0 21.166663,10.58333 21.166663,21.16667 v 8.91043"
+       id="path29-8"
+       inkscape:connector-type="orthogonal"
+       inkscape:connector-curvature="80"
+       inkscape:connection-end="#g3"
+       inkscape:connection-start="#g22-7" />
+    <path
+       style="display:inline;fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1.05833;stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#Triangle-5-7-7)"
+       d="m 100.07762,267.44218 c 0,0.85398 0,1.71363 0,2.57329 v 18.56306"
+       id="path29-8-7"
+       inkscape:connector-type="orthogonal"
+       inkscape:connector-curvature="80"
+       inkscape:connection-end="#g3-4"
+       inkscape:connection-start="#g3" />
+    <path
        style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1.05833;stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#Triangle-5)"
        id="path30"
        inkscape:connector-type="orthogonal"
        inkscape:connector-curvature="80"
-       inkscape:connection-start="#g22-7"
+       d="m -51.340456,218.81482 c 0,0.8398 0,1.68498 0,2.53017 v 53.25629"
        inkscape:connection-end="#g26-0"
-       d="m -57.199137,206.07762 v 69.51161 c 0,0.89548 -0.01211,1.79096 -0.0353,2.68003" />
+       inkscape:connection-start="#g22-7" />
     <path
        style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1.05833;stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#Triangle-5)"
        id="path31"
@@ -539,23 +775,118 @@
        inkscape:connector-curvature="80"
        inkscape:connection-start="#g22-7"
        inkscape:connection-end="#g27-9"
-       d="m -19.679949,187.44112 h 98.236714 c 10.583333,0 21.166666,10.58333 21.166666,21.16666 v 71.35955" />
+       d="M -13.821269,200.17832 H 34.407194" />
     <path
        style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1.05833;stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#Triangle-5)"
-       d="m -60.581676,315.24252 v 66.18004 c 0,6.81508 -4.388536,13.63016 -10.339634,17.61927"
        id="path32"
        inkscape:connector-type="orthogonal"
        inkscape:connector-curvature="80"
        inkscape:connection-start="#g26-0"
-       inkscape:connection-end="#g29-9" />
+       inkscape:connection-end="#g29-9"
+       d="M 25.447058,293.08791 H 66.42571 c 10.583333,0 21.166667,10.58333 21.166667,21.16666 v 59.14265" />
     <path
        style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1.05833;stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#Triangle-5)"
-       d="m 12.006525,314.69212 c 0.209389,1.0693 0.319716,2.14987 0.319716,3.23044 v 66.03016"
+       d="m -51.340456,311.57454 0,59.19225 c 0,0.84519 0,1.69037 0,2.53017"
        id="path33"
        inkscape:connector-type="orthogonal"
        inkscape:connector-curvature="80"
        inkscape:connection-start="#g26-0"
        inkscape:connection-end="#g28-2" />
+    <g
+       id="g29-3-8"
+       transform="translate(-568.48273,-85.698487)"
+       inkscape:connector-avoid="true"
+       style="fill:#00ccff">
+      <rect
+         style="fill:#00ccff;stroke:#000000;stroke-width:0.906075;stroke-linejoin:round;stroke-miterlimit:20.5;stroke-dasharray:none;paint-order:markers fill stroke"
+         id="rect1-52-4-5-9"
+         width="124.42049"
+         height="37.072487"
+         x="333.15704"
+         y="459.0957"
+         ry="6.9353123"
+         inkscape:connector-avoid="true" />
+      <text
+         xml:space="preserve"
+         style="font-size:8.46667px;font-family:FreeSans;-inkscape-font-specification:'FreeSans, Normal';text-align:center;writing-mode:lr-tb;direction:ltr;text-anchor:middle;fill:#00ccff;fill-opacity:1;stroke:none;stroke-width:1.058;stroke-linejoin:miter;stroke-miterlimit:20.5;stroke-dasharray:none;paint-order:markers fill stroke"
+         x="395.36731"
+         y="479.79517"
+         id="text21-6-7"><tspan
+           sodipodi:role="line"
+           id="tspan21-2-3"
+           style="fill:#000000;stroke-width:1.058"
+           x="395.36731"
+           y="479.79517">wsg_50_controllers.launch.py</tspan></text>
+    </g>
+    <g
+       id="g3-1"
+       transform="translate(299.70256,59.216435)">
+      <rect
+         style="fill:#00ff00;stroke:#000000;stroke-width:0.7918;stroke-linejoin:round;stroke-miterlimit:20.5;stroke-dasharray:none;paint-order:markers fill stroke"
+         id="rect1-68-7-7-5"
+         width="94.723259"
+         height="37.186764"
+         x="201.4669"
+         y="181.87231"
+         ry="6.9566903"
+         inkscape:connector-avoid="true" />
+      <text
+         xml:space="preserve"
+         style="font-size:8.46667px;font-family:FreeSans;-inkscape-font-specification:'FreeSans, Normal';text-align:center;writing-mode:lr-tb;direction:ltr;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.058;stroke-linejoin:miter;stroke-miterlimit:20.5;stroke-dasharray:none;paint-order:markers fill stroke"
+         x="248.72696"
+         y="202.62892"
+         id="text19-7-4-9"><tspan
+           sodipodi:role="line"
+           style="stroke-width:1.058"
+           x="248.72696"
+           y="202.62892"
+           id="tspan20-6-4-4">sensors.launch.py</tspan></text>
+    </g>
+    <g
+       id="g3-4-9"
+       transform="translate(338.26881,469.54415)"
+       style="fill:#ff7f2a">
+      <g
+         id="g6-0"
+         transform="translate(-38.566241,-352.0046)">
+        <rect
+           style="fill:#ff7f2a;stroke:#000000;stroke-width:0.7918;stroke-linejoin:round;stroke-miterlimit:20.5;stroke-dasharray:none;paint-order:markers fill stroke"
+           id="rect1-68-7-7-9-9"
+           width="94.723259"
+           height="37.186764"
+           x="201.4669"
+           y="181.87231"
+           ry="6.9566903"
+           inkscape:connector-avoid="true" />
+        <text
+           xml:space="preserve"
+           style="font-size:8.46667px;font-family:FreeSans;-inkscape-font-specification:'FreeSans, Normal';text-align:center;writing-mode:lr-tb;direction:ltr;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.058;stroke-linejoin:miter;stroke-miterlimit:20.5;stroke-dasharray:none;paint-order:markers fill stroke"
+           x="248.72696"
+           y="202.62892"
+           id="text19-7-4-5-1"><tspan
+             sodipodi:role="line"
+             style="fill:#000000;stroke-width:1.058"
+             x="248.72696"
+             y="202.62892"
+             id="tspan20-6-4-0-7">rs.launch.py</tspan></text>
+      </g>
+    </g>
+    <path
+       style="display:inline;fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1.05833;stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#Triangle-5-7-7-6)"
+       d="m 548.5311,278.27551 c 0,0.85398 0,1.71364 0,2.57329 v 18.56306"
+       id="path29-8-7-7"
+       inkscape:connector-type="orthogonal"
+       inkscape:connector-curvature="80"
+       inkscape:connection-end="#g3-4-9"
+       inkscape:connection-start="#g3-1" />
+    <path
+       style="display:inline;fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1.05833;stroke-linecap:butt;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#Triangle-5-7-7-6-5)"
+       d="m 462.66995,259.7857 h 38.49951"
+       id="path29-8-7-7-6"
+       inkscape:connector-type="orthogonal"
+       inkscape:connector-curvature="80"
+       inkscape:connection-start="#g22"
+       inkscape:connection-end="#g3-1" />
   </g>
   <g
      inkscape:groupmode="layer"
@@ -566,39 +897,45 @@
        xml:space="preserve"
        transform="scale(0.26458333)"
        id="text36"
-       style="font-size:32px;font-family:FreeSans;-inkscape-font-specification:'FreeSans, Normal';text-align:center;writing-mode:lr-tb;direction:ltr;white-space:pre;shape-inside:url(#rect36);fill:#ffff00;fill-opacity:1;stroke:none;stroke-width:3.99987;stroke-linejoin:miter;stroke-miterlimit:20.5;stroke-dasharray:none;stroke-opacity:1;paint-order:markers fill stroke" />
+       style="font-size:32px;font-family:FreeSans;-inkscape-font-specification:'FreeSans, Normal';text-align:center;writing-mode:lr-tb;direction:ltr;white-space:pre;shape-inside:url(#rect36);display:inline;fill:#ffff00;fill-opacity:1;stroke:none;stroke-width:3.99987;stroke-linejoin:miter;stroke-miterlimit:20.5;stroke-dasharray:none;stroke-opacity:1;paint-order:markers fill stroke" />
     <g
-       id="g44"
-       transform="translate(-216.67216,-82.742118)">
+       id="g38-3-9"
+       transform="translate(98.062987,266.53201)"
+       style="fill:#ff7f2a">
       <g
-         id="g42"
-         transform="translate(156.0728)">
-        <rect
-           style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:1.23945;stroke-linejoin:miter;stroke-miterlimit:20.5;stroke-dasharray:none;stroke-opacity:1;paint-order:markers fill stroke"
-           id="rect34"
-           width="294.30743"
-           height="210.40204"
-           x="153.13908"
-           y="584.03894"
-           ry="34.736187" />
-        <text
-           xml:space="preserve"
-           style="font-size:19.7556px;font-family:FreeSans;-inkscape-font-specification:'FreeSans, Normal';text-align:center;writing-mode:lr-tb;direction:ltr;text-anchor:middle;fill:#b3b3b3;fill-opacity:1;stroke:none;stroke-width:1.05833;stroke-linejoin:miter;stroke-miterlimit:20.5;stroke-dasharray:none;stroke-opacity:1;paint-order:markers fill stroke"
-           x="300.14465"
-           y="610.04779"
-           id="text39"><tspan
-             sodipodi:role="line"
-             id="tspan39"
-             style="font-weight:bold;font-size:19.7556px;fill:#000000;fill-opacity:1;stroke-width:1.05833;stroke-dasharray:none"
-             x="300.14465"
-             y="610.04779">Packages Legend</tspan></text>
-      </g>
+         id="layer2-8-6-0"
+         transform="translate(89.638075,-44.466229)"
+         style="fill:#ff7f2a" />
+    </g>
+    <g
+       id="g5"
+       transform="translate(2.1036131,18.932518)">
+      <rect
+         style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:1.29904;stroke-linejoin:miter;stroke-miterlimit:20.5;stroke-dasharray:none;stroke-opacity:1;paint-order:markers fill stroke"
+         id="rect34"
+         width="294.24783"
+         height="231.16716"
+         x="43.547146"
+         y="488.48499"
+         ry="38.164391" />
+      <text
+         xml:space="preserve"
+         style="font-size:20.7054px;font-family:FreeSans;-inkscape-font-specification:'FreeSans, Normal';text-align:center;writing-mode:lr-tb;direction:ltr;text-anchor:middle;fill:#b3b3b3;fill-opacity:1;stroke:none;stroke-width:1.10921;stroke-linejoin:miter;stroke-miterlimit:20.5;stroke-dasharray:none;stroke-opacity:1;paint-order:markers fill stroke"
+         x="199.72357"
+         y="493.24133"
+         id="text39"
+         transform="scale(0.95393313,1.0482915)"><tspan
+           sodipodi:role="line"
+           id="tspan39"
+           style="font-weight:bold;font-size:20.7054px;fill:#000000;fill-opacity:1;stroke-width:1.10921;stroke-dasharray:none"
+           x="199.72357"
+           y="493.24133">Packages Legend</tspan></text>
       <g
-         id="g43"
-         transform="translate(-197.68276)">
+         id="g4"
+         transform="translate(-304.87476,-32.255401)">
         <g
            id="g35"
-           transform="translate(316.34447,157.01287)">
+           transform="translate(158.7457,86.247105)">
           <rect
              style="fill:#ff0000;fill-opacity:1;stroke:#000000;stroke-width:0.993508;stroke-linejoin:miter;stroke-miterlimit:20.5;stroke-dasharray:none;stroke-opacity:1;paint-order:markers fill stroke"
              id="rect35"
@@ -621,7 +958,7 @@
         </g>
         <g
            id="g36"
-           transform="translate(-125.03236,133.74563)">
+           transform="translate(-282.63112,62.979865)">
           <rect
              style="fill:#ffff00;fill-opacity:1;stroke:#000000;stroke-width:0.993508;stroke-linejoin:miter;stroke-miterlimit:20.5;stroke-dasharray:none;stroke-opacity:1;paint-order:markers fill stroke"
              id="rect35-9"
@@ -644,7 +981,7 @@
         </g>
         <g
            id="g38"
-           transform="translate(145.22292,286.73568)">
+           transform="translate(-12.37584,215.96991)">
           <rect
              style="fill:#00ff00;fill-opacity:1;stroke:#000000;stroke-width:0.993508;stroke-linejoin:miter;stroke-miterlimit:20.5;stroke-dasharray:none;stroke-opacity:1;paint-order:markers fill stroke"
              id="rect35-1"
@@ -670,8 +1007,58 @@
           </g>
         </g>
         <g
+           id="g38-3"
+           transform="translate(-12.37584,266.53201)"
+           style="fill:#00ccff">
+          <rect
+             style="fill:#00ccff;fill-opacity:1;stroke:#000000;stroke-width:0.993508;stroke-linejoin:miter;stroke-miterlimit:20.5;stroke-dasharray:none;stroke-opacity:1;paint-order:markers fill stroke"
+             id="rect35-1-5"
+             width="99.087051"
+             height="35.125446"
+             x="403.15872"
+             y="441.0549"
+             ry="15.053763" />
+          <g
+             id="layer2-8-6"
+             transform="translate(89.638075,-44.466229)"
+             style="fill:#00ccff">
+            <text
+               xml:space="preserve"
+               style="font-size:8.46667px;font-family:FreeSans;-inkscape-font-specification:'FreeSans, Normal';text-align:center;writing-mode:lr-tb;direction:ltr;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.0583;stroke-linejoin:miter;stroke-miterlimit:20.5;stroke-dasharray:none;stroke-opacity:1;paint-order:markers fill stroke"
+               x="363.10651"
+               y="505.24707"
+               id="text35-5-2"><tspan
+                 sodipodi:role="line"
+                 id="tspan35-9-9"
+                 style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.0583;stroke-dasharray:none"
+                 x="363.10651"
+                 y="505.24707">on_robot_control</tspan></text>
+          </g>
+        </g>
+        <rect
+           style="fill:#ff7f2a;fill-opacity:1;stroke:#000000;stroke-width:0.993508;stroke-linejoin:miter;stroke-miterlimit:20.5;stroke-dasharray:none;stroke-opacity:1;paint-order:markers fill stroke"
+           id="rect35-1-5-2"
+           width="99.087051"
+           height="35.125446"
+           x="403.15872"
+           y="441.0549"
+           ry="15.053763"
+           transform="translate(98.062987,266.53201)" />
+        <text
+           xml:space="preserve"
+           style="font-size:8.46667px;font-family:FreeSans;-inkscape-font-specification:'FreeSans, Normal';text-align:center;writing-mode:lr-tb;direction:ltr;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.0583;stroke-linejoin:miter;stroke-miterlimit:20.5;stroke-dasharray:none;stroke-opacity:1;paint-order:markers fill stroke"
+           x="363.10651"
+           y="505.24707"
+           id="text35-5-2-6"
+           transform="translate(187.70106,222.06578)"><tspan
+             sodipodi:role="line"
+             id="tspan35-9-9-8"
+             style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.0583;stroke-dasharray:none"
+             x="363.10651"
+             y="505.24707">realsense2_camera</tspan></text>
+        <g
            id="g41"
-           transform="translate(620.65106,140.02112)">
+           transform="translate(461.24474,69.255355)">
           <rect
              style="fill:#00ffff;fill-opacity:1;stroke:#000000;stroke-width:0.993508;stroke-linejoin:miter;stroke-miterlimit:20.5;stroke-dasharray:none;stroke-opacity:1;paint-order:markers fill stroke"
              id="rect35-4"
@@ -698,7 +1085,7 @@
         </g>
         <g
            id="g39"
-           transform="translate(585.09997,253.00666)">
+           transform="translate(425.69366,182.24089)">
           <rect
              style="fill:#666666;fill-opacity:1;stroke:#000000;stroke-width:0.993508;stroke-linejoin:miter;stroke-miterlimit:20.5;stroke-dasharray:none;stroke-opacity:1;paint-order:markers fill stroke"
              id="rect35-8"
@@ -725,7 +1112,7 @@
         </g>
         <g
            id="g37"
-           transform="translate(229.727,232.40995)">
+           transform="translate(70.320678,161.64418)">
           <rect
              style="fill:#b3b3b3;fill-opacity:1;stroke:#000000;stroke-width:0.993508;stroke-linejoin:miter;stroke-miterlimit:20.5;stroke-dasharray:none;stroke-opacity:1;paint-order:markers fill stroke"
              id="rect35-4-5"
