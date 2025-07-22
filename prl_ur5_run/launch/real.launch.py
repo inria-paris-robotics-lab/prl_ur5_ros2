@@ -316,7 +316,7 @@ def launch_setup(context):
         right_dashboard_client_node,
         left_urscript_interface,
         right_urscript_interface,
-        robot_state_helper_node,
+        #robot_state_helper_node,
         rsp,
         rviz_node,
         camera_launch,
