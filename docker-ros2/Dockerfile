@@ -211,15 +211,21 @@ RUN mkdir share
 # Orbbec driver
 SHELL ["/bin/bash", "-c"]
 
+
+
 RUN mkdir -p ~/ros2_utils_ws/src && \
     cd ~/ros2_utils_ws/src && \
     git clone https://github.com/orbbec/OrbbecSDK_ROS2.git -b v2-main && \
-    # Go to the workspace root
-    cd ~/ros2_utils_ws && \
-    # Source the ROS 2 environment directly
+    git clone https://github.com/IntelRealSense/realsense-ros.git -b ros2-master 
+RUN cd ~/ros2_utils_ws && \
+    sudo apt update && \
+    rosdep update && \
+    rosdep install -r --from-paths . --ignore-src --rosdistro $ROS_DISTRO -y && \
+    sudo rm -rf /var/lib/apt/lists/* && \
     source /opt/ros/${ROS_DISTRO}/setup.bash && \
-    # Now, the environment is correctly loaded for the build command.
     colcon build --cmake-args -DCMAKE_BUILD_TYPE=Release
+
+
 
 # --- UPDATE .bashrc ---
 # Sourcing the new workspace for future interactive shells
