@@ -68,7 +68,7 @@ def launch_setup(context):
                     }.items()
                 )
                 camera_launches.append(camera_node)
-        if camera_info.get('type') == 'femto_mega':
+        if camera_info.get('type') == 'femto-mega':
             activate = camera_info.get('activate', False)
             if activate:
                 ip = camera_info.get('ip')
