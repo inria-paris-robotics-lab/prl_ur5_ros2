@@ -4,6 +4,7 @@
     <!-- Including this file a second time would include 'realsense2_description/urdf/_d435i.urdf.xacro' a second time which will result in a crash related to this problem :  https://github.com/IntelRealSense/realsense-ros/issues/2338 -->
     <!-- It is assumed that this file has already been included somewhere else (e.g. in _ur5.urdf.xacro) -->
     <xacro:include filename="$(find prl_ur5_description)/urdf/_camera_sensor.urdf.xacro"/>
+    <xacro:include filename="$(find orbbec_description)/urdf/femto_bolt.urdf.xacro"/>
 
     <!-- Build fixed camera with their support from one file -->
     <xacro:macro name="fixed_cameras" params="parent fixed_cameras_file turn_on:=false">
@@ -28,8 +29,8 @@
     <!-- Build one camera with its stand -->
     <xacro:macro name="fixed_camera" params="parent number camera turn_on">
         <!-- Spawn camera -->
-            <!-- check camera type -->
-        <xacro:unless value="${camera['type'] in ['realsense-d435i']}">
+        <!-- check camera type -->
+        <xacro:unless value="${camera['type'] in ['realsense-d435i', 'femto-mega', 'None']}">
             <xacro:unknown_camera_type/>
         </xacro:unless>
 
@@ -49,6 +50,19 @@
                                  turn_on="${turn_on}"
                                  pose="${dict(x=0.0325, y=0.0125, z=-0.0106, roll=pi/2.0, pitch=-pi/2.0, yaw=0)}"
                                 />
+        </xacro:if>
+        <xacro:if value="${camera['type'] == 'femto-mega'}">
+            <link name="${camera['name_prefix']}_camera_calibration_pose"/>
+            <joint name="${camera['name_prefix']}_camera_calibration_pose_joint" type="fixed">
+                <origin xyz="${camera['pose']['x']} ${camera['pose']['y']} ${camera['pose']['z']}" rpy="${camera['pose']['roll']} ${camera['pose']['pitch']} ${camera['pose']['yaw']}"/>
+                <parent link="${parent}"/>
+                <child link="${camera['name_prefix']}_camera_calibration_pose"/>
+            </joint>
+            <xacro:camera_sensor camera="${camera['type']}"
+                                 prefix="${camera['name_prefix']}_"
+                                 parent="${camera['name_prefix']}_camera_calibration_pose"
+                                 turn_on="${turn_on}"
+                                pose="${dict(x=0.0, y=0.028, z=-0.0106, roll=pi, pitch=.0, yaw=pi/2.0)}" />
         </xacro:if>
 
         <!-- Numerical dimensions for the fixtures -->

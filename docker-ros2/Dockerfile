@@ -56,6 +56,21 @@ RUN sudo curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.ke
   ros-${ROS_DISTRO}-moveit-py \
   ros-${ROS_DISTRO}-tf-transformations \
   && rm -rf /var/lib/apt-get/lists/*
+  
+# Orbbec driver dependencies
+
+RUN sudo apt-get update && apt-get install -y \
+  libgflags-dev nlohmann-json3-dev \
+  ros-${ROS_DISTRO}-image-transport \
+  ros-${ROS_DISTRO}-image-transport-plugins \
+  ros-${ROS_DISTRO}-compressed-image-transport \
+  ros-${ROS_DISTRO}-image-publisher \
+  ros-${ROS_DISTRO}-camera-info-manager \
+  ros-${ROS_DISTRO}-diagnostic-updater \
+  ros-${ROS_DISTRO}-diagnostic-msgs \
+  ros-${ROS_DISTRO}-statistics-msgs \
+  ros-${ROS_DISTRO}-backward-ros libdw-dev \
+  && rm -rf /var/lib/apt-get/lists/*
 
 
 ENV AMENT_PREFIX_PATH=/opt/ros/${ROS_DISTRO}
@@ -171,8 +186,12 @@ RUN groupadd --gid $USER_GID $USERNAME \
   && usermod -aG docker $USERNAME \
   && usermod -aG video $USERNAME \
   && echo "source /opt/ros/${ROS_DISTRO}/setup.bash " >> /home/${USERNAME}/.bashrc \
-  && echo 'export PS1="\[\e]0;\u@$ROS_DISTRO-container: \w\a\]${debian_chroot:+($debian_chroot)}\[\033[01;34m\]\u@$ROS_DISTRO-container\[\033[00m\]:\[\033[01;35m\]\w\[\033[00m\]\$ "' >> /home/${USERNAME}/.bashrc
+  && echo 'export PS1="\[\e]0;\u@$ROS_DISTRO-container: \w\a\]${debian_chroot:+($debian_chroot)}\[\033[01;34m\]\u@$ROS_DISTRO-container\[\033[00m\]:\[\033[01;35m\]\w\[\033[00m\]\$ "' >> /home/${USERNAME}/.bashrc \
+  && echo "export ROS_LOCALHOST_ONLY=1" >> /home/${USERNAME}/.bashrc 
 
+
+# Config Tmux
+COPY --chown=${USERNAME}:${USERNAME} utils/tmux.conf /home/${USERNAME}/.tmux.conf
 
 ## ADD pinocchio 
 RUN echo "export PATH=/opt/openrobots/bin:\$PATH" >> /home/${USERNAME}/.bashrc \
@@ -187,3 +206,21 @@ USER ${USERNAME}
 WORKDIR /home/${USERNAME}
 # Create a directory to store data
 RUN mkdir share
+
+################################
+# Orbbec driver
+SHELL ["/bin/bash", "-c"]
+
+RUN mkdir -p ~/ros2_utils_ws/src && \
+    cd ~/ros2_utils_ws/src && \
+    git clone https://github.com/orbbec/OrbbecSDK_ROS2.git -b v2-main && \
+    # Go to the workspace root
+    cd ~/ros2_utils_ws && \
+    # Source the ROS 2 environment directly
+    source /opt/ros/${ROS_DISTRO}/setup.bash && \
+    # Now, the environment is correctly loaded for the build command.
+    colcon build --cmake-args -DCMAKE_BUILD_TYPE=Release
+
+# --- UPDATE .bashrc ---
+# Sourcing the new workspace for future interactive shells
+RUN echo "source ~/ros2_utils_ws/install/setup.bash" >> ~/.bashrc

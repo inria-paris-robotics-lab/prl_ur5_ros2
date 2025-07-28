@@ -1,7 +1,8 @@
 #!/bin/bash
 
 IMAGE_NAME="prl_ros2"
-IMAGE_TAG="jazzy"
+IMAGE_TAG=$(id -un)
+
 
 # Build the image if it doesn't exist
 if ! docker image inspect "${IMAGE_NAME}:${IMAGE_TAG}" > /dev/null 2>&1; then
@@ -58,6 +59,8 @@ docker_cmd=(
   --user="$user"
   --workdir="$workdir"
   --mount type=bind,source="$storage",target="$workdir/share"
+  --device=/dev/bus/usb 
+  --group-add dialout
 )
 
 # Add GPU runtime if needed
