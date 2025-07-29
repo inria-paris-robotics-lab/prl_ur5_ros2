@@ -55,6 +55,7 @@ RUN sudo curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.ke
   ros-${ROS_DISTRO}-moveit \
   ros-${ROS_DISTRO}-moveit-py \
   ros-${ROS_DISTRO}-tf-transformations \
+  ros-${ROS_DISTRO}-image-pipeline \
   && rm -rf /var/lib/apt-get/lists/*
   
 # Orbbec driver dependencies
