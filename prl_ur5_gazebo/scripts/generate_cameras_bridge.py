@@ -40,14 +40,14 @@ def generate_camera_bridge_config(config_filepath, output_filepath):
             if camera_info.get('enable_color'):
                 print("  - Color camera enabled ")
                 all_topics.append({
-                    'ros_topic_name': f'/{camera_name}/color/image',
+                    'ros_topic_name': f'camera/{camera_name}/color/image',
                     'gz_topic_name': f'{base_gz_path}{camera_name}_color/image',
                     'ros_type_name': 'sensor_msgs/msg/Image',
                     'gz_type_name': 'gz.msgs.Image',
                     'direction': 'GZ_TO_ROS'
                 })
                 all_topics.append({
-                    'ros_topic_name': f'/{camera_name}/color/camera_info',
+                    'ros_topic_name': f'camera/{camera_name}/color/camera_info',
                     'gz_topic_name': f'{base_gz_path}{camera_name}_color/camera_info',
                     'ros_type_name': 'sensor_msgs/msg/CameraInfo',
                     'gz_type_name': 'gz.msgs.CameraInfo',
@@ -58,7 +58,14 @@ def generate_camera_bridge_config(config_filepath, output_filepath):
             if camera_info.get('enable_depth'):
                 print("  - Depth camera enabled ")
                 all_topics.append({
-                    'ros_topic_name': f'/{camera_name}/depth/depth_image',
+                    'ros_topic_name': f'camera/{camera_name}/depth/camera_info',
+                    'gz_topic_name': f'{base_gz_path}{camera_name}_depth/camera_info',
+                    'ros_type_name': 'sensor_msgs/msg/CameraInfo',
+                    'gz_type_name': 'gz.msgs.CameraInfo',
+                    'direction': 'GZ_TO_ROS'
+                })
+                all_topics.append({
+                    'ros_topic_name': f'camera/{camera_name}/depth/depth_image',
                     'gz_topic_name': f'{base_gz_path}{camera_name}_depth/depth_image',
                     'ros_type_name': 'sensor_msgs/msg/Image',
                     'gz_type_name': 'gz.msgs.Image',
@@ -69,7 +76,7 @@ def generate_camera_bridge_config(config_filepath, output_filepath):
             if camera_info.get('pointcloud'):
                 print("  - Pointcloud enabled ")
                 all_topics.append({
-                    'ros_topic_name': f'/{camera_name}/depth/depth_image/points',
+                    'ros_topic_name': f'camera/{camera_name}/depth/depth_image/points',
                     'gz_topic_name': f'{base_gz_path}{camera_name}_depth/depth_image/points',
                     'ros_type_name': 'sensor_msgs/msg/PointCloud2',
                     'gz_type_name': 'gz.msgs.PointCloudPacked',
@@ -82,14 +89,14 @@ def generate_camera_bridge_config(config_filepath, output_filepath):
                 if camera_info.get('enable_infra1'):
                     print("    - Infrared camera 1 enabled ")
                     all_topics.append({
-                        'ros_topic_name': f'/{camera_name}/ired/ired1/image',
+                        'ros_topic_name': f'camera/{camera_name}/ired/ired1/image',
                         'gz_topic_name': f'{base_gz_path}{camera_name}_ired1/image',
                         'ros_type_name': 'sensor_msgs/msg/Image',
                         'gz_type_name': 'gz.msgs.Image',
                         'direction': 'GZ_TO_ROS'
                     })
                     all_topics.append({
-                        'ros_topic_name': f'/{camera_name}/ired/ired1/camera_info',
+                        'ros_topic_name': f'camera/{camera_name}/ired/ired1/camera_info',
                         'gz_topic_name': f'{base_gz_path}{camera_name}_ired1/camera_info',
                         'ros_type_name': 'sensor_msgs/msg/CameraInfo',
                         'gz_type_name': 'gz.msgs.CameraInfo',
@@ -98,14 +105,14 @@ def generate_camera_bridge_config(config_filepath, output_filepath):
                 if camera_info.get('enable_infra2'):
                     print("    - Infrared camera 2 enabled ")
                     all_topics.append({
-                        'ros_topic_name': f'/{camera_name}/ired/ired2/image',
+                        'ros_topic_name': f'camera/{camera_name}/ired/ired2/image',
                         'gz_topic_name': f'{base_gz_path}{camera_name}_ired2/image',
                         'ros_type_name': 'sensor_msgs/msg/Image',
                         'gz_type_name': 'gz.msgs.Image',
                         'direction': 'GZ_TO_ROS'
                     })
                     all_topics.append({
-                        'ros_topic_name': f'/{camera_name}/ired/ired2/camera_info',
+                        'ros_topic_name': f'camera/{camera_name}/ired/ired2/camera_info',
                         'gz_topic_name': f'{base_gz_path}{camera_name}_ired2/camera_info',
                         'ros_type_name': 'sensor_msgs/msg/CameraInfo',
                         'gz_type_name': 'gz.msgs.CameraInfo',

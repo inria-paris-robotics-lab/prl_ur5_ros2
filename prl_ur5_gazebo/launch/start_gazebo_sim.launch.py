@@ -152,6 +152,16 @@ def launch_setup(context):
         output='screen',
         condition=IfCondition(LaunchConfiguration('activate_cameras')),
     )
+    align_depth = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource([
+            PathJoinSubstitution([
+                FindPackageShare("prl_ur5_gazebo"),
+                'launch',
+                'align_depth.launch.py'
+                ]),
+            ]),
+        condition=IfCondition(LaunchConfiguration('activate_cameras')),
+    )
 
     ###### Controllers ######
 
@@ -211,6 +221,7 @@ def launch_setup(context):
                         left_gripper_controller,
                         right_gripper_controller,
                         camera_bridge,
+                        align_depth,
                             ],
                 )
             ),
