@@ -15,6 +15,7 @@ def launch_setup(context):
     launch_rviz = context.launch_configurations.get("launch_rviz", "false")
     gazebo_gui = context.launch_configurations.get("gazebo_gui", "true")
     launch_moveit = context.launch_configurations.get("launch_moveit", "true")
+    activate_cameras = context.launch_configurations.get("activate_cameras", "false")
 
 
 
@@ -29,6 +30,7 @@ def launch_setup(context):
         launch_arguments={
             "launch_rviz": launch_rviz,
             "gazebo_gui": gazebo_gui,
+            "activate_cameras": activate_cameras,
         }.items(),
     )
 
@@ -72,6 +74,13 @@ def generate_launch_description():
             "launch_moveit",
             default_value="true",
             description="Launch MoveIt if true",
+        )
+    )
+    declared_arguments.append(
+        DeclareLaunchArgument(
+            "activate_cameras",
+            default_value="false",
+            description="Activate cameras if true",
         )
     )
     return LaunchDescription(declared_arguments + [OpaqueFunction(function=launch_setup)])
