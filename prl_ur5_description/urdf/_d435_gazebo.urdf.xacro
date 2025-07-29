@@ -32,6 +32,7 @@ This is the Gazebo URDF model for the Intel RealSense D435 camera
       <!--<max_vel>0.01</max_vel>
       <min_depth>0</min_depth>-->
       <sensor name="${name}_color" type="camera">
+        <gz_frame_id>${name}_color_frame</gz_frame_id>
         <camera name="${name}">
           <horizontal_fov>${69.4*deg_to_rad}</horizontal_fov>
           <image>
@@ -54,6 +55,7 @@ This is the Gazebo URDF model for the Intel RealSense D435 camera
         <visualize>${visualize}</visualize>
       </sensor>
       <sensor name="${name}_ired1" type="camera">
+        <gz_frame_id>${name}_infra1_frame</gz_frame_id>
         <camera name="${name}">
           <horizontal_fov>${85.2*deg_to_rad}</horizontal_fov>
           <image>
@@ -76,6 +78,7 @@ This is the Gazebo URDF model for the Intel RealSense D435 camera
         <visualize>0</visualize>
       </sensor>
       <sensor name="${name}_ired2" type="camera">
+        <gz_frame_id>${name}_infra2_frame</gz_frame_id>
         <camera name="${name}">
           <horizontal_fov>${85.2*deg_to_rad}</horizontal_fov>
           <image>
@@ -98,6 +101,7 @@ This is the Gazebo URDF model for the Intel RealSense D435 camera
         <visualize>0</visualize>
       </sensor>
       <sensor name="${name}_depth" type="depth_camera">
+        <gz_frame_id>${name}_depth_frame</gz_frame_id>
         <camera name="${name}">
           <horizontal_fov>${85.2*deg_to_rad}</horizontal_fov>
           <image>
@@ -120,14 +124,6 @@ This is the Gazebo URDF model for the Intel RealSense D435 camera
         <visualize>0</visualize>
       </sensor>
     </gazebo>
-
-    <!-- Gazebo creates a link for each sensor, we need to attach them to the main link -->
-    <link name="mantis/base_link/${name}_depth"/>
-    <joint name="${name}_depth_joint_gz" type="fixed">
-      <parent link="${name}_link"/>
-      <child link="mantis/base_link/${name}_depth"/>
-      <origin xyz="0 0 0" rpy="0 0 0"/>
-    </joint>
 
   </xacro:macro>
 </robot>
