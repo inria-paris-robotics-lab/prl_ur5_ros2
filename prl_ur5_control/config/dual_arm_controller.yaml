@@ -142,12 +142,12 @@ left_joint_trajectory_controller:
     constraints:
       stopped_velocity_tolerance: 0.2
       goal_time: 0.0
-      left_shoulder_pan_joint: { trajectory: 0.2, goal: 0.1 }
-      left_shoulder_lift_joint: { trajectory: 0.2, goal: 0.1 }
-      left_elbow_joint: { trajectory: 0.2, goal: 0.1 }
-      left_wrist_1_joint: { trajectory: 0.2, goal: 0.1 }
-      left_wrist_2_joint: { trajectory: 0.2, goal: 0.1 }
-      left_wrist_3_joint: { trajectory: 0.2, goal: 0.1 }
+      left_shoulder_pan_joint: { trajectory: 0.3, goal: 0.1 }
+      left_shoulder_lift_joint: { trajectory: 0.3, goal: 0.1 }
+      left_elbow_joint: { trajectory: 0.3, goal: 0.1 }
+      left_wrist_1_joint: { trajectory: 0.3, goal: 0.1 }
+      left_wrist_2_joint: { trajectory: 0.3, goal: 0.1 }
+      left_wrist_3_joint: { trajectory: 0.3, goal: 0.1 }
 
 right_joint_trajectory_controller:
   ros__parameters:
