@@ -13,6 +13,7 @@ from rclpy.logging import get_logger
 from moveit.core.robot_state import RobotState
 from moveit.planning import (
     MoveItPy,
+    PlanRequestParameters,
     MultiPipelinePlanRequestParameters,
 )
 import numpy as np
@@ -84,8 +85,14 @@ def main():
     left_arm.set_goal_state(configuration_name="work")
     right_arm.set_goal_state(configuration_name="work")
 
+    plan_params = PlanRequestParameters(ur, "left_arm")
+    plan_params.planning_pipeline = "ompl"
+    plan_params.planner_id = "RRTConnect"
+    plan_params.max_velocity_scaling_factor = 0.25
+    plan_params.max_acceleration_scaling_factor = 0.25
+
     # plan to goal
-    plan_and_execute(ur, left_arm, logger, sleep_time=3.0)
+    plan_and_execute(ur, left_arm, logger,single_plan_parameters=plan_params, sleep_time=3.0)
     plan_and_execute(ur, right_arm, logger, sleep_time=3.0)
 
     ###########################################################################

@@ -3,7 +3,7 @@ import os
 from ament_index_python.packages import get_package_share_directory
 
 from launch import LaunchDescription
-from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription
+from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription, OpaqueFunction
 from launch.actions import RegisterEventHandler, LogInfo
 from launch.event_handlers import OnProcessExit
 from launch.launch_description_sources import PythonLaunchDescriptionSource
@@ -16,7 +16,7 @@ from launch_ros.parameter_descriptions import ParameterValue
 from pathlib import Path
 from moveit_configs_utils import MoveItConfigsBuilder
 
-def generate_launch_description():
+def launch_setup(context):
     use_sim_time = LaunchConfiguration('use_sim_time', default=True)
 
     ############################ MoveIt Part ################################
@@ -86,7 +86,7 @@ def generate_launch_description():
         output="screen",
     )
 
-    return LaunchDescription([
+    return [
         wait_robot_description,
         RegisterEventHandler(
             event_handler=OnProcessExit(
@@ -97,4 +97,14 @@ def generate_launch_description():
                         ],
             )
         ),
-    ])
+    ]
+def generate_launch_description():
+    declared_arguments = []
+    declared_arguments.append(
+        DeclareLaunchArgument(
+            name='use_sim_time',
+            default_value='true',
+            description='Use simulation time if true, wall clock time otherwise.'
+        )
+    )
+    return LaunchDescription(declared_arguments + [OpaqueFunction(function=launch_setup)])
