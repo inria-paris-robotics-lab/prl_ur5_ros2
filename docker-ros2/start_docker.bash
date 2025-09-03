@@ -3,17 +3,11 @@
 IMAGE_NAME="prl_ros2"
 IMAGE_TAG=$(id -un)
 
-
-# Build the image if it doesn't exist
-if ! docker image inspect "${IMAGE_NAME}:${IMAGE_TAG}" > /dev/null 2>&1; then
-  docker build -t "${IMAGE_NAME}:${IMAGE_TAG}" . --build-arg USER_UID=$(id -u) --build-arg USER_GID=$(id -g)
-fi
-
 xhost +local:docker > /dev/null 2>&1
 
 # Check arguments
 if [ "$#" -lt 2 ] || [ "$#" -gt 4 ]; then
-  echo "Usage: $0 <container_name> <share directory path> <user(optional)> [--gpu]"
+  echo "Usage: $0 <container_name> <share directory path> <user(optional)> [--no-gpu] [--rebuild]"
   exit 1
 fi
 
@@ -28,10 +22,18 @@ shift 2
 for arg in "$@"; do
   if [ "$arg" = "--no-gpu" ]; then
     gpu_enabled=false
+  elif [ "$arg" = "--rebuild" ]; then
+    rebuild=true
   else
     user="$arg"
   fi
 done
+
+# Build the image if it doesn't exist
+if ! docker image inspect "${IMAGE_NAME}:${IMAGE_TAG}" > /dev/null 2>&1 || [ "$rebuild" = true ]; then
+  echo "Building Docker image ${IMAGE_NAME}:${IMAGE_TAG}..."
+  docker build -t "${IMAGE_NAME}:${IMAGE_TAG}" . --build-arg USER_UID=$(id -u) --build-arg USER_GID=$(id -g)
+fi
 
 
 # Set working directory

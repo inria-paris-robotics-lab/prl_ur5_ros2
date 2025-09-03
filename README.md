@@ -32,7 +32,6 @@ The `prl_ur5_moveit` package provides configuration and launch files to control 
 
 ### 6. **prl_ur5_run**
 The `prl_ur5_run` package provides a launch file to access the real robot by starting the driver and enabling control.
-
 ---
 
 ## **Prerequisites**
@@ -103,12 +102,7 @@ To install these dependencies, clone them into your workspace using the followin
 
 ```bash
 cd ws/src
-git clone -b ros2 https://github.com/inria-paris-robotics-lab/prl_ur5_robot_configuration.git
-git clone https://github.com/UniversalRobots/Universal_Robots_ROS2_Description.git
-git clone https://github.com/panagelak/rq_fts_ros2_driver.git
-git clone -b ros2 https://github.com/inria-paris-robotics-lab/onrobot_ros.git
-git clone https://github.com/IntelRealSense/realsense-ros.git -b ros2-master
-git clone https://github.com/inria-paris-robotics-lab/wsg50-ros-pkg.git
+vcs import < prl_ur5_ros2/dependencies.repos 
 ```
 > [!WARNING]
 >  If you plan to use the Orbbec Femto Mega, you must install the Orbbec SDK ROS 2 on your local machine. Follow these steps:
