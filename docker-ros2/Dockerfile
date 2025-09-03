@@ -136,6 +136,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends\
   vim \
   git \
   tmux \
+  python3-wstool \
   && rm -rf /var/lib/apt-get/lists/*
 
 # Install Pinocchio 
@@ -188,7 +189,7 @@ RUN groupadd --gid $USER_GID $USERNAME \
   && usermod -aG video $USERNAME \
   && echo "source /opt/ros/${ROS_DISTRO}/setup.bash " >> /home/${USERNAME}/.bashrc \
   && echo 'export PS1="\[\e]0;\u@$ROS_DISTRO-container: \w\a\]${debian_chroot:+($debian_chroot)}\[\033[01;34m\]\u@$ROS_DISTRO-container\[\033[00m\]:\[\033[01;35m\]\w\[\033[00m\]\$ "' >> /home/${USERNAME}/.bashrc \
-  && echo "export ROS_LOCALHOST_ONLY=1" >> /home/${USERNAME}/.bashrc 
+  && echo "export ROS_AUTOMATIC_DISCOVERY_RANGE=LOCALHOST" >> /home/${USERNAME}/.bashrc 
 
 
 # Config Tmux
@@ -215,6 +216,7 @@ SHELL ["/bin/bash", "-c"]
 RUN mkdir -p ~/ros2_utils_ws/src && \
     cd ~/ros2_utils_ws/src && \
     git clone https://github.com/orbbec/OrbbecSDK_ROS2.git -b v2-main && \
+    git clone https://github.com/IntelRealSense/realsense-ros.git -b ros2-master && \
     # Go to the workspace root
     cd ~/ros2_utils_ws && \
     # Source the ROS 2 environment directly

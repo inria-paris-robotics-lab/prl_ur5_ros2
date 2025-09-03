@@ -1,0 +1,22 @@
+# prl_ur5_ros2.rosinstall
+- git:
+    local-name: prl_ur5_robot_configuration
+    uri: https://github.com/inria-paris-robotics-lab/prl_ur5_robot_configuration.git
+    version: ros2
+- git:
+    local-name: Universal_Robots_ROS2_Description
+    uri: https://github.com/UniversalRobots/Universal_Robots_ROS2_Description.git
+- git:
+    local-name: rq_fts_ros2_driver
+    uri: https://github.com/panagelak/rq_fts_ros2_driver.git
+- git:
+    local-name: onrobot_ros
+    uri: https://github.com/inria-paris-robotics-lab/onrobot_ros.git
+    version: ros2
+- git:
+    local-name: realsense-ros
+    uri: https://github.com/IntelRealSense/realsense-ros.git
+    version: ros2-master
+- git:
+    local-name: wsg50-ros-pkg
+    uri: https://github.com/inria-paris-robotics-lab/wsg50-ros-pkg.git

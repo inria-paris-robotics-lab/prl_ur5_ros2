@@ -32,7 +32,6 @@ The `prl_ur5_moveit` package provides configuration and launch files to control 
 
 ### 6. **prl_ur5_run**
 The `prl_ur5_run` package provides a launch file to access the real robot by starting the driver and enabling control.
-
 ---
 
 ## **Prerequisites**
