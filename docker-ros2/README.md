@@ -12,7 +12,8 @@ You can download and install Docker from the [official website](https://docs.doc
 
 If you have a GPU on your computer and want to use it in the Docker container, you must also install the NVIDIA Container Toolkit. Please follow these instructions: [Nvidia container toolkit](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/install-guide.html)
 
-> **Note:** This setup uses the NVIDIA Container Toolkit to leverage your local GPU if you have an NVIDIA GPU. Please follow the [official NVIDIA Container Toolkit installation guide](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html) to install and configure the toolkit on your system.
+> [!IMPORTANT]
+> This setup uses the NVIDIA Container Toolkit to leverage your local GPU if you have an NVIDIA GPU. Please follow the [official NVIDIA Container Toolkit installation guide](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html) to install and configure the toolkit on your system.
 
 ## Installation
 
@@ -24,7 +25,8 @@ git clone https://github.com/inria-paris-robotics-lab/prl_ur5_ros2.git
 
 #### 2) Set Up Your Environment 
 
-> **Warning:** To ensure that your files are preserved inside the Docker container, a local folder is mounted into the container. Please create a dedicated folder on your host machine for this purpose before proceeding.
+> [!IMPORTANT]
+> To ensure that your files are preserved inside the Docker container, a local folder is mounted into the container. Please create a dedicated folder on your host machine for this purpose before proceeding.
 
 For example, you can create a folder named `docker_shared` in your home directory:
 ```bash
@@ -44,7 +46,8 @@ cd prl_ur5_ros2/docker_ros2
 - Replace `</absolute/path/to/shared_dir>` with the absolute path to the shared folder on your host machine.
 - Optionally, specify `<user>` as `ros` (default) or `root`.
 
-> **Warning:** If you want to disable GPU sharing, add the `--no-gpu` option when running the `./start_docker.bash` script.
+> [!TIPS]
+> If you want to disable GPU sharing, add the `--no-gpu` option when running the `./start_docker.bash` script.
 
 For example:
 ```bash
@@ -56,9 +59,10 @@ The container name is flexible and allows you to run multiple containers with th
 There are by default two users: **root** and **ros**. It is recommended to use the **ros** user (non-root) to avoid creating root-owned files in the directory linked to the container on your machine.\
 **ros** is the default user.
 
-> **Warning:** Any files created outside the user's `shared` folder will be deleted after exiting the Docker container and permanently lost. Ensure all important files are saved within the `shared` folder to avoid data loss.
+> [!WARNING]
+> Any files created outside the user's `shared` folder will be deleted after exiting the Docker container and permanently lost. Ensure all important files are saved within the `shared` folder to avoid data loss.
 
-## Additional Notes on Usage 
+## Additional Notes on Usage
 Once inside the Docker container, you can use ROS 2 to interact with your UR robot. Here are some useful commands:
 
 #### Run a UR simulation:

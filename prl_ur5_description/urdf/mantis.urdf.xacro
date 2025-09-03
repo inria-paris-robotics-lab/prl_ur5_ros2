@@ -6,7 +6,7 @@
 
   <!-- Setup files -->
   <xacro:arg name="controller_file" default="$(find prl_ur5_control)/config/dual_arm_controller.yaml"/>
-  <xacro:property name="setup_file" value="${xacro.load_yaml('$(find prl_ur5_robot_configuration)/config/standart_setup.yaml')}"/>
+  <xacro:property name="setup_file" value="${xacro.load_yaml('$(find prl_ur5_robot_configuration)/config/standard_setup.yaml')}"/>
 
   <!-- ur5 arm -->
   <xacro:include filename="$(find prl_ur5_description)/urdf/ur5_complete_arm.urdf.xacro"/>
