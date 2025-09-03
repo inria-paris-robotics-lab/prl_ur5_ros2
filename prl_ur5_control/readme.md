@@ -13,7 +13,8 @@ It is part of the PRL (Paris Robotics Lab) ecosystem and is designed to facilita
 
 Refer to the built-in documentation in the launch file headers for more details.
 
-> **Note:** The arguments for selecting camera parameters and camera type are stored in the `camera_config.yaml` file. Ensure that the camera type matches your hardware, and only use parameters supported by the corresponding launch file.
+> [!IMPORTANT]
+> The arguments for selecting camera parameters and camera type are stored in the `camera_config.yaml` file. Ensure that the camera type matches your hardware, and only use parameters supported by the corresponding launch file.
 
 **Supported cameras:**
 - **`realsense`**: Intel RealSense cameras

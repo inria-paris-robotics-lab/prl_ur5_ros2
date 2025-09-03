@@ -24,7 +24,8 @@ Refer to the built-in documentation in the launch file header for more details.
 
 Before launching the simulation, ensure your environment matches the camera configuration specified in the config files.
 
-> **Note:** If you change the number of cameras or their active settings in your setup, you must update the camera bridge configuration file to reflect these changes.
+> [!IMPORTANT]
+> If you change the number of cameras or their active settings in your setup, you must update the camera bridge configuration file to reflect these changes.
 
 To regenerate the camera bridge configuration file, run:
 

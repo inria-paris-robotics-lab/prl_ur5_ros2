@@ -146,7 +146,8 @@ rosdep install -r --from-paths . --ignore-src --rosdistro $ROS_DISTRO -y
 
 After you had installed all dependencies you can build every packages with 'colcon':
 
-> **Note:** After the build, you may see an error related to the realsense package. You can ignore this error, as it does not affect the setup.
+> [!NOTE]
+> After the build, you may see an error related to the realsense package. You can ignore this error, as it does not affect the setup.
 
 
 ```bash
@@ -180,7 +181,8 @@ Ensure all parameters are correctly adjusted to reflect your specific setup.
 
 ### **Use with Simulate Mantis**
 
-> **Note:** The following instructions are simple examples. For the full list of launch arguments, refer to the README file in each respective package.
+> [!NOTE]
+> The following instructions are simple examples. For the full list of launch arguments, refer to the README file in each respective package.
 
 #### Only visualize Mantis in RViz
 
