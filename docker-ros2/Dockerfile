@@ -136,7 +136,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends\
   vim \
   git \
   tmux \
-  python3-wstool \
+  python3-vcstool \
   && rm -rf /var/lib/apt-get/lists/*
 
 # Install Pinocchio 
