@@ -15,9 +15,5 @@
     uri: https://github.com/inria-paris-robotics-lab/onrobot_ros.git
     version: ros2
 - git:
-    local-name: realsense-ros
-    uri: https://github.com/IntelRealSense/realsense-ros.git
-    version: ros2-master
-- git:
     local-name: wsg50-ros-pkg
     uri: https://github.com/inria-paris-robotics-lab/wsg50-ros-pkg.git
