@@ -80,17 +80,17 @@ def launch_setup(context):
         ],
     )
 
-    wait_robot_description = Node(
-        package="ur_robot_driver",
-        executable="wait_for_robot_description",
+    wait_for_joint_states = Node(
+        package="prl_ur5_moveit",
+        executable="wait_for_joint_states",
         output="screen",
     )
 
     return [
-        wait_robot_description,
+        wait_for_joint_states,
         RegisterEventHandler(
             event_handler=OnProcessExit(
-            target_action=wait_robot_description,
+            target_action=wait_for_joint_states,
             on_exit=[
                     node_move_group,
                     rviz_node,
