@@ -9,8 +9,9 @@
 ############################################################################################################
 from launch import LaunchDescription
 from launch_ros.actions import Node
-from launch.actions import DeclareLaunchArgument, OpaqueFunction
+from launch.actions import DeclareLaunchArgument, OpaqueFunction, RegisterEventHandler
 from launch.substitutions import LaunchConfiguration
+from launch.event_handlers import OnProcessExit
 
 def controller_spawner(controllers, active=True):
     inactive_flags = ["--inactive"] if not active else []
@@ -35,51 +36,50 @@ def controller_spawner(controllers, active=True):
 def launch_setup(context):
     # Arguments
     activate_joint_controller = LaunchConfiguration("activate_joint_controller").perform(context)
-    initial_joint_controller = LaunchConfiguration("initial_joint_controller").perform(context)
+    active_controller = LaunchConfiguration("active_controller").perform(context)
+    loaded_controllers = LaunchConfiguration("loaded_controllers").perform(context)
 
     # Convert string to list
-    controllers_to_activate = initial_joint_controller.split(",")
+    controllers_to_activate = active_controller.split(",")
+    controllers_to_load = loaded_controllers.split(",") 
 
     # Default active controllers
-    controllers_active = ["joint_state_broadcaster"]
+    joint_state_broadcaster_spawner = Node(
+        package="controller_manager",
+        executable="spawner",
+        arguments=[
+            "--controller-manager",
+            "/controller_manager",
+            "--controller-manager-timeout",
+            "10",
+            "joint_state_broadcaster",
+        ],
+    )
+    controllers_active = []
     # Default inactive controllers
-    controllers_inactive = [
-        "left_joint_trajectory_controller",
-        "right_joint_trajectory_controller",
-        "forward_velocity_controller",
-        "forward_position_controller",
-        "left_force_mode_controller",
-        "right_force_mode_controller",
-        "left_passthrough_trajectory_controller",
-        "right_passthrough_trajectory_controller",
-        "left_freedrive_mode_controller",
-        "right_freedrive_mode_controller",
-        "left_io_and_status_controller",
-        "right_io_and_status_controller",
-        "left_speed_scaling_state_broadcaster",
-        "right_speed_scaling_state_broadcaster",
-        "left_force_torque_sensor_broadcaster",
-        "right_force_torque_sensor_broadcaster",
-        "left_tcp_pose_broadcaster",
-        "right_tcp_pose_broadcaster",
-        "left_arm_configuration_controller",
-        "right_arm_configuration_controller",
-        "left_scaled_joint_trajectory_controller",
-        "right_scaled_joint_trajectory_controller",
-    ]
+    controllers_inactive = []
     # Update active and inactive controllers with initial joint controller
     if activate_joint_controller.lower() == "true":
         for controller in controllers_to_activate:
-            if controller in controllers_inactive:
-                controllers_inactive.remove(controller)
             controllers_active.append(controller)
+        for controller in controllers_to_load:
+            if controller not in controllers_active :
+                controllers_inactive.append(controller)
 
     controller_spawners = (
         controller_spawner(controllers_active)+
         controller_spawner(controllers_inactive, active=False)
     )
 
-    return controller_spawners
+    return [
+        joint_state_broadcaster_spawner,
+        RegisterEventHandler(
+            event_handler=OnProcessExit(
+                target_action=joint_state_broadcaster_spawner,
+                on_exit=controller_spawners,
+            )
+        ),
+    ]
 
 def generate_launch_description():
     declared_arguments = [
@@ -89,9 +89,14 @@ def generate_launch_description():
             description="Activate wanted joint controller",
         ),
         DeclareLaunchArgument(
-            "initial_joint_controller",
+            "active_controller",
             default_value="left_joint_trajectory_controller,right_joint_trajectory_controller",
             description="Initially activated robot controller (comma-separated). (used if activate_joint_controller is true)",
+        ),
+        DeclareLaunchArgument(
+            "loaded_controllers",
+            default_value="",
+            description="Just load the specified controllers (comma-separated).",
         ),
     ]
     return LaunchDescription(declared_arguments + [OpaqueFunction(function=launch_setup)])

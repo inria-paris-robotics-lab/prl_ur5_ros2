@@ -9,6 +9,9 @@ from launch.substitutions import PathJoinSubstitution
 from launch_ros.substitutions import FindPackageShare
 from launch.conditions import IfCondition
 
+import os
+import yaml
+from ament_index_python.packages import get_package_share_directory
 
 def launch_setup(context):
     # Get the launch arguments
@@ -16,7 +19,6 @@ def launch_setup(context):
     gazebo_gui = context.launch_configurations.get("gazebo_gui", "true")
     launch_moveit = context.launch_configurations.get("launch_moveit", "true")
     activate_cameras = context.launch_configurations.get("activate_cameras", "false")
-
 
 
     gazebo_launch = IncludeLaunchDescription(
