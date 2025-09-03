@@ -57,6 +57,12 @@ def launch_setup(context):
     onrobot_world_file = PathJoinSubstitution([FindPackageShare('prl_ur5_gazebo'),'world', 'onrobot_world.sdf'])
     camera_bridge_params = os.path.join(get_package_share_directory('prl_ur5_gazebo'), 'config', 'camera_bridge.yaml')
     config_file = Path(get_package_share_directory('prl_ur5_robot_configuration')) / 'config/standard_setup.yaml'
+    config_controller_path = os.path.join(get_package_share_directory('prl_ur5_robot_configuration'), 'config', 'controller_setup.yaml')
+    with open(config_controller_path, 'r') as setup_file:
+        config_controller = yaml.safe_load(setup_file)
+    all_controllers = config_controller.get('controllers')
+    activate_controllers = all_controllers.get('active_controllers', [])
+    loaded_controllers = all_controllers.get('inactive_controllers', [])
 
     ###### Robot description ######
 
@@ -164,7 +170,11 @@ def launch_setup(context):
     )
 
     ###### Controllers ######
-
+    inactive_controller = ",".join([
+        "left_io_and_status_controller",
+        "right_io_and_status_controller",
+    ]) + "," + ",".join(loaded_controllers)
+    active_controllers = ",".join(activate_controllers)
     # UR controllers
     controller_launch = IncludeLaunchDescription(
         PythonLaunchDescriptionSource([
@@ -174,6 +184,10 @@ def launch_setup(context):
             'mantis_controllers.launch.py',
             ])
         ]),
+        launch_arguments={
+            'active_controller': str(active_controllers),
+            'loaded_controllers': str(inactive_controller),
+        }.items(),
     )
     # Gripper controllers
     config_path = Path(config_file) 
