@@ -16,7 +16,7 @@
 #              - Bridge parameters file that contains the configuration of the bridge between ROS and Gazebo
 #              - Rviz configuration file that contains the rviz setup
 #              - World file that contains the workbench setup world
-#              - Standart setup file that contains the configuration of the workbench setup
+#              - Standard setup file that contains the configuration of the workbench setup
 # Arguments:
 #   - launch_rviz: Launch rviz
 #   - gazebo_gui: Launch gazebo with GUI
@@ -49,14 +49,14 @@ def launch_setup(context):
     launch_rviz = LaunchConfiguration('launch_rviz', default=True)
     gazebo_gui = LaunchConfiguration('gazebo_gui', default=True)
     # Load the configuration file
-    config_file = os.path.join(get_package_share_directory('prl_ur5_robot_configuration'), 'config', 'standart_setup.yaml')
+    config_file = os.path.join(get_package_share_directory('prl_ur5_robot_configuration'), 'config', 'standard_setup.yaml')
     description_file=PathJoinSubstitution([FindPackageShare('prl_ur5_description'),'urdf', 'mantis.urdf.xacro'])
     bridge_params = os.path.join(get_package_share_directory('prl_ur5_gazebo'), 'config', 'gz_bridge.yaml')
     rviz_config_file = PathJoinSubstitution([FindPackageShare('prl_ur5_gazebo'),'rviz', 'config.rviz'])
     default_world_file = PathJoinSubstitution([FindPackageShare('prl_ur5_gazebo'),'world', 'default_world.sdf'])
     onrobot_world_file = PathJoinSubstitution([FindPackageShare('prl_ur5_gazebo'),'world', 'onrobot_world.sdf'])
     camera_bridge_params = os.path.join(get_package_share_directory('prl_ur5_gazebo'), 'config', 'camera_bridge.yaml')
-    config_file = Path(get_package_share_directory('prl_ur5_robot_configuration')) / 'config/standart_setup.yaml'
+    config_file = Path(get_package_share_directory('prl_ur5_robot_configuration')) / 'config/standard_setup.yaml'
 
     ###### Robot description ######
 

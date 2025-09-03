@@ -4,7 +4,7 @@
     A URDF file must exist for this robot as well, where the joints and the links that are referenced are defined
 -->
 <robot name="mantis" xmlns:xacro="http://www.ros.org/wiki/xacro">
-    <xacro:arg name="setup_name" default="standart_setup"/>
+    <xacro:arg name="setup_name" default="standard_setup"/>
     <xacro:property name="setup" value="${xacro.load_yaml('$(find prl_ur5_robot_configuration)/config/$(arg setup_name).yaml')}"/>
     <xacro:include filename="$(find onrobot_description)/urdf/onrobot_rg.srdf.xacro"/>
 

@@ -57,7 +57,7 @@ def launch_setup(context):
     rviz_config_file = PathJoinSubstitution([FindPackageShare("ur_description"), "rviz", "view_robot.rviz"])
     right_kinematics_file = LaunchConfiguration("right_kinematics_file")
     left_kinematics_file = LaunchConfiguration("left_kinematics_file")
-    config_file = os.path.join(get_package_share_directory('prl_ur5_robot_configuration'), 'config', 'standart_setup.yaml')
+    config_file = os.path.join(get_package_share_directory('prl_ur5_robot_configuration'), 'config', 'standard_setup.yaml')
     config_path = Path(config_file) 
     with config_path.open('r') as setup_file:
         config = yaml.safe_load(setup_file)
