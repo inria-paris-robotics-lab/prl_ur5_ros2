@@ -145,7 +145,7 @@ After you had installed all dependencies you can build every packages with 'colc
 
 
 ```bash
-colcon build --symlink-install --packages-skip robotiq_ft_sensor_hardware
+colcon build --symlink-install
 ```
 
 Once the build process is finished, source your workspace so that ROS 2 recognizes the new packages:
