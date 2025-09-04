@@ -166,6 +166,7 @@ RUN byobu-enable
 ARG USERNAME=ros
 ARG USER_UID=1001
 ARG USER_GID=1001
+ARG INPUT_GRP=106
 
 
 RUN if getent group ${USER_GID} >/dev/null 2>&1; then \
@@ -187,6 +188,8 @@ RUN groupadd --gid $USER_GID $USERNAME \
   && (getent group docker || groupadd docker) \
   && usermod -aG docker $USERNAME \
   && usermod -aG video $USERNAME \
+  && groupadd -g $INPUT_GRP input \
+  && usermod -aG input $USERNAME \
   && echo "source /opt/ros/${ROS_DISTRO}/setup.bash " >> /home/${USERNAME}/.bashrc \
   && echo 'export PS1="\[\e]0;\u@$ROS_DISTRO-container: \w\a\]${debian_chroot:+($debian_chroot)}\[\033[01;34m\]\u@$ROS_DISTRO-container\[\033[00m\]:\[\033[01;35m\]\w\[\033[00m\]\$ "' >> /home/${USERNAME}/.bashrc \
   && echo "export ROS_AUTOMATIC_DISCOVERY_RANGE=LOCALHOST" >> /home/${USERNAME}/.bashrc 

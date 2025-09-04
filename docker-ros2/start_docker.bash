@@ -32,7 +32,7 @@ done
 # Build the image if it doesn't exist
 if ! docker image inspect "${IMAGE_NAME}:${IMAGE_TAG}" > /dev/null 2>&1 || [ "$rebuild" = true ]; then
   echo "Building Docker image ${IMAGE_NAME}:${IMAGE_TAG}..."
-  docker build -t "${IMAGE_NAME}:${IMAGE_TAG}" . --build-arg USER_UID=$(id -u) --build-arg USER_GID=$(id -g)
+  docker build -t "${IMAGE_NAME}:${IMAGE_TAG}" . --build-arg USER_UID=$(id -u) --build-arg USER_GID=$(id -g) --build-arg INPUT_GRP=$(getent group input | cut -d: -f3)
 fi
 
 
