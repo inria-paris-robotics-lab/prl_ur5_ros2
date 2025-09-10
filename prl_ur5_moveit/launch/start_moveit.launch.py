@@ -49,16 +49,6 @@ def launch_setup(context):
             },
         ],
     )
-    # Load MoveIt's controllers
-    moveit_controller = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource([
-            PathJoinSubstitution([
-            FindPackageShare('prl_ur5_moveit'),
-            'launch',
-            'spawn_controllers.launch.py',
-            ])
-        ]),
-    )
 
     # Launch RViz
     rviz_node = Node(
