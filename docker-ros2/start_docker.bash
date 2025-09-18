@@ -32,7 +32,7 @@ done
 # Build the image if it doesn't exist
 if ! docker image inspect "${IMAGE_NAME}:${IMAGE_TAG}" > /dev/null 2>&1 || [ "$rebuild" = true ]; then
   echo "Building Docker image ${IMAGE_NAME}:${IMAGE_TAG}..."
-  docker build -t "${IMAGE_NAME}:${IMAGE_TAG}" . --build-arg USER_UID=$(id -u) --build-arg USER_GID=$(id -g) --build-arg INPUT_GRP=$(getent group input | cut -d: -f3)
+  docker build -t "${IMAGE_NAME}:${IMAGE_TAG}" . --build-arg USER_UID=$(id -u) --build-arg USER_GID=$(id -g) --build-arg DOCKER_GRP=$(getent group docker | cut -d: -f3) --build-arg INPUT_GRP=$(getent group input | cut -d: -f3)
 fi
 
 
@@ -62,7 +62,10 @@ docker_cmd=(
   --workdir="$workdir"
   --mount type=bind,source="$storage",target="$workdir/share"
   --device=/dev/bus/usb 
-  --group-add dialout
+  --group-add $(getent group dialout | cut -d: -f3)
+  --group-add $(getent group docker  | cut -d: -f3)
+  --group-add $(getent group input   | cut -d: -f3)
+  --group-add $(getent group video   | cut -d: -f3)
 )
 
 # Add GPU runtime if needed
