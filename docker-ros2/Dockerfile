@@ -168,6 +168,7 @@ ARG USER_UID=1001
 ARG USER_GID=1001
 ARG DOCKER_GRP=999
 ARG INPUT_GRP=106
+ARG RENDER_GRP=107
 
 
 
@@ -198,6 +199,12 @@ RUN if getent group input >/dev/null 2>&1; then \
       groupmod -g ${INPUT_GRP} input; \
     else \
       groupadd -g ${INPUT_GRP} input; \
+    fi
+    
+RUN if getent group render >/dev/null 2>&1; then \
+      groupmod -g ${RENDER_GRP} render; \
+    else \
+      groupadd -g ${RENDER_GRP} render; \
     fi
 
 
