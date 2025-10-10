@@ -43,7 +43,6 @@ def launch_setup(context):
             enable_rgbd = str(camera_info.get('enable_rgbd', False)).lower()
             enable_sync = str(camera_info.get('enable_sync', False)).lower()
             enable_align_depth = str(camera_info.get('align_depth', False)).lower()
-
             if activate and serial_no:
                 print(f"Activating camera {camera_name} with serial number {serial_no}")
                 camera_node = IncludeLaunchDescription(
@@ -53,17 +52,17 @@ def launch_setup(context):
                     launch_arguments={
                         "camera_name": camera_name,
                         "serial_no": serial_no,
+                        "enable_color": enable_color,
                         "enable_depth": enable_depth,
                         "pointcloud.enable": pointcloud,
                         "enable_infra": enable_infra,
                         "enable_infra1": enable_infra1,
                         "enable_infra2": enable_infra2,
-                        "enable_color": enable_color,
                         "enable_gyro": enable_gyro,
                         "enable_accel": enable_accel,
-                        "enable_rgbd" : enable_rgbd,
                         "enable_sync": enable_sync,
                         "align_depth.enable": enable_align_depth,
+                        "enable_rgbd" : enable_rgbd,
 
                     }.items()
                 )
@@ -74,6 +73,8 @@ def launch_setup(context):
                 ip = camera_info.get('ip')
                 port = camera_info.get('port')
                 sync_mode = camera_info.get('sync_mode', 'standalone')
+                enable_colored_point_cloud = str(camera_info.get('enable_colored_point_cloud', False))
+                depth_registration = str(camera_info.get('depth_registration', False))
                 camera_node = IncludeLaunchDescription(
                     PythonLaunchDescriptionSource([
                         FindPackageShare("orbbec_camera"), "/launch", "/femto_mega.launch.py"
@@ -83,8 +84,8 @@ def launch_setup(context):
                         "net_device_ip": str(ip),
                         "net_device_port": str(port),
                         "sync_mode": sync_mode,
-                        "enable_colored_point_cloud": "true",
-                        "depth_registration": "true",
+                        "enable_colored_point_cloud": enable_colored_point_cloud,
+                        "depth_registration": depth_registration,
                     }.items(),
                 )
 
