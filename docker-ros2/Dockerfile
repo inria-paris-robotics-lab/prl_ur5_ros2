@@ -158,9 +158,11 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 # Nettoyer le cache apt pour réduire la taille de l'image
  && rm -rf /var/lib/apt/lists/*
 
-
 #byobu disable by default 
 RUN byobu-enable 
+
+# Install VISP
+RUN apt-get update && apt-get install -y libvisp-dev libvisp-doc visp-images-data
 
 # Create non root user matching host user
 ARG USERNAME=ros
@@ -203,7 +205,10 @@ RUN echo "export PATH=/opt/openrobots/bin:\$PATH" >> /home/${USERNAME}/.bashrc \
  && echo "export PKG_CONFIG_PATH=/opt/openrobots/lib/pkgconfig:\$PKG_CONFIG_PATH" >> /home/${USERNAME}/.bashrc \
  && echo "export LD_LIBRARY_PATH=/opt/openrobots/lib:\$LD_LIBRARY_PATH" >> /home/${USERNAME}/.bashrc \
  && echo "export PYTHONPATH=/opt/openrobots/lib/python3.10/site-packages:\$PYTHONPATH" >> /home/${USERNAME}/.bashrc \
- && echo "export CMAKE_PREFIX_PATH=/opt/openrobots:\$CMAKE_PREFIX_PATH" >> /home/${USERNAME}/.bashrc
+ && echo "export CMAKE_PREFIX_PATH=/opt/openrobots:\$CMAKE_PREFIX_PATH" >> /home/${USERNAME}/.bashrc \
+ && echo "export PYTHONPATH=$PYTHONPATH:/opt/openrobots/lib/python3.12/site-packages" >> /home/${USERNAME}/.bashrc \
+ && echo "export PYTHONPATH=$PYTHONPATH:/home/ros/share/install/lib/python3.12/site-packages" >> /home/${USERNAME}/.bashrc \
+ && echo "export PYTHONPATH=$PYTHONPATH:/openrobots/lib/python3.12/site-packages" >> /home/${USERNAME}/.bashrc
 
 # Set default user ros
 USER ${USERNAME}
@@ -220,6 +225,7 @@ RUN mkdir -p ~/ros2_utils_ws/src && \
     cd ~/ros2_utils_ws/src && \
     git clone https://github.com/orbbec/OrbbecSDK_ROS2.git -b v2-main && \
     git clone https://github.com/IntelRealSense/realsense-ros.git -b ros2-master && \
+    #git clone https://github.com/lagadic/vision_visp.git -b rolling && \
     # Go to the workspace root
     cd ~/ros2_utils_ws && \
     # Source the ROS 2 environment directly
