@@ -58,12 +58,22 @@ def launch_setup(context):
     right_kinematics_file = LaunchConfiguration("right_kinematics_file")
     left_kinematics_file = LaunchConfiguration("left_kinematics_file")
     config_file = os.path.join(get_package_share_directory('prl_ur5_robot_configuration'), 'config', 'standard_setup.yaml')
+    network_file = os.path.join(get_package_share_directory('prl_ur5_robot_configuration'), 'config', 'network_setup.yaml')
+    config_controller_path = os.path.join(get_package_share_directory('prl_ur5_robot_configuration'), 'config', 'controller_setup.yaml')
+    
+    # Get gripper controller
     config_path = Path(config_file) 
     with config_path.open('r') as setup_file:
         config = yaml.safe_load(setup_file)
-    left_robot_ip = config.get('left')['network']['ip']
-    right_robot_ip = config.get('right')['network']['ip']
-    config_controller_path = os.path.join(get_package_share_directory('prl_ur5_robot_configuration'), 'config', 'controller_setup.yaml')
+    left_gripper_controller = config.get('left')['gripper_controller']
+    right_gripper_controller = config.get('right')['gripper_controller']
+    # Get Network Configuration
+    network_path = Path(network_file)
+    with network_path.open('r') as network:
+        network_config = yaml.safe_load(network)
+    left_robot_ip = network_config.get('left_network')['ip']
+    right_robot_ip = network_config.get('right_network')['ip']
+    # Get Controllers Configuration
     with open(config_controller_path, 'r') as setup_file:
         config_controller = yaml.safe_load(setup_file)
     all_controllers = config_controller.get('controllers')
@@ -122,7 +132,7 @@ def launch_setup(context):
     # Spawn controllers
     active_controllers = ",".join([
         "left_io_and_status_controller",
-        "right_io_and_status_controller",
+        "right_io_and_status_controller",config_file
     ]) + "," + ",".join(activate_controllers)
     inactive_controllers = ",".join(loaded_controllers)
     print("Active controllers: ", active_controllers)
@@ -233,8 +243,7 @@ def launch_setup(context):
 
     ###### Gripper ######
 
-    left_gripper_controller = config.get('left')['gripper_controller']
-    right_gripper_controller = config.get('right')['gripper_controller']
+    
 
     left_gripper_controller = IncludeLaunchDescription(
         PythonLaunchDescriptionSource([
