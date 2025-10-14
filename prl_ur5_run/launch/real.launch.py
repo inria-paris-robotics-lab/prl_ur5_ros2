@@ -132,7 +132,7 @@ def launch_setup(context):
     # Spawn controllers
     active_controllers = ",".join([
         "left_io_and_status_controller",
-        "right_io_and_status_controller",config_file
+        "right_io_and_status_controller",
     ]) + "," + ",".join(activate_controllers)
     inactive_controllers = ",".join(loaded_controllers)
     print("Active controllers: ", active_controllers)
