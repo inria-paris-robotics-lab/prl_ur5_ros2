@@ -8,6 +8,9 @@ moveit_simple_controller_manager:
     - right_joint_trajectory_controller
     - left_gripper_controller
     - right_gripper_controller
+    - left_allegro_hand_controller
+    - right_allegro_hand_controller
+
   # Joint trajectory controllers
   # These controllers are used for moving the robot's joints
   left_joint_trajectory_controller:
@@ -48,3 +51,45 @@ moveit_simple_controller_manager:
       - right_gripper_joint
     action_ns: gripper_cmd
     default: true
+
+  left_allegro_hand_controller:
+    type: FollowJointTrajectory
+    action_ns: follow_joint_trajectory
+    joints:
+      - left_gripper_joint_00
+      - left_gripper_joint_01
+      - left_gripper_joint_02
+      - left_gripper_joint_03
+      - left_gripper_joint_04
+      - left_gripper_joint_05
+      - left_gripper_joint_06
+      - left_gripper_joint_07
+      - left_gripper_joint_08
+      - left_gripper_joint_09
+      - left_gripper_joint_10
+      - left_gripper_joint_11
+      - left_gripper_joint_12
+      - left_gripper_joint_13
+      - left_gripper_joint_14
+      - left_gripper_joint_15
+
+  right_allegro_hand_controller:
+    type: FollowJointTrajectory
+    action_ns: follow_joint_trajectory
+    joints:
+      - right_gripper_joint_00
+      - right_gripper_joint_01
+      - right_gripper_joint_02
+      - right_gripper_joint_03
+      - right_gripper_joint_04
+      - right_gripper_joint_05
+      - right_gripper_joint_06
+      - right_gripper_joint_07
+      - right_gripper_joint_08
+      - right_gripper_joint_09
+      - right_gripper_joint_10
+      - right_gripper_joint_11
+      - right_gripper_joint_12
+      - right_gripper_joint_13
+      - right_gripper_joint_14
+      - right_gripper_joint_15

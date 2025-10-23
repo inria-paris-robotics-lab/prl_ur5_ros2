@@ -56,6 +56,21 @@ def launch_setup(context):
             ],
         )
         controllers_to_start.append(onrobot_controller)
+    elif controller == "allegro-hand":
+        allegro_controller = IncludeLaunchDescription(
+                PythonLaunchDescriptionSource([
+                    PathJoinSubstitution([
+                    FindPackageShare('allegro_hand_controllers'),
+                    'launch',
+                    'allegro_hand_controller.launch.py',
+                    ])
+                ]),
+                launch_arguments=[
+                        ('prefix', prefix),
+                        ('controller_file', PathJoinSubstitution([FindPackageShare('prl_ur5_control'), 'config', 'allegro.yaml']))
+                    ],
+            )
+        controllers_to_start.append(allegro_controller)
     elif not controller or controller.lower() == "none":
         pass
     else:
