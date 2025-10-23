@@ -32,6 +32,8 @@ from launch.actions import (
     DeclareLaunchArgument,
     IncludeLaunchDescription,
     OpaqueFunction,
+    LogInfo,
+    ExecuteProcess,
 )
 from launch.conditions import IfCondition
 from launch.launch_description_sources import PythonLaunchDescriptionSource
@@ -65,8 +67,8 @@ def launch_setup(context):
     config_path = Path(config_file) 
     with config_path.open('r') as setup_file:
         config = yaml.safe_load(setup_file)
-    left_gripper_controller = config.get('left')['gripper_controller']
-    right_gripper_controller = config.get('right')['gripper_controller']
+    left_gripper_controller_name = config.get('left')['gripper_controller']
+    right_gripper_controller_name = config.get('right')['gripper_controller']
     # Get Network Configuration
     network_path = Path(network_file)
     with network_path.open('r') as network:
@@ -254,7 +256,7 @@ def launch_setup(context):
             ])
         ]),
         launch_arguments=[
-            ('gripper_controller', left_gripper_controller),
+            ('gripper_controller', left_gripper_controller_name),
             ('prefix', 'left_'),
         ],
     )
@@ -267,10 +269,22 @@ def launch_setup(context):
             ])
         ]),
         launch_arguments=[
-            ('gripper_controller', right_gripper_controller),
+            ('gripper_controller', right_gripper_controller_name),
             ('prefix', 'right_'),
         ],
     )
+
+    print("Left gripper controller: ", left_gripper_controller_name)
+    # Run CAN setup only if the left gripper controller is the allegro hand
+    if left_gripper_controller_name == "allegro-hand" or right_gripper_controller_name == "allegro-hand":
+        print("Configuring CAN interface for Allegro Hand")
+        can_device = "can0"
+        can_setup_actions = [
+            LogInfo(msg=["Configuring CAN interface: ", can_device]),
+            ExecuteProcess(cmd=['sudo', 'ip', 'link', 'set', can_device, 'up', 'type', 'can', 'bitrate', '1000000']),
+        ]
+    else:
+        can_setup_actions = []
 
     ###### Sensors ######
 
@@ -300,7 +314,7 @@ def launch_setup(context):
         condition=IfCondition(launch_moveit),
     )
 
-    return [
+    return can_setup_actions + [
         right_calib,
         left_calib,
         control_node,
