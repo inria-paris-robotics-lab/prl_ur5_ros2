@@ -138,6 +138,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends\
   tmux \
   python3-vcstool \
   terminator \
+  can-utils \
   && rm -rf /var/lib/apt-get/lists/*
 
 # Install Pinocchio 

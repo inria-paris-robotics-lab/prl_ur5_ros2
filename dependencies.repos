@@ -20,3 +20,6 @@
 - git:
     local-name: prl_ur5_calibration
     https://github.com/inria-paris-robotics-lab/prl_ur5_calibration.git
+- git:
+    local-name: allegro_hand_ros_v4
+    uri: https://github.com/inria-paris-robotics-lab/allegro_hand_ros_v4.git
