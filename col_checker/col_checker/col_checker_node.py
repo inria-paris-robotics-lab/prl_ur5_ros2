@@ -15,7 +15,7 @@ class Traj_exec(Node):
     ROBOT_CONTROLLED = "left_arm"
     def __init__(self,traj_topic='/trajectory', command_topic='/left_joint_trajectory_controller/joint_trajectory'):
         super().__init__('glue_spread')
-        self.get_logger().info('Glue spreading node has been started.')
+        self.get_logger().info('Col checker node has been started.')
 
         ## Create Pinocchio Robot
         urdf = replace_path_to_absolute("prl_ur5_description", "urdf/mantis.urdf.xacro")
