@@ -99,32 +99,3 @@ def main(args=None):
 
 if __name__ == "__main__":
     main()
-
-
-
-    # def build_complete_trajectory(self, traj_partial):
-    #     """
-    #     Build a complete trajectory from a partial one by filling in missing joints.
-    #     Args:
-    #         traj_partial (Traj): Partial trajectory message.
-    #     Returns:
-    #         Traj: Complete trajectory message.
-    #     """
-    #     traj_complete = JointTrajectory()
-    #     traj_complete.joint_names = self.robot.get_joint_names()
-            
-    #     for point in traj_partial.points:
-    #         complete_point = JointTrajectoryPoint()
-    #         q_partial = np.array(point.positions)
-    #         q_complete = self.robot.get_meas_qvtau()[0]
-
-    #         if (self.ROBOT_CONTROLLED == "left_arm"):
-    #             q_complete[0:len(q_partial)] = q_partial
-    #         else:
-    #             q_complete[:len(q_partial)] = q_partial
-
-    #         complete_point.positions = q_complete
-    #         complete_point.time_from_start = point.time_from_start
-    #         traj_complete.points.append(complete_point)
-
-    #     return traj_complete
