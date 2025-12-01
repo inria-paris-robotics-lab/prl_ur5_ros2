@@ -137,6 +137,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends\
   git \
   tmux \
   python3-vcstool \
+  terminator \
   && rm -rf /var/lib/apt-get/lists/*
 
 # Install Pinocchio 
@@ -168,9 +169,18 @@ RUN apt-get update && apt-get install -y libvisp-dev libvisp-doc visp-images-dat
 ARG USERNAME=ros
 ARG USER_UID=1001
 ARG USER_GID=1001
+ARG DOCKER_GRP=999
 ARG INPUT_GRP=106
+ARG RENDER_GRP=107
 
 
+
+# Allowing high uid/gid for user creation
+# This is to avoid issues when the host user has a high uid/gid
+RUN sed -i 's/^UID_MAX.*/UID_MAX\t999999999/' /etc/login.defs \
+ && sed -i 's/^GID_MAX.*/GID_MAX\t999999999/' /etc/login.defs
+
+# Delete existing user/group with same uid/gid if any
 RUN if getent group ${USER_GID} >/dev/null 2>&1; then \
         EXISTING_GROUP_NAME=$(getent group ${USER_GID} | cut -d: -f1); \
         echo "Deleting conflicting group ${EXISTING_GROUP_NAME} with GID ${USER_GID}"; \
@@ -180,18 +190,32 @@ RUN if getent group ${USER_GID} >/dev/null 2>&1; then \
         EXISTING_USER_NAME=$(getent passwd ${USER_UID} | cut -d: -f1); \
         echo "Deleting conflicting user ${EXISTING_USER_NAME} with UID ${USER_UID}"; \
         deluser --remove-home ${EXISTING_USER_NAME}; \
-    fi 
+    fi
+
+# Create host groups if not already present
+RUN if getent group docker >/dev/null 2>&1; then \
+      groupmod -g ${DOCKER_GRP} docker; \
+    else \
+      groupadd -g ${DOCKER_GRP} docker; \
+    fi
+RUN if getent group input >/dev/null 2>&1; then \
+      groupmod -g ${INPUT_GRP} input; \
+    else \
+      groupadd -g ${INPUT_GRP} input; \
+    fi
+    
+RUN if getent group render >/dev/null 2>&1; then \
+      groupmod -g ${RENDER_GRP} render; \
+    else \
+      groupadd -g ${RENDER_GRP} render; \
+    fi
+
 
 # Create new user and his home directory
-RUN groupadd --gid $USER_GID $USERNAME \
+RUN getent group $USER_GID || groupadd -g $USER_GID $USERNAME \
   && useradd --uid $USER_UID --gid $USER_GID --create-home --shell /bin/bash $USERNAME \
   && echo "$USERNAME ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/$USERNAME \
   && chmod 0440 /etc/sudoers.d/$USERNAME \
-  && (getent group docker || groupadd docker) \
-  && usermod -aG docker $USERNAME \
-  && usermod -aG video $USERNAME \
-  && groupadd -g $INPUT_GRP input \
-  && usermod -aG input $USERNAME \
   && echo "source /opt/ros/${ROS_DISTRO}/setup.bash " >> /home/${USERNAME}/.bashrc \
   && echo 'export PS1="\[\e]0;\u@$ROS_DISTRO-container: \w\a\]${debian_chroot:+($debian_chroot)}\[\033[01;34m\]\u@$ROS_DISTRO-container\[\033[00m\]:\[\033[01;35m\]\w\[\033[00m\]\$ "' >> /home/${USERNAME}/.bashrc \
   && echo "export ROS_AUTOMATIC_DISCOVERY_RANGE=LOCALHOST" >> /home/${USERNAME}/.bashrc 
