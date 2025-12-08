@@ -86,6 +86,8 @@ def launch_setup(context):
                         "sync_mode": sync_mode,
                         "enable_colored_point_cloud": enable_colored_point_cloud,
                         "depth_registration": depth_registration,
+                        "publish_tf":"False",
+                        
                     }.items(),
                 )
 

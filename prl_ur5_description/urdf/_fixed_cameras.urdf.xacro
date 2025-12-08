@@ -62,7 +62,7 @@
                                  prefix="${camera['name_prefix']}_"
                                  parent="${camera['name_prefix']}_camera_calibration_pose"
                                  turn_on="${turn_on}"
-                                pose="${dict(x=-0.029, y=0.0127, z=-0.06327, roll=pi/2, pitch=-pi/2, yaw=0)}" />
+                                pose="${dict(x=-0.0307, y=0.02014, z=-0.03425, roll=pi/2.0, pitch=-pi/2.0, yaw=0.0)}" />
         </xacro:if>
 
         <!-- Numerical dimensions for the fixtures -->
