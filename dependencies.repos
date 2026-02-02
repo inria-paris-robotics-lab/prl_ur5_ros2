@@ -17,3 +17,6 @@
 - git:
     local-name: wsg50-ros-pkg
     uri: https://github.com/inria-paris-robotics-lab/wsg50-ros-pkg.git
+- git:
+    local-name: prl_ur5_calibration
+    https://github.com/inria-paris-robotics-lab/prl_ur5_calibration.git
