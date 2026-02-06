@@ -7,8 +7,8 @@ This package is part of the PRL (Paris Robotics Lab) ecosystem and is designed t
 ## Contents
 
 ### Launch Files
-- **`real.launch.py`**  
-- **`sim.launch.py`**  
+- **`real.launch.py`**
+- **`sim.launch.py`**
 
 Refer to the documentation in the launch file headers for detailed usage instructions.
 
@@ -18,7 +18,7 @@ To launch the MoveIt configuration for the Mantis, use the following command:
 
 ### Simulate :
 ```bash
-ros2 launch prl_ur5_run sim.launch.py 
+ros2 launch prl_ur5_run sim.launch.py
 ```
 
 ### Real :

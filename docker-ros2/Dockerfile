@@ -19,7 +19,7 @@ ENV LANG=en_US.UTF-8
 ENV TERM=xterm-256color
 ENV SHELL=/bin/bash
 
-RUN apt-get -y update && apt-get -y upgrade 
+RUN apt-get -y update && apt-get -y upgrade
 
 # Install timezone
 RUN ln -fs /usr/share/zoneinfo/UTC /etc/localtime \
@@ -57,7 +57,7 @@ RUN sudo curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.ke
   ros-${ROS_DISTRO}-tf-transformations \
   ros-${ROS_DISTRO}-image-pipeline \
   && rm -rf /var/lib/apt-get/lists/*
-  
+
 # Orbbec driver dependencies
 
 RUN sudo apt-get update && apt-get install -y \
@@ -84,11 +84,11 @@ ENV PYTHONPATH=/opt/ros/${ROS_DISTRO}/local/lib/python3.10/dist-packages:/opt/ro
 RUN echo "source /opt/ros/${ROS_DISTRO}/setup.bash" >> ~/.bashrc
 
 RUN rosdep init \
-  &&rosdep update 
+  &&rosdep update
 
 
 ################################
-# Complete ros2 image with gazebo 
+# Complete ros2 image with gazebo
 ################################
 
 FROM base AS ros2_complete
@@ -114,7 +114,7 @@ RUN apt-get update && apt-get install -q -y --no-install-recommends \
     xauth \
     && rm -rf /var/lib/apt-get/lists/*
 
-# Install docker 
+# Install docker
 RUN sudo apt-get update && apt-get install -y ca-certificates curl \
   && sudo install -m 0755 -d /etc/apt/keyrings \
   && sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc \
@@ -141,7 +141,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends\
   can-utils \
   && rm -rf /var/lib/apt-get/lists/*
 
-# Install Pinocchio 
+# Install Pinocchio
 # Installer les dépendances pour la gestion des dépôts
 RUN apt-get update && apt-get install -y --no-install-recommends \
     ca-certificates \
@@ -160,8 +160,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 # Nettoyer le cache apt pour réduire la taille de l'image
  && rm -rf /var/lib/apt/lists/*
 
-#byobu disable by default 
-RUN byobu-enable 
+#byobu disable by default
+RUN byobu-enable
 
 # Install VISP
 RUN apt-get update && apt-get install -y libvisp-dev libvisp-doc visp-images-data
@@ -204,7 +204,7 @@ RUN if getent group input >/dev/null 2>&1; then \
     else \
       groupadd -g ${INPUT_GRP} input; \
     fi
-    
+
 RUN if getent group render >/dev/null 2>&1; then \
       groupmod -g ${RENDER_GRP} render; \
     else \
@@ -219,13 +219,13 @@ RUN getent group $USER_GID || groupadd -g $USER_GID $USERNAME \
   && chmod 0440 /etc/sudoers.d/$USERNAME \
   && echo "source /opt/ros/${ROS_DISTRO}/setup.bash " >> /home/${USERNAME}/.bashrc \
   && echo 'export PS1="\[\e]0;\u@$ROS_DISTRO-container: \w\a\]${debian_chroot:+($debian_chroot)}\[\033[01;34m\]\u@$ROS_DISTRO-container\[\033[00m\]:\[\033[01;35m\]\w\[\033[00m\]\$ "' >> /home/${USERNAME}/.bashrc \
-  && echo "export ROS_AUTOMATIC_DISCOVERY_RANGE=LOCALHOST" >> /home/${USERNAME}/.bashrc 
+  && echo "export ROS_AUTOMATIC_DISCOVERY_RANGE=LOCALHOST" >> /home/${USERNAME}/.bashrc
 
 
 # Config Tmux
 COPY --chown=${USERNAME}:${USERNAME} utils/tmux.conf /home/${USERNAME}/.tmux.conf
 
-## ADD pinocchio 
+## ADD pinocchio
 RUN echo "export PATH=/opt/openrobots/bin:\$PATH" >> /home/${USERNAME}/.bashrc \
  && echo "export PKG_CONFIG_PATH=/opt/openrobots/lib/pkgconfig:\$PKG_CONFIG_PATH" >> /home/${USERNAME}/.bashrc \
  && echo "export LD_LIBRARY_PATH=/opt/openrobots/lib:\$LD_LIBRARY_PATH" >> /home/${USERNAME}/.bashrc \

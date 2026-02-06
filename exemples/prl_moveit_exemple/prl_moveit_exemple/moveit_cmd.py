@@ -139,7 +139,7 @@ def main():
 
     right_pose_goal = PoseStamped()
     # set the reference frame for the pose
-    right_pose_goal.header.frame_id = "base_link" 
+    right_pose_goal.header.frame_id = "base_link"
     # set the pose orientation and position
     # the orientation is set using quaternions
     right_pose_goal.pose.orientation.w = 0.0
@@ -162,7 +162,7 @@ def main():
     left_pose_goal.pose.orientation.x = 0.5
     left_pose_goal.pose.orientation.y = 0.0
     left_pose_goal.pose.orientation.z = 0.0
-    left_pose_goal.pose.position.x = 0.0    
+    left_pose_goal.pose.position.x = 0.0
     left_pose_goal.pose.position.y = 0.191
     left_pose_goal.pose.position.z = 1.001
     left_arm.set_goal_state(pose_stamped_msg=left_pose_goal, pose_link="left_tool0")
@@ -183,7 +183,7 @@ def main():
 
     # set the joint values which you want to constrain for the goal state
     # you just need to set the values of the joints you want to constrain however the joint need to be in the left or right group
-    joint_values = { 
+    joint_values = {
         "left_shoulder_pan_joint": 0.0,
         "left_shoulder_lift_joint": -1.57,
         "left_elbow_joint": 0.0,

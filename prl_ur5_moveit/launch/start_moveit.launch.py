@@ -35,7 +35,7 @@ def launch_setup(context):
         [FindPackageShare("prl_ur5_moveit"), "config", "moveit.rviz"]
     )
 
-    # Launch MoveIt    
+    # Launch MoveIt
     node_move_group = Node(
         package="moveit_ros_move_group",
         executable="move_group",

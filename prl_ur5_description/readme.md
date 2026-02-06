@@ -1,13 +1,13 @@
 # prl_ur5_description
 
-The `prl_ur5_description` package provides the UR5 workbench description, including 3D model files necessary for visualizing and simulating the UR5 robot in a ROS 2 environment. 
+The `prl_ur5_description` package provides the UR5 workbench description, including 3D model files necessary for visualizing and simulating the UR5 robot in a ROS 2 environment.
 
 It is part of the PRL (Paris Robotics Lab) ecosystem and is designed to facilitate the use of the UR5 robot in simulation.
 
 ## Content
 
 ### Launch Files
-- **`view_mantis.launch.py`**  
+- **`view_mantis.launch.py`**
 
 Refer to the built-in documentation in the launch file header for more details.
 

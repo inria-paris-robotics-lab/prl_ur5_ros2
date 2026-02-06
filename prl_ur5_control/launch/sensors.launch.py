@@ -12,7 +12,7 @@ from launch_ros.actions import PushRosNamespace
 def launch_setup(context):
     # Chemin absolu vers le fichier de configuration YAML
     config_file = Path(get_package_share_directory('prl_ur5_robot_configuration')) / 'config/fixed_cameras/cameras_config.yaml'
-    
+
     # Chargement du fichier YAML
     with config_file.open('r') as setup_file:
         config = yaml.safe_load(setup_file)
@@ -87,7 +87,7 @@ def launch_setup(context):
                         "enable_colored_point_cloud": enable_colored_point_cloud,
                         "depth_registration": depth_registration,
                         "publish_tf":"False",
-                        
+
                     }.items(),
                 )
 

@@ -16,7 +16,7 @@
 
   <!-- Global frame -->
   <link name="prl_ur5_base"/>
-  
+
   <!-- Table -->
   <material name="Blue">
     <color rgba="${0/255} ${30/255} ${70/255} 1.0"/>
@@ -40,7 +40,7 @@
     <child link = "table_link"/>
     <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
   </joint>
-  
+
   <!-- Cameras fixtures (if any) -->
   <xacro:if value="${setup_file.get('fixed_cameras_file') is not None}">
     <xacro:fixed_cameras parent="prl_ur5_base" fixed_cameras_file="$(find prl_ur5_robot_configuration)/config/${setup_file['fixed_cameras_file']}" turn_on="true"/>
@@ -93,7 +93,7 @@
   <xacro:property name="left" value="${setup_file.get('left')}"/>
   <xacro:property name="left_network" value="${network_file.get('left_network')}"/>
   <xacro:arm prefix="left_"
-                 parent="prl_ur5_base" 
+                 parent="prl_ur5_base"
                  pose="${left['arm_pose']}"
                  sensors="false"
                  gz_sim="$(arg gz_sim)"
@@ -109,7 +109,7 @@
   <xacro:property name="right" value="${setup_file.get('right')}"/>
   <xacro:property name="right_network" value="${network_file.get('right_network')}"/>
   <xacro:arm prefix="right_"
-                 parent="prl_ur5_base" 
+                 parent="prl_ur5_base"
                  pose="${right['arm_pose']}"
                  sensors="false"
                  gz_sim="$(arg gz_sim)"
@@ -136,6 +136,6 @@
     <parent link="base_link" />
     <child link="prl_ur5_base" />
     <origin xyz="0 0 0.8" rpy="0 0 0" />
-  </joint> 
+  </joint>
 
 </robot>

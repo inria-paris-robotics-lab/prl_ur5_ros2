@@ -41,7 +41,7 @@ def launch_setup(context):
 
     # Convert string to list
     controllers_to_activate = active_controller.split(",")
-    controllers_to_load = loaded_controllers.split(",") 
+    controllers_to_load = loaded_controllers.split(",")
 
     # Default active controllers
     joint_state_broadcaster_spawner = Node(

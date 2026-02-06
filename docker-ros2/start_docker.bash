@@ -67,7 +67,7 @@ docker_cmd=(
   --user="$user"
   --workdir="$workdir"
   --mount type=bind,source="$storage",target="$workdir/share"
-  --device=/dev/bus/usb 
+  --device=/dev/bus/usb
   --group-add $(getent group dialout | cut -d: -f3)
   --group-add $(getent group docker  | cut -d: -f3)
   --group-add $(getent group input   | cut -d: -f3)

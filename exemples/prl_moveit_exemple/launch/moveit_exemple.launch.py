@@ -16,7 +16,7 @@ def launch_setup(context):
     moveit_config = (
         MoveItConfigsBuilder(robot_name="mantis", package_name="prl_ur5_moveit")
         .robot_description(file_path="config/mantis.urdf.xacro")
-        
+
         .moveit_cpp(
             file_path=get_package_share_directory("prl_moveit_exemple")
             + "/config/planner.yaml"
