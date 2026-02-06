@@ -7,7 +7,7 @@ It is part of the PRL (Paris Robotics Lab) ecosystem and designed to facilitate 
 ## Content
 
 ### Launch Files
-- **`start_gazebo_sim.launch.py`**  
+- **`start_gazebo_sim.launch.py`**
 
 Refer to the built-in documentation in the launch file header for more details.
 
@@ -33,7 +33,7 @@ To regenerate the camera bridge configuration file, run:
 python3 <path_to_ws>/src/prl_ur5_ros2/prl_ur5_gazebo/scripts/generate_cameras_bridge.py -o <path_to_ws>/src/prl_ur5_ros2/prl_ur5_gazebo/config/camera_bridge.yaml
 ```
 
-Replace `<path_to_ws>` with the path to your ROS 2 workspace.  
+Replace `<path_to_ws>` with the path to your ROS 2 workspace.
 This will update `camera_bridge.yaml` to match your current camera setup.
 
 

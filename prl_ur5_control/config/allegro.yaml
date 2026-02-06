@@ -2,7 +2,7 @@ left_allegro_hand_controller:
   ros__parameters:
     type: joint_trajectory_controller/JointTrajectoryController
     joints:
-      - left_gripper_joint_00   
+      - left_gripper_joint_00
       - left_gripper_joint_01
       - left_gripper_joint_02
       - left_gripper_joint_03
@@ -46,7 +46,7 @@ right_allegro_hand_controller:
   ros__parameters:
     type: joint_trajectory_controller/JointTrajectoryController
     joints:
-      - right_gripper_joint_00   
+      - right_gripper_joint_00
       - right_gripper_joint_01
       - right_gripper_joint_02
       - right_gripper_joint_03

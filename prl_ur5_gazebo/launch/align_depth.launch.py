@@ -20,7 +20,7 @@ from pathlib import Path
 
 def launch_setup(context):
     config_file = Path(LaunchConfiguration('camera_config').perform(context))
-    
+
     with config_file.open('r') as setup_file:
         config = yaml.safe_load(setup_file)
 
@@ -39,7 +39,7 @@ def launch_setup(context):
                 camera_align.append(
                     Node(
                         package='depth_image_proc',
-                        executable='register_node', 
+                        executable='register_node',
                         name=f'depth_image_proc_register_{camera_name}',
                         parameters=[{'use_sim_time': True}],
                         remappings=[

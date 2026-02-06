@@ -48,7 +48,7 @@
         <group name="left_arm"/>
         <group name="right_arm"/>
     </group>
-    
+
     <!--LEFT GRIPPER-->
     <!-- if weiss-wsg50 -->
     <xacro:if value="${setup['left']['gripper'] == 'weiss-wsg50'}">
@@ -56,7 +56,7 @@
         <xacro:property name="left_gripper_name" value="weiss-wsg50"/>
     </xacro:if>
 
-    
+
     <!-- if onrobot-rg2 -->
     <xacro:if value="${setup['left']['gripper'] == 'onrobot-rg2'}">
         <xacro:property name="left_gripper_name" value="onrobot_rg2"/>
@@ -94,7 +94,7 @@
     <xacro:if value="${'camera' in setup['left']}">
         <xacro:call macro="${left_gripper_name}_col_with" prefix='left_gripper' link='left_camera_link'/>
     </xacro:if>
-    
+
     <!-- RIGHT GRIPPER-->
     <xacro:if value="${setup['right']['gripper'].startswith('custom:')}">
         <xacro:include filename="$(find prl_ur5_robot_configuration)/urdf/${setup['right']['gripper'][7:]}.srdf.xacro"/>
@@ -127,7 +127,7 @@
         <xacro:property name="right_gripper_name" value="weiss-wsg50"/>
     </xacro:if>
 
-    <!-- Define gripper group and define its states-->  
+    <!-- Define gripper group and define its states-->
     <xacro:call macro="${right_gripper_name}_group_define" group_name="right_gripper" prefix='right_gripper'/>
     <!-- Create autocolision and collision tags -->
     <xacro:call macro="${right_gripper_name}_autocol" prefix='right_gripper'/>
@@ -203,7 +203,7 @@
             <disable_collisions link1="fixed_camera_${number}_sj" link2="table_link" reason="Adjacent"/>
             <disable_collisions link1="fixed_camera_${number}_vt" link2="table_link" reason="Adjacent"/>
             <disable_collisions link1="fixed_hr_${number}" link2="table_link" reason="Adjacent"/>
-            
+
             <xacro:if value="${camera['type'] == 'femto-mega'}">
                 <disable_collisions link1="${camera['name_prefix']}_camera_base_link" link2="fixed_camera_${number}_vt" reason="Adjacent"/>
                 <disable_collisions link1="${camera['name_prefix']}_camera_base_link" link2="fixed_camera_${number}_sj" reason="Adjacent"/>
@@ -216,7 +216,7 @@
                 <disable_collisions link1="${camera['name_prefix']}_camera_link" link2="fixed_camera_${number}_bb" reason="Adjacent"/>
                 <disable_collisions link1="${camera['name_prefix']}_camera_link" link2="table_link" reason="Never"/>
             </xacro:unless>
-            
+
         </xacro:macro>
 
         <!-- Iterate over all cameras using recursive function-->

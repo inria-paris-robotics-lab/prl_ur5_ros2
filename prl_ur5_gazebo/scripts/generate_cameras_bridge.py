@@ -25,7 +25,7 @@ def generate_camera_bridge_config(config_filepath, output_filepath):
         print(f"Erreur : Le fichier de configuration '{config_filepath}' n'a pas été trouvé.")
         exit(1)
     except yaml.YAMLError as e:
-        print(f"Erreur de syntaxe dans le fichier YAML '{config_filepath}': {e}")
+        print(f"Erreur de syntax dans le fichier YAML '{config_filepath}': {e}")
         exit(1)
 
     all_topics = []
@@ -126,7 +126,7 @@ def generate_camera_bridge_config(config_filepath, output_filepath):
     try:
         with open(output_filepath, 'w') as f:
             yaml.dump(all_topics, f, sort_keys=False, default_flow_style=False, indent=2)
-        
+
         if activated_cameras:
             print(f"\n Configuration file '{output_filepath}' successfully generated for cameras: {', '.join(activated_cameras)}.")
         else:

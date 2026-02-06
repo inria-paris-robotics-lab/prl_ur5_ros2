@@ -59,13 +59,13 @@ controller_manager:
 
     left_tcp_pose_broadcaster:
       type: pose_broadcaster/PoseBroadcaster
-    
+
     right_tcp_pose_broadcaster:
       type: pose_broadcaster/PoseBroadcaster
 
     left_arm_configuration_controller:
       type: ur_controllers/URConfigurationController
-    
+
     right_arm_configuration_controller:
       type: ur_controllers/URConfigurationController
 

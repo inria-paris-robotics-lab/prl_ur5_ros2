@@ -2,7 +2,7 @@
 
 The `prl_moveit_exemple` package provides example files for interfacing your project with the PRL UR5 setup via MoveIt by using MoveItPy.
 
-**`MoveItPy`** is a Python-based interface for MoveIt, enabling easier scripting and integration for robotic applications. It provides a high-level API to interact with MoveIt, making it simpler to plan and execute motions, configure robotic setups, and integrate custom behaviors. 
+**`MoveItPy`** is a Python-based interface for MoveIt, enabling easier scripting and integration for robotic applications. It provides a high-level API to interact with MoveIt, making it simpler to plan and execute motions, configure robotic setups, and integrate custom behaviors.
 
 With `MoveItPy`, users can:
 - Create and execute motion plans programmatically.
@@ -13,11 +13,11 @@ This package is part of the PRL (Paris Robotics Lab) ecosystem and is designed t
 ## Content
 
 ### Launch Files
-- **`moveit_exemple.launch.py`**  
+- **`moveit_exemple.launch.py`**
     This launch file demonstrates how to set up and run MoveIt configurations for the UR5 robot. Refer to the built-in documentation in the launch file headers for more details.
 
 ### Configuration Files
-- **`planner.yaml`**  
+- **`planner.yaml`**
     This file allows you to configure the planner for arm path planning using MoveIt. It includes parameters for optimizing motion planning and execution.
 
 ## Usage

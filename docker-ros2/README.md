@@ -23,7 +23,7 @@ Clone this Git repository to your local machine:
 git clone https://github.com/inria-paris-robotics-lab/prl_ur5_ros2.git
 ```
 
-#### 2) Set Up Your Environment 
+#### 2) Set Up Your Environment
 
 > [!IMPORTANT]
 > To ensure that your files are preserved inside the Docker container, a local folder is mounted into the container. Please create a dedicated folder on your host machine for this purpose before proceeding.
@@ -33,7 +33,7 @@ For example, you can create a folder named `docker_shared` in your home director
 mkdir ~/docker_shared
 ```
 
-#### 3) Build and Run the Docker 
+#### 3) Build and Run the Docker
 
 To build and run the Docker container, use the provided script. Make sure to specify the absolute path of the shared folder you created earlier:
 

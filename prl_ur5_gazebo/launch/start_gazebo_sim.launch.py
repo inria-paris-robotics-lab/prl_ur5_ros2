@@ -6,7 +6,7 @@
 #              - Ignition spawn entity
 #              - Gazebo Bridge
 #              - Rviz
-#              The launch file also includes the following launch files:            
+#              The launch file also includes the following launch files:
 #              - Gazebo simulation launch file
 #              - Workbench controllers launch file
 #              - Gripper controllers launch file
@@ -45,7 +45,7 @@ import yaml
 from pathlib import Path
 
 def launch_setup(context):
-    # Launch Arguments 
+    # Launch Arguments
     launch_rviz = LaunchConfiguration('launch_rviz', default=True)
     gazebo_gui = LaunchConfiguration('gazebo_gui', default=True)
     # Load the configuration file
@@ -97,7 +97,7 @@ def launch_setup(context):
 
     ###### Gazebo ######
 
-    # Gazebo launch 
+    # Gazebo launch
 
     with open(config_file, 'r') as setup_file:
         config = yaml.safe_load(setup_file)
@@ -221,7 +221,7 @@ def launch_setup(context):
             ('prefix', 'right_'),
         ],
     )
-    return [robot_state_publisher, 
+    return [robot_state_publisher,
             gazebo,
             bridge,
             ignition_spawn_entity,

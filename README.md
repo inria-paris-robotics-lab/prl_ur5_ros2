@@ -10,7 +10,7 @@
 This project integrates a ROS 2 development environment with Docker and provides packages for the description and simulation of the UR5 workbench, developed by the Paris Robotics Lab and referred to as **Mantis**.
 
 <div align="center">
-    <img src="doc/bimanual.png" alt="Bimanual UR" width="550"> 
+    <img src="doc/bimanual.png" alt="Bimanual UR" width="550">
 </div>
 
 ## **Included Packages**
@@ -19,7 +19,7 @@ This project integrates a ROS 2 development environment with Docker and provides
 This package provides a Docker environment for developing with ROS 2 (jazzy), including the **UR Driver** to interact with UR robots (UR3, UR5, UR10, etc.). The container is configured to work with these robots and includes all necessary tools for simulation and communication with both physical and simulated robots.
 
 ### 2. **prl_ur5_description**
-The `prl_ur5_description` package provides the Mantis description, including 3D models files necessary for visualizing and simulating the UR5 robot in a ROS 2 environment. 
+The `prl_ur5_description` package provides the Mantis description, including 3D models files necessary for visualizing and simulating the UR5 robot in a ROS 2 environment.
 
 ### 3. **prl_ur5_gazebo**
 The `prl_ur5_gazebo` package provides the Mantis launch and files, necessary for simulating the UR5 robot in Gazebo.
@@ -102,7 +102,7 @@ To install these dependencies, clone them into your workspace using the followin
 
 ```bash
 cd ws/src
-vcs import < prl_ur5_ros2/dependencies.repos 
+vcs import < prl_ur5_ros2/dependencies.repos
 ```
 > [!WARNING]
 >  If you plan to use the Orbbec Femto Mega, you must install the Orbbec SDK ROS 2 on your local machine. Follow these steps:

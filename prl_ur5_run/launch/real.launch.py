@@ -1,5 +1,5 @@
 ############################################################################################################
-# Description: This file is used to connect the real workbench with the ros2 environment. 
+# Description: This file is used to connect the real workbench with the ros2 environment.
 #              The launch file starts the following nodes:
 #               - Controller Manager
 #               - Controller Spawners
@@ -8,7 +8,7 @@
 #               - URScript Interface
 #               - RViz
 #               - Joint State Publisher
-#              The launch file also includes the following launch files:            
+#              The launch file also includes the following launch files:
 #               - mantis_controllers.launch.py
 #               - mantis_gripper_controllers.launch.py
 #               - sensors.launch.py
@@ -25,7 +25,7 @@
 #               - launch_moveit: Launch MoveIt
 #               - activate_cameras: Activate cameras
 # Usage:
-#               $ ros2 launch prl_ur5_control reel.launch.py left_robot_ip:=<left_robot_ip> right_robot_ip:=<right_robot_ip> 
+#               $ ros2 launch prl_ur5_control reel.launch.py left_robot_ip:=<left_robot_ip> right_robot_ip:=<right_robot_ip>
 ############################################################################################################
 from launch import LaunchDescription
 from launch.actions import (
@@ -62,9 +62,9 @@ def launch_setup(context):
     config_file = os.path.join(get_package_share_directory('prl_ur5_robot_configuration'), 'config', 'standard_setup.yaml')
     network_file = os.path.join(get_package_share_directory('prl_ur5_robot_configuration'), 'config', 'network_setup.yaml')
     config_controller_path = os.path.join(get_package_share_directory('prl_ur5_robot_configuration'), 'config', 'controller_setup.yaml')
-    
+
     # Get gripper controller
-    config_path = Path(config_file) 
+    config_path = Path(config_file)
     with config_path.open('r') as setup_file:
         config = yaml.safe_load(setup_file)
     left_gripper_controller_name = config.get('left')['gripper_controller']
@@ -130,7 +130,7 @@ def launch_setup(context):
         ],
         output="screen",
     )
-    
+
     # Spawn controllers
     active_controllers = ",".join([
         "left_io_and_status_controller",
@@ -187,7 +187,7 @@ def launch_setup(context):
         ],
     )
 
-    # The URScript interface node is used to send URScript commands to the robot controller directly 
+    # The URScript interface node is used to send URScript commands to the robot controller directly
     left_urscript_interface = Node(
         package="ur_robot_driver",
         executable="urscript_interface",
@@ -221,7 +221,7 @@ def launch_setup(context):
     robot_description_content = Command(
         [
             PathJoinSubstitution([FindExecutable(name="xacro")]),  # Find the xacro executable
-            " ", 
+            " ",
             PathJoinSubstitution([FindPackageShare("prl_ur5_description"), "urdf", "mantis.urdf.xacro"]),
             " ",
             "gz_sim:=",
@@ -245,7 +245,7 @@ def launch_setup(context):
 
     ###### Gripper ######
 
-    
+
 
     left_gripper_controller = IncludeLaunchDescription(
         PythonLaunchDescriptionSource([
