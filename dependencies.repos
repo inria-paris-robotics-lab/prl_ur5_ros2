@@ -4,9 +4,6 @@
     uri: https://github.com/inria-paris-robotics-lab/prl_ur5_robot_configuration.git
     version: ros2
 - git:
-    local-name: Universal_Robots_ROS2_Description
-    uri: https://github.com/UniversalRobots/Universal_Robots_ROS2_Description.git
-- git:
     local-name: robotiq
     uri: https://github.com/inria-paris-robotics-lab/robotiq.git
     version: ros2
@@ -19,7 +16,7 @@
     uri: https://github.com/inria-paris-robotics-lab/wsg50-ros-pkg.git
 - git:
     local-name: prl_ur5_calibration
-    https://github.com/inria-paris-robotics-lab/prl_ur5_calibration.git
+    uri: https://github.com/inria-paris-robotics-lab/prl_ur5_calibration.git
 - git:
     local-name: allegro_hand_ros_v4
     uri: https://github.com/inria-paris-robotics-lab/allegro_hand_ros_v4.git

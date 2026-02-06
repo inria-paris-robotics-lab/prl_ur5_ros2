@@ -249,7 +249,6 @@ SHELL ["/bin/bash", "-c"]
 RUN mkdir -p ~/ros2_utils_ws/src && \
     cd ~/ros2_utils_ws/src && \
     git clone https://github.com/orbbec/OrbbecSDK_ROS2.git -b v2-main && \
-    git clone https://github.com/IntelRealSense/realsense-ros.git -b ros2-master && \
     #git clone https://github.com/lagadic/vision_visp.git -b rolling && \
     # Go to the workspace root
     cd ~/ros2_utils_ws && \
