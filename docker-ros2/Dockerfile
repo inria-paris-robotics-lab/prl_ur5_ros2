@@ -219,7 +219,8 @@ RUN getent group $USER_GID || groupadd -g $USER_GID $USERNAME \
   && chmod 0440 /etc/sudoers.d/$USERNAME \
   && echo "source /opt/ros/${ROS_DISTRO}/setup.bash " >> /home/${USERNAME}/.bashrc \
   && echo 'export PS1="\[\e]0;\u@$ROS_DISTRO-container: \w\a\]${debian_chroot:+($debian_chroot)}\[\033[01;34m\]\u@$ROS_DISTRO-container\[\033[00m\]:\[\033[01;35m\]\w\[\033[00m\]\$ "' >> /home/${USERNAME}/.bashrc \
-  && echo "export ROS_AUTOMATIC_DISCOVERY_RANGE=LOCALHOST" >> /home/${USERNAME}/.bashrc 
+  && echo "export ROS_AUTOMATIC_DISCOVERY_RANGE=SUBNET" >> /home/${USERNAME}/.bashrc \
+  && echo "export ROS_DOMAIN_ID=18" >> /home/${USERNAME}/.bashrc 
 
 
 # Config Tmux
