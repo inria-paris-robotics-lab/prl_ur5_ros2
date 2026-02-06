@@ -42,9 +42,9 @@
     </xacro:if>
 
     <!-- if allegro-hand -->
-    <!-- <xacro:if value="${gripper.startswith('allegro-hand:')}">
-      <xacro:include filename="$(find allegro_hand_description)/allegro_hand_description.urdf.xacro"/>
-      <xacro:allegro_hand chirality='${gripper[13:]}' prefix='${prefix}gripper' parent="${parent}" ur5_attachment="true" last_links_inertia_factor="${20 if gz_sim else 1.0}">
+    <xacro:if value="${gripper.startswith('allegro-hand:')}">
+      <xacro:include filename="$(find allegro_hand_description)/description/allegro_hand_description.urdf.xacro"/>
+      <xacro:allegro_hand chirality='${gripper[13:]}' prefix='${prefix}gripper' parent="${parent}" real_hardware="${not gz_sim}" ur5_attachment="true" standalone="false">
         <origin xyz="${pose['x']} ${pose['y']} ${pose['z']}" rpy="${pose['roll']} ${pose['pitch']} ${pose['yaw']}"/>
       </xacro:allegro_hand>
       <link name="${prefix}gripper_grasp_frame"/>
@@ -53,7 +53,7 @@
           <child link="${prefix}gripper_grasp_frame"/>
           <origin rpy="0 0 0" xyz="0.05 0 -0.025"/>
       </joint>
-    </xacro:if> -->
+    </xacro:if>
 
     <!-- if custom gripper -->
     <xacro:if value="${gripper.startswith('custom:')}">
