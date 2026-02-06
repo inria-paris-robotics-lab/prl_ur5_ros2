@@ -1,5 +1,5 @@
 ############################################################################################################
-# Description: This launch file starts the vizualization of the workbench with the UR5 robot in RViz.
+# Description: This launch file starts the visualization, of the workbench with the UR5 robot in RViz.
 #              The launch file starts the following nodes:
 #               - joint_state_publisher_gui: GUI to move the robot joints
 #               - robot_state_publisher: Publishes the robot state
