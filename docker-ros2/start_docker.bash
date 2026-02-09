@@ -38,7 +38,7 @@ fi
 if [ "$rebuild" = true ]; then
   echo "Rebuilding Docker image ${IMAGE_NAME}:${IMAGE_TAG}..."
   docker image rm "${IMAGE_NAME}:${IMAGE_TAG}"
-  docker build -t "${IMAGE_NAME}:${IMAGE_TAG}" . --build-arg USER_UID=$(id -u) --build-arg USER_GID=$(id -g) --build-arg DOCKER_GRP=$(getent group docker | cut -d: -f3) --build-arg INPUT_GRP=$(getent group input | cut -d: -f3) --build-arg RENDER_GRP=$(getent group render | cut -d: -f3)
+  docker build --no-cache -t "${IMAGE_NAME}:${IMAGE_TAG}" . --build-arg USER_UID=$(id -u) --build-arg USER_GID=$(id -g) --build-arg DOCKER_GRP=$(getent group docker | cut -d: -f3) --build-arg INPUT_GRP=$(getent group input | cut -d: -f3) --build-arg RENDER_GRP=$(getent group render | cut -d: -f3)
 fi
 
 
