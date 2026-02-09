@@ -1,8 +1,7 @@
-name: ROS 2 CI Optimized
+name: ROS 2 CI
 
 on:
   push:
-    branches: [ master ]
   pull_request:
     # Trigger on all pull requests
   workflow_dispatch:
