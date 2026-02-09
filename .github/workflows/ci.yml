@@ -14,7 +14,8 @@ jobs:
       # 1. Build docker image
       - name: Build Docker Image
         run: |
-          docker build -t prl_ros2:ci . \
+          docker build -t prl_ros2:ci \
+            -f docker-ros2/Dockerfile . \
             --build-arg USER_UID=$(id -u) \
             --build-arg USER_GID=$(id -g) \
             --build-arg DOCKER_GRP=999 \
