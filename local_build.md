@@ -51,7 +51,7 @@ To install these dependencies, clone them into your workspace using the followin
 
 ```bash
 cd ws/src
-vcs import < prl_ur5_ros2/dependencies.repos 
+vcs import < prl_ur5_ros2/dependencies.repos
 ```
 
 #### Install Workspace dependencies

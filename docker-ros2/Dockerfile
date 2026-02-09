@@ -272,4 +272,4 @@ RUN echo "source ~/ros2_utils_ws/install/setup.bash" >> ~/.bashrc
 RUN echo "source ~/share/mantis_ws/install/setup.bash" >> ~/.bashrc
 
 # Add gazebo models and plugins to the path
-RUN echo "export GZ_SIM_RESOURCE_PATH=$GZ_SIM_RESOURCE_PATH:/opt/ros/humble/share:~/ros2_utils_ws/install/orbbec_description/share:~/share/mantis_ws/install/robotiq_ft_sensor_description/share" >> ~/.bashrc 
+RUN echo "export GZ_SIM_RESOURCE_PATH=$GZ_SIM_RESOURCE_PATH:/opt/ros/humble/share:~/ros2_utils_ws/install/orbbec_description/share:~/share/mantis_ws/install/robotiq_ft_sensor_description/share" >> ~/.bashrc
