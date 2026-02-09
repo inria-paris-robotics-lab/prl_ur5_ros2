@@ -235,6 +235,13 @@ RUN echo "export PATH=/opt/openrobots/bin:\$PATH" >> /home/${USERNAME}/.bashrc \
  && echo "export PYTHONPATH=$PYTHONPATH:/home/ros/share/install/lib/python3.12/site-packages" >> /home/${USERNAME}/.bashrc \
  && echo "export PYTHONPATH=$PYTHONPATH:/openrobots/lib/python3.12/site-packages" >> /home/${USERNAME}/.bashrc
 
+## Define entrypoint
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+
+ENTRYPOINT ["/entrypoint.sh"]
+CMD ["bash"]
+
 # Set default user ros
 USER ${USERNAME}
 # Set default working directory
@@ -243,7 +250,8 @@ WORKDIR /home/${USERNAME}
 RUN mkdir share
 
 ################################
-# Orbbec driver
+# Dependencies that need to be built from source
+################################
 SHELL ["/bin/bash", "-c"]
 
 RUN mkdir -p ~/ros2_utils_ws/src && \
@@ -260,3 +268,8 @@ RUN mkdir -p ~/ros2_utils_ws/src && \
 # --- UPDATE .bashrc ---
 # Sourcing the new workspace for future interactive shells
 RUN echo "source ~/ros2_utils_ws/install/setup.bash" >> ~/.bashrc
+# Add mantis workspace to the bashrc
+RUN echo "source ~/share/mantis_ws/install/setup.bash" >> ~/.bashrc
+
+# Add gazebo models and plugins to the path
+RUN echo "export GZ_SIM_RESOURCE_PATH=$GZ_SIM_RESOURCE_PATH:/opt/ros/humble/share:~/ros2_utils_ws/install/orbbec_description/share:~/share/mantis_ws/install/robotiq_ft_sensor_description/share" >> ~/.bashrc 

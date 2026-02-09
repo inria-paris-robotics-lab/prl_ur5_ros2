@@ -48,62 +48,24 @@ The `prl_ur5_run` package provides a launch file to access the real robot by sta
 
 **See [docker-ros2/README.md](docker-ros2/README.md)**
 
----
+### **2. Build and Run the Docker**
 
-### **2. Install `prl` Packages**
-
-Follow the steps below to set up the `prl` packages. These steps can be performed both inside and outside (only if you have ros2 jazzy locally) the Docker container. Ensure that the setup is done in the shared folder to maintain consistency and accessibility.
-
-> [!IMPORTANT]
-> Before proceeding with the setup, ensure you follow good practices for organizing your ROS 2 workspace. Create a folder to contain all your ROS 2 setup files. You can name it as you prefer, but in this guide, we will use `ws`. Inside this folder, create another folder named `src` to hold the source files.
-
-To create these folders, use the following commands:
-#### If you are using Docker
-
+Create a shared folder on your host machine that will be mounted inside the Docker container. This folder will be used to store the Mantis workspace and any files you want to share between the host and the container.
 ```bash
-cd ~/share
-mkdir -p ws/src
+mkdir ~/docker_shared
 ```
 
-#### If you are working locally on your machine
+To build and run the Docker container, use the provided script. Make sure to specify the absolute path of the shared folder you created earlier:
 
 ```bash
-mkdir -p ~/ws/src
+cd prl_ur5_ros2/docker_ros2
+./start_docker.bash my_container ~/docker_shared ros
 ```
 
-This will create the `ws` directory in your home folder and the `src` directory inside it.
-
-> [!WARNING]
-> Remember that in the container, any changes made outside the `share` directory will not be saved after you shut down the container.
-
-#### Clone the prl repository into your ROS 2 workspace:
-
-```bash
-cd ws/src
-git clone https://github.com/inria-paris-robotics-lab/prl_ur5_ros2.git
-```
-
-#### Install Dependencies
-
-The **prl_ur5_description** package requires the following dependencies:
-
-- [prl_ur5_robot_configuration](https://github.com/inria-paris-robotics-lab/prl_ur5_robot_configuration)
-- [universal_robot_description](https://github.com/UniversalRobots/Universal_Robots_ROS2_Description)
-- [universal_robot_gazebo](https://github.com/UniversalRobots/Universal_Robots_ROS2_GZ_Simulation/tree/ros2)
-- [rq_fts_ros2_driver](https://github.com/panagelak/rq_fts_ros2_driver)
-- [realsense-ros](https://github.com/IntelRealSense/realsense-ros)
-- [weiss_wsg50_ros](https://github.com/inria-paris-robotics-lab/wsg50-ros-pkg)
-- [OrbbecSDK_ROS2](https://github.com/orbbec/OrbbecSDK_ROS2/tree/v2-main)
+> [!TIPS]
+> If you want to disable GPU sharing, add the `--no-gpu` option when running the `./start_docker.bash` script.
 
 
-These packages provide configuration files, robot descriptions, simulation models, and force-torque sensor drivers that are necessary for the UR5 robot to operate properly in a ROS2 ecosystem.
-
-To install these dependencies, clone them into your workspace using the following commands:
-
-```bash
-cd ws/src
-vcs import < prl_ur5_ros2/dependencies.repos 
-```
 > [!WARNING]
 >  If you plan to use the Orbbec Femto Mega, you must install the Orbbec SDK ROS 2 on your local machine. Follow these steps:
 
@@ -121,24 +83,9 @@ vcs import < prl_ur5_ros2/dependencies.repos
 
 Ensure these steps are completed before proceeding with the setup.
 
-#### Install Workspace dependencies
+#### Rebuild and source the Workspace
 
-> [!IMPORTANT]
-> To install dependencies and build the packages, you must have ROS 2 Jazzy installed locally. If you do not have ROS 2 Jazzy on your system, use the provided Docker environment (`docker-ros2`) for building and development.
-
-After cloning the dependencies, check and install others dependencies linked to each packages with `rosdep`:
-
-```bash
-cd ..
-sudo apt update
-rosdep init
-rosdep update
-rosdep install -r --from-paths . --ignore-src --rosdistro $ROS_DISTRO -y
-```
-
-#### Build and source the Workspace
-
-After you had installed all dependencies you can build every packages with 'colcon':
+After you had installed all dependencies you can rebuild every packages with 'colcon':
 
 > [!NOTE]
 > After the build, you may see an error related to the realsense package. You can ignore this error, as it does not affect the setup.
@@ -149,9 +96,6 @@ colcon build --symlink-install
 ```
 
 Once the build process is finished, source your workspace so that ROS 2 recognizes the new packages:
-
-> [!IMPORTANT]
-> If you reopen your Docker container after installation, or open a new terminal (e.g., using byobu, tmux, etc.), you need to source the workspace again to be able to launch the project or see the running nodes in different terminals.
 
 ```bash
 source install/setup.bash
