@@ -1,0 +1,53 @@
+name: ROS 2 CI (All Branches)
+
+on:
+  push:      # Every push on any branch
+  pull_request: # Every PR opened against any branch
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # 1. Build docker image
+      - name: Build Docker Image
+        run: |
+          docker build -t prl_ros2:ci . \
+            --build-arg USER_UID=$(id -u) \
+            --build-arg USER_GID=$(id -g) \
+            --build-arg DOCKER_GRP=999 \
+            --build-arg INPUT_GRP=998 \
+            --build-arg RENDER_GRP=997
+
+      # 2. Run build and test inside the container
+      - name: Run Workspace Build and Test
+        run: |
+          docker run --rm \
+            --entrypoint "" \
+            -v ${{ github.workspace }}:/home/ros/prl_ur5_ros2_tmp \
+            prl_ros2:ci bash -c "
+              set -e
+
+              mkdir -p /home/ros/share/mantis_ws/src
+              cp -r /home/ros/prl_ur5_ros2_tmp /home/ros/share/mantis_ws/src/prl_ur5_ros2
+              cd /home/ros/share/mantis_ws
+
+              source /opt/ros/humble/setup.bash
+
+              vcs import src < src/prl_ur5_ros2/dependencies.repos
+
+              sudo apt-get update
+              rosdep update
+              rosdep install -r --from-paths src --ignore-src --rosdistro humble -y
+
+              echo 'Building workspace...'
+              colcon build --symlink-install
+
+              source install/setup.bash
+
+              echo 'Running tests...'
+              colcon test --event-handlers console_direct+
+              colcon test-result --all --verbose
+            "
