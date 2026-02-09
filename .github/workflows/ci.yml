@@ -17,9 +17,9 @@ jobs:
           docker build -t prl_ros2:ci docker-ros2 \
             --build-arg USER_UID=$(id -u) \
             --build-arg USER_GID=$(id -g) \
-            --build-arg DOCKER_GRP=$(getent group docker | cut -d: -f3) \
-            --build-arg INPUT_GRP=$(getent group input | cut -d: -f3) \
-            --build-arg RENDER_GRP=$(getent group render | cut -d: -f3)
+            --build-arg DOCKER_GRP=3999 \
+            --build-arg INPUT_GRP=3998 \
+            --build-arg RENDER_GRP=3997
 
       # 2. Run build and test inside the container
       - name: Run Workspace Build and Test
