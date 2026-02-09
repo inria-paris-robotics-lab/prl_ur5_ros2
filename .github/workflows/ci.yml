@@ -1,52 +1,132 @@
-name: ROS 2 CI (All Branches)
+name: ROS 2 CI Optimized
 
 on:
-  push:      # Every push on any branch
-  pull_request: # Every PR opened against any branch
+  push:
+    branches: [ master ]
+  pull_request:
+    # Trigger on all pull requests
+  workflow_dispatch:
+    # Allows manual triggering of the workflow from the GitHub UI
+
+permissions:
+  packages: write
+  contents: read
 
 jobs:
-  build-and-test:
+  # --- JOB 1 : BUILD DOCKER IMAGE ---
+  build-docker:
     runs-on: ubuntu-latest
+    outputs:
+      image_name: ${{ steps.prep.outputs.image }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # 1. Build docker image
-      - name: Build Docker Image
-        run: |
-          docker build -t prl_ros2:ci docker-ros2 \
-            --build-arg USER_UID=$(id -u) \
-            --build-arg USER_GID=$(id -g) \
-            --build-arg DOCKER_GRP=3999 \
-            --build-arg INPUT_GRP=3998 \
-            --build-arg RENDER_GRP=3997
+      # Check if there are changes in the docker-ros2 folder
+      - name: Check for Docker changes
+        uses: dorny/paths-filter@v3
+        id: filter
+        with:
+          filters: |
+            docker:
+              - 'docker-ros2/**'
 
-      # 2. Run build and test inside the container
+      # Setup image name based on repository owner and force "mantis" name
+      - name: Prepare Image Name
+        id: prep
+        run: |
+          GH_REPO_OWNER=$(echo "${{ github.repository_owner }}" | tr '[:upper:]' '[:lower:]')
+          echo "image=ghcr.io/${GH_REPO_OWNER}/mantis" >> $GITHUB_OUTPUT
+
+      - name: Log in to GHCR
+        # Log only if there are changes in the docker-ros2 folder OR if it's a manual trigger
+        if: steps.filter.outputs.docker == 'true' || github.event_name == 'workflow_dispatch'
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and Push Image
+        # Build and push only if the docker-ros2 folder has changed OR if it's a manual trigger
+        if: steps.filter.outputs.docker == 'true' || github.event_name == 'workflow_dispatch'
+        uses: docker/build-push-action@v5
+        with:
+          context: docker-ros2
+          push: true
+          tags: ${{ steps.prep.outputs.image }}:latest
+          build-args: |
+            USER_UID=1001
+            USER_GID=1001
+            DOCKER_GRP=3999
+            INPUT_GRP=3998
+            RENDER_GRP=3997
+
+  # --- JOB 2 : TESTS ---
+  run-tests:
+    needs: build-docker
+    runs-on: ubuntu-latest
+    # Executed always, whether the image was rebuilt or not
+    if: always() && (needs.build-docker.result == 'success' || needs.build-docker.result == 'skipped')
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Prepare Image Name
+        id: prep
+        run: |
+          GH_REPO_OWNER=$(echo "${{ github.repository_owner }}" | tr '[:upper:]' '[:lower:]')
+          echo "image=ghcr.io/${GH_REPO_OWNER}/mantis" >> $GITHUB_OUTPUT
+
+      - name: Log in to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Run Workspace Build and Test
         run: |
+          IMAGE="${{ steps.prep.outputs.image }}:latest"
+          docker pull $IMAGE
+
           docker run --rm \
             --entrypoint "" \
             -v ${{ github.workspace }}:/home/ros/prl_ur5_ros2_tmp \
-            prl_ros2:ci bash -c "
+            $IMAGE bash -c "
               set -e
 
+              # workspace setup
               mkdir -p /home/ros/share/mantis_ws/src
               cp -r /home/ros/prl_ur5_ros2_tmp /home/ros/share/mantis_ws/src/prl_ur5_ros2
               cd /home/ros/share/mantis_ws
 
-              source /opt/ros/humble/setup.bash
+              # Sourcing ROS Jazzy
+              source /opt/ros/jazzy/setup.bash
 
-              vcs import src < src/prl_ur5_ros2/dependencies.repos
+              # Import external dependencies via vcs
+              if [ -f src/prl_ur5_ros2/dependencies.repos ]; then
+                vcs import src < src/prl_ur5_ros2/dependencies.repos
+              fi
 
+              # Installing dependencies via rosdep
               sudo apt-get update
               rosdep update
-              rosdep install -r --from-paths src --ignore-src --rosdistro humble -y
+              rosdep install -r --from-paths src --ignore-src --rosdistro jazzy -y
 
+              # Compilation
               echo 'Building workspace...'
               colcon build --symlink-install
-
               source install/setup.bash
 
+              # Setup Xvfb for GUI tests
+              sudo apt-get install -y xvfb
+              Xvfb :99 -screen 0 1024x768x24 &
+              export DISPLAY=:99
+
+              # Run tests and display results
               echo 'Running tests...'
               colcon test --event-handlers console_direct+
               colcon test-result --all --verbose
