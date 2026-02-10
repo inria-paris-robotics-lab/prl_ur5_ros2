@@ -23,11 +23,10 @@ ros2 launch prl_ur5_run sim.launch.py
 
 ### Real :
 ```bash
-ros2 launch prl_ur5_run real.launch.py left_robot_ip:=<left_ip> right_robot_ip:=<right_ip>
+ros2 launch prl_ur5_run real.launch.py
 ```
 #### Parameters:
-- **`left_robot_ip`**: IP address of the left robot. Default: `192.168.56.101`.
-- **`right_robot_ip`**: IP address of the right robot. Default: `192.168.56.202`.
+- **`activate_cameras`**: Activate cameras. Default: `false`.
 - **`left_kinematics_file`**: Path to the kinematics configuration file for the left robot. Default: `prl_ur5_robot_configuration/config/kinematics/ur5_left.yaml`.
 - **`right_kinematics_file`**: Path to the kinematics configuration file for the right robot. Default: `prl_ur5_robot_configuration/config/kinematics/ur5_right.yaml`.
 - **`headless_mode`**: Enable headless mode for robot control. Default: `true`.
