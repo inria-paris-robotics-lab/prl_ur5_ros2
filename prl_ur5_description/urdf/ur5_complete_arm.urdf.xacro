@@ -23,6 +23,7 @@
         parent
         pose
         sensors
+        ft_sensor:= None
         gripper
         gripper_pose
         camera:= None
@@ -95,23 +96,27 @@
         </xacro:unless>
 
         <!-- Force sensor -->
-        <xacro:force_sensor
-            prefix="${prefix}"
-            parent="tool0"
-            gz_sim="${gz_sim}"
-        />
+        <xacro:if value="${ft_sensor == 'robotiq_ft300'}">
+            <xacro:force_sensor
+                prefix="${prefix}"
+                parent="tool0"
+                gz_sim="${gz_sim}"
+            />
+            <link name="${prefix}tool"/>
+            <joint name="${prefix}tool_joint" type="fixed">
+                <origin xyz="0 0 0" rpy="0 0 ${-pi}"/>
+                <parent link="${prefix}robotiq_ft_frame_id"/>
+                <child link="${prefix}tool"/>
+            </joint>
+            <xacro:property name="gripper_parent" value="${prefix}tool"/>
+        </xacro:if>
 
-        <!-- Tool frame -->
-        <link name="${prefix}tool"/>
-
-        <joint name="${prefix}tool_joint" type="fixed">
-            <origin xyz="0 0 0" rpy="0 0 ${-pi}"/>
-            <parent link="${prefix}robotiq_ft_frame_id"/>
-            <child link="${prefix}tool"/>
-        </joint>
+        <xacro:unless value="${ft_sensor == 'robotiq_ft300'}">
+            <xacro:property name="gripper_parent" value="${prefix}tool0"/>
+        </xacro:unless>
 
         <!-- Gripper -->
-        <xacro:gripper gripper="${gripper}" prefix='${prefix}' parent="${prefix}tool" pose="${gripper_pose}" hardware_interface="${hw_interface}" gz_sim="${gz_sim}"/>
+        <xacro:gripper gripper="${gripper}" prefix='${prefix}' parent="${gripper_parent}" pose="${gripper_pose}" hardware_interface="${hw_interface}" gz_sim="${gz_sim}"/>
 
         <!-- Right angle connector -->
         <link name="${prefix}wrist_connector_link">
