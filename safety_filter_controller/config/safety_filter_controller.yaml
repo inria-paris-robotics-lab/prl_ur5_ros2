@@ -19,3 +19,4 @@ safety_filter_controller:
     max_delta_per_joint: [0.05, 0.05, 0.05, 0.05, 0.05, 0.05]
     horizon_steps: 5
     control_period_estimate: 0.008
+    srdf_filename: "/tmp/mantis_resolved.srdf"
