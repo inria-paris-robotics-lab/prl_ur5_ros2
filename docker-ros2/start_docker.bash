@@ -62,6 +62,7 @@ docker_cmd=(
   --volume="$XAUTHORITY:/dot.Xauthority"
   --privileged
   --net="host"
+  --ipc="host"
   -v /var/run/docker.sock:/var/run/docker.sock
   --name="$container_name"
   --user="$user"

@@ -1,0 +1,266 @@
+---
+# Mantis (dual UR5) VR teleop config, left arm.
+# urdf/srdf/root paths are relative to this file, so the same config works on the
+# host and inside the container. Barrier keys live under ik:, not teleop:.
+urdf: mantis_ws/mantis.urdf
+srdf: mantis_ws/src/prl_ur5_ros2/prl_ur5_moveit/config/mantis.srdf
+ee_frame: left_tool0
+shoulder_joint: left_shoulder_lift_joint
+arm: [left_shoulder_pan_joint, left_shoulder_lift_joint, left_elbow_joint,
+      left_wrist_1_joint, left_wrist_2_joint, left_wrist_3_joint]
+# forward_position_controller drives BOTH arms; the joints we do not teleoperate
+# are filled in on every publish (held parked, see teleop.hold_parked_joints).
+arm_cmd_joints: [left_shoulder_pan_joint, left_shoulder_lift_joint, left_elbow_joint,
+                 left_wrist_1_joint, left_wrist_2_joint, left_wrist_3_joint,
+                 right_shoulder_pan_joint, right_shoulder_lift_joint, right_elbow_joint,
+                 right_wrist_1_joint, right_wrist_2_joint, right_wrist_3_joint]
+# Fallback pose for joints outside `arm` that never appear in /joint_states; the
+# collision model itself is baked at the measured pose taken before startup.
+locked_q: {}
+rate: 100.0                   # Hz, IK tick
+
+# --- Porting to a differently shaped arm (e.g. 7-DOF Franka) --------------------------------
+# The teleop is otherwise robot-agnostic: the URDF/SRDF and the joint lists above drive it.
+# For an arm that is not a 6-DOF UR, override these optional keys. Omitted, each defaults to the
+# 6-DOF UR behavior, so this mantis config is unchanged:
+#   teleop.reach_shell_joints : [j1, j2, ...]  base joints varied to sample reach (default: all but the last 2)
+#   teleop.roll_joint         : <joint>        tool-roll joint for the pour gesture (default: the last arm joint)
+#   teleop.sing_report_joint  : <joint>        joint shown in the near-singularity log (diagnostic; default: 5th)
+#   ik.wrist_vel_joints       : [j, ...]       joints capped at ik.wrist_vel_scale (default: any joint named *wrist*)
+# -------------------------------------------------------------------------------------------
+
+ik:
+  position_cost: 2.0
+  orientation_cost: 0.9       # 6-DOF arm: orientation is controllable, position still dominates
+  lm_damping: 0.01            # Levenberg-Marquardt damping near singularities
+  task_gain: 0.9              # per-tick error gain, keep <= 1.0
+  posture_cost: 0.02          # null-space / elbow regularization
+  vel_scale: 0.25             # joint velocity limits x this (base joints)
+  wrist_vel_scale: 0.25       # separate cap for the wrists = 0.25*pi = 45 deg/s
+  # Control point the operator's hand is mapped onto: "auto" = midpoint of the
+  # finger geometry along the tool axis, [x, y, z] = explicit, null = the flange.
+  tcp_offset: auto
+  tcp_auto_keywords: [finger]
+  # Adaptive damped least squares around the UR5 wrist singularity (wrist_2 = 0
+  # or +-pi), where the undamped QP answers a tiny residual with huge velocity.
+  sing_sigma0: 0.10           # start damping below this sigma_min (nominal ~0.25); 0 = off
+  sing_lambda: 0.10           # peak sqrt(mu) at sigma_min = 0
+  # Pinned at their most-OPEN position in the collision model. All three joints
+  # are needed: pinocchio ignores the mimic tags of the WSG50 fingers.
+  lock_open_joints: [left_gripper_joint,
+                     left_gripper_base_joint_gripper_left,
+                     left_gripper_base_joint_gripper_right]
+  collision_margin: 0.01      # only used by the no-barrier fallback path
+  collision_barrier: true     # gap >= floor as a hard QP inequality: the arm dodges instead of freezing
+  d_min: 0.015                # m, minimum link-pair gap
+  d_min_table: 0.025          # m, higher floor against the table (real fingers reach lower than the meshes)
+  # Fingertips only: they are what must reach a flat object. The metal gripper
+  # body and the connector boxes keep d_min_table - at a strong tilt THEY are
+  # the lowest geometry. Rollback: delete this key (default = d_min_table).
+  d_min_table_grip: 0.012
+  grip_table_keywords: [finger]
+  d_min_self: 0.006           # m, floor for arm self pairs (hull gaps are much tighter than the real ones)
+  d_influence: 0.04           # deprecated, no longer read
+  barrier_gain: 20.0          # CBF approach rate; keep barrier_gain * (1/rate) <= ~0.2
+  barrier_safe_gain: 0.0      # keep 0: pink's safe-displacement pull acts everywhere
+  self_collision_min_hops: 2  # drop arm-arm pairs closer than this in the kinematic tree
+  # Protruding wire boxes are checked against every arm link except their own
+  # wrist_3 cluster; their floor is small because the connector sits ~10 mm from wrist_2.
+  wire_box_keywords: [connector]
+  wire_box_dmin: 0.006
+  n_collision_pairs: 32       # barrier handles the N closest pairs (0 = all)
+  # Split long concave links into N convex pieces (by triangle, so a gap is never
+  # over-reported): one hull per link pinned forearm<->wrist_2 on its floor. {} = one hull.
+  hull_split:
+    left_forearm_link_0: 4
+    left_upper_arm_link_0: 4
+  retreat_rate: 0.05          # m/s gap recovery when the QP is infeasible
+  retreat_vel_frac: 0.5       # fraction of the joint velocity limit the retreat may use
+  prune_samples: 20000        # reachability prune sampling (0 = disable)
+  prune_margin: 0.05          # m, drop arm-vs-static pairs never closer than this
+  drop_dist_thresh: 0.03      # m, drop non-env static pairs already this close at the reference pose
+  env_keywords: [table, wall, floor, ground, camera]   # pairs with these names are never dropped
+
+teleop:
+  scale: 1.5                  # controller-to-robot position scale
+  az_gain: 1.0                # azimuth gain around the shoulder
+  reach_lo_frac: 0.05         # reach shell, as a fraction of the sampled reach envelope
+  reach_hi_frac: 0.99
+  axis_sign: [-1.0, -1.0, 1.0]
+  axis_map: [2, 0, 1]
+  ori_sign: [1.0, 1.0, 1.0]   # orientation is heading-normalized at engage, so [1,1,1] is the neutral mapping
+  yaw_fallback_deg: 15.0      # nose this close to vertical at engage -> heading from the controller TOP axis
+  filter_min_cutoff: 0.4      # one-euro: Hz at rest (jitter rejection)
+  filter_beta: 13.0           # one-euro: cutoff growth per m/s; rate-coupled, sized for the ~70 Hz Quest stream
+  pose_median: 3              # running median over N samples, against impulsive tracker outliers (0/1 = off)
+  max_target_speed: 0.31      # m/s cap on target motion; keep just under the tool cap vel_scale*pi/2
+  max_lead: 0.08              # m, max target distance ahead of the commanded EE
+  max_ang_speed: 4.0          # rad/s slew of the desired orientation
+  max_ang_lead: 0.2           # rad, max orientation lead (higher lets a fast twist windmill the arm)
+  ori_alpha: 0.15             # orientation EMA (1.0 = off), used when ori_min_cutoff is 0
+  ori_min_cutoff: 1.5         # Hz at rest for the SO(3) one-euro; lower = less hand tremor on the wrists
+  ori_beta: 2.0               # cutoff growth per rad/s (0 = fixed EMA)
+  ori_antialias: true         # tick consumes the MEAN rotation since the last tick instead of point-sampling
+  ori_d_cutoff: 1.0           # Hz, smoothing of the angular-speed estimate
+  ori_cutoff_max: 6.0         # Hz cap, so fast twists do not open the filter onto tracker noise (0 = no cap)
+  max_joint_lead: 0.15        # rad, max |cmd - measured| per joint (anti-runaway)
+  # Do not yank the IK state toward the robot when it OVERSHOT a reversal (that
+  # fed an alternating +-max_joint_lead hunting cycle); yank only when it lags.
+  clamp_asymmetric: true
+  clamp_hist_ticks: 5         # ticks the command trend is measured over (~50 ms at rate 100)
+  clamp_dcmd_eps: 0.02        # rad, |dcmd| below this counts as a stalled command -> treat as lag
+  clamp_reanchor_ori: false   # re-anchor the orientation servo on a lag yank
+  # The barrier certifies the COMMANDED pose only; freeze if a MEASURED pair
+  # distance drops below this fraction of its floor. 0 disables.
+  meas_gate_frac: 0.6
+  # Not-following watchdog: the command pressing this far ahead of the robot for
+  # this long means it is blocked -> auto-freeze. The lead must stay under max_joint_lead.
+  not_follow_lead: 0.145      # rad
+  not_follow_time: 2.5        # s (0 disables)
+  w_err_cap: 2.4              # rad cap on the orientation winding backlog (135 deg)
+  # Pour gesture: drop the tool roll wrist_3 cannot execute instead of letting the
+  # QP re-route it through the whole arm. The discard is repaid by a counter-roll.
+  roll_gate: true
+  roll_gate_allow: 0.0        # rad of pending roll still served while conflicted
+  roll_gate_margin: 0.006     # m above a tool-cluster pair's floor at which the gate arms
+  roll_gate_probe: 0.03       # rad wrist_3 probe step for the "does this direction close the gap" test
+  roll_gate_limit: 0.09       # rad from a wrist_3 position limit that counts as pinned
+  roll_gate_slope: 0.003      # m/rad min closing rate that counts as a conflict
+  roll_gate_ride: 0.0015      # m above its floor at which a pair counts as riding it
+  roll_gate_hold: 3           # consecutive conflicted ticks before any roll is dropped
+  pose_timeout: 0.2           # s, pose stale -> freeze + re-anchor on recovery
+  pad_bounce: 0.08            # s, reject a pad edge this soon after the last toggle (contact bounce)
+  # HOME: slow synchronized joint ramp, triggered by buttons field 5 or by an
+  # episode stop (record.home_on_stop). The path is pre-checked against the barrier
+  # floors and refused if any sample dips below one; HOME or the clutch cancels it.
+  home_q_deg: [0.0, -110.0, 66.0, -90.0, -90.0, 0.0]   # deg, in `arm` order
+  home_vel: 0.3               # rad/s of the fastest joint (others scale to arrive together)
+  home_check_step_deg: 2.0    # deg, sampling step of the path pre-check
+  home_debounce: 0.5          # s between HOME presses
+  menu_debounce: 0.5          # s between MENU presses; a double-tap otherwise starts an
+                              # episode and stops it again before min_frames is reached
+  home_done_tol: 0.05         # rad, measured-vs-home that counts as arrived
+  home_settle_grace: 3.0      # s to wait for the measured settle after the command arrives
+  # Degraded-tracking hold: when the glitch gate rejects this often, the stream has
+  # stopped being a measurement -> hold the target (the same path a dropout takes).
+  degrade_max_rate: 5.0       # rejects/s (0 = follow the stream regardless)
+  degrade_window: 1.0         # s the rate is measured over
+  degrade_hold: 0.3           # s of continued hold after the rate falls back
+  pose_jump_lin: 2.5          # m/s, reject a pose sample implying more than this (0 = gate off)
+  pose_jump_ang: 15.0         # rad/s, same for orientation
+  joint_timeout: 0.3          # s, joint_states stale -> hold IK + resync on recovery
+  buttons_timeout: 0.5        # s, buttons stale -> gripper latches its last state
+  pad_debounce: 0.25          # s between trackpad engage/freeze toggles
+  disengage_blend_ticks: 5    # ticks the command is blended over after a freeze
+  vr_rate: 250.0              # Hz, target-shaping tick
+  # Position anti-windup: the anchor slides toward the part of the absolute map the
+  # arm could not follow, so pressing into the table costs no dead travel on the way back.
+  antiwind_rate: 0.25         # m/s the rejected command is forgiven at (0 = strict absolute map)
+  antiwind_stuck_speed: 0.02  # m/s of tool motion below which the tool counts as stuck
+  # Orientation twin of the above: a dead rotation backlog melts instead of fighting
+  # the position task for the velocity budget.
+  ori_antiwind_rate: 0.8          # rad/s the dead debt is forgiven at (0 = off)
+  ori_antiwind_stuck_speed: 0.05  # rad/s of commanded rotation below which the tool counts as stuck
+  ori_antiwind_deadband: 0.1      # rad of debt below which nothing is forgiven
+  # Axis lock ("drawer mode", buttons field 6 = Quest grip): freeze the orientation
+  # target and constrain translation to the line the gripper points along. Motion
+  # off the line is discarded, and the release re-anchors, so nothing replays.
+  axis_lock: true
+  axis_lock_mode: hold        # hold = while the button is held; toggle = press on / press off
+  axis_lock_axis: null        # EE-frame axis; null = along the TCP, else flange +Z
+  axis_lock_debounce: 0.15    # s between rising edges
+  # Latch the right arm's command at the pose measured when teleop goes ready,
+  # instead of echoing its measured value (which closes a loop around encoder noise).
+  hold_parked_joints: true
+  parked_snapshot_timeout: 5.0  # s to wait for one complete /joint_states before building the model
+  tcp_cutoff: 3.0             # Hz on the rotation used for the TCP offset, so wrist jitter is not levered into position
+  # Shake detector: diagnostic only, prints one throttled line naming the joint,
+  # band, amplitude and controller state. The window has to be long enough that an
+  # ordinary reach does not leak into the slow band.
+  shake_watch: 5.0            # s of history to test (0 = detector off)
+  shake_min_pp: 0.02          # rad peak-to-peak in either band (1.15 deg)
+  shake_min_hz: 0.5           # Hz floor: slower than this is travel, not shake
+  shake_split_hz: 3.0         # Hz boundary between the slow (felt) and the fast (buzz) band
+  shake_max_hz: 25.0          # Hz ceiling of the fast band
+  debug_period: 0.5           # s between console pose dumps (0 = off)
+  # Warn in the log when the /vive/pose rate drops below this in a 10 s window. Healthy Quest
+  # is ~70 Hz; a sustained ~50 Hz means the headset lost 6-DOF controller tracking (out of
+  # camera view / warm after hours) -> choppy motion + laggy gripper. Reboot the headset. 0 = off.
+  pose_hz_warn: 65.0
+  # Output shaping: a thread republishes the IK result at out_rate under velocity
+  # and acceleration limits. out_accel is the smoothness knob AND part of the
+  # max_joint_lead budget, so the speeds and the accel are only ever changed as a set.
+  out_rate: 250.0             # Hz robot-facing stream (0 = publish directly at `rate`)
+  out_vel: 1.5                # rad/s per-joint cap of the shaped stream
+  out_accel: 12.0             # rad/s^2 per-joint cap (lower = smoother, more lag)
+  out_kp: 20.0                # 1/s tracking stiffness (~1/out_kp s of extra lag at speed)
+  out_ff: false               # velocity feed-forward in the shaper (false = pure proportional)
+  out_ff_tau: 0.3             # s, EMA on the feed-forward; constant velocity passes with zero lag at any tau
+
+gripper:
+  # Weiss WSG50 on the left arm: position is the opening WIDTH in meters.
+  grip_open: 0.11
+  grip_close: 0.0
+  toggle_debounce: 0.25       # s between trigger-click toggles (switch bounce guard)
+  click_thresh: 0.99          # analog fallback threshold when the click field is absent
+  grip_joint: left_gripper_joint   # watched to re-send an OPEN goal the action layer ate ('' disables)
+  retry_period: 1.0           # s between re-sends while OPEN is not executing
+  retry_tol: 0.01             # m, "close enough to open" dead-band
+  rate: 50.0                  # Hz, own timer: gripping does not depend on IK health
+  effort: 5.0                 # grasping force hint [N]
+  action: /left_gripper_controller/gripper_cmd
+
+# LeRobot episode recording (lerobot_recorder.py, needs `pip install lerobot`).
+# MENU starts an episode, the next press stops it. Each color image from the
+# primary camera stores one frame together with the state/action at that instant.
+record:
+  enabled: true
+  # HF account the dataset is pushed under. push_to_hub has no repo_id argument - it uploads
+  # to `<hf_namespace>/<RECORD_NAME>` - so this must be the account running the push.
+  hf_namespace: khoviadin
+  repo_id: mantis/teleop      # used only when RECORD_NAME is unset
+  root: lerobot_data          # dataset dir, relative to this config
+  task: "Teleoperated manipulation on the mantis left arm"
+  fps: 15                     # MUST equal the camera stream rate
+  # Feature name -> color image topic; the names become observation.images.<name>.
+  # The primary camera triggers each frame, the secondaries contribute their latest
+  # image and skip the frame (loudly) if it is older than ~2.5 frame periods.
+  cameras:
+    left: /camera/echo_camera/color/image_raw
+    right: /camera/foxtrot_camera/color/image_raw
+  # Optional 16UC1 depth, keyed by the colour camera it belongs to; each entry adds
+  # observation.images.<name>_depth as a (H, W, 1) uint16 map in MILLIMETRES. The driver runs
+  # with depth_registration: true, so it is already pixel-aligned to that camera's colour
+  # frame. Stored as PNG, not video - 8-bit AV1 cannot carry 16 bits. Comment out to drop
+  # depth; every listed stream must match the primary's trigger or the frame is skipped.
+  depth_cameras:
+    left: /camera/echo_camera/depth/image_raw
+    right: /camera/foxtrot_camera/depth/image_raw
+  # true  = 12-bit HEVC video (lossless codec over a log-quantised 0.01-10 m range; measured
+  #         ~1 mm error at 0.7-2.5 m, and far smaller on disk). Needs lerobot >= 0.6 to READ.
+  # false = lossless 16-bit PNG in millimetres. Bigger, but any lerobot can read it - use this
+  #         if the training side is on an older version.
+  depth_as_video: true    # native lerobot >= 0.6 format; the READING side must also be >= 0.6
+  primary_cam: left           # must be the femto-mega hardware-sync primary
+  # Seconds a secondary image may differ from the primary's stamp. Default 0.75/fps = 50 ms.
+  # Depth lags colour by a measured ~24 ms (p95 31), so the old 33 ms dropped ~16% of frames.
+  pair_tol_s: 0.050
+  home_on_stop: true          # record the return-to-home ramp as the episode's tail
+  min_frames: 15              # shorter episodes are discarded on stop
+  image_writer_threads: 8     # lerobot async image writer threads in total
+  vcodec: libsvtav1           # episode video codec
+  debug_keep_frames: false    # keep episode frames as PNGs under <root>/frames_debug/ to check camera sync
+  streaming_encoding: false   # encode during the episode; off, svt-av1 competes with the IK tick
+  # >1 defers ALL video encoding to teleop exit: no pause between episodes during a session.
+  # lerobot's own batch flush is bypassed at shutdown (it is broken in 0.6.1, see
+  # lerobot_recorder.shutdown) and the recorder encodes from the on-disk files instead.
+  # 999 = never encode mid-session.
+  batch_encoding_size: 999
+
+topics:
+  arm_cmd: /forward_position_controller/commands
+  joint_states: /joint_states
+  vive_pose: /vive/pose
+  vive_buttons: /vive/buttons
+
+rlimits: {}

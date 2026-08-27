@@ -1,0 +1,9 @@
+gripper_name: "wsg"
+ip_address: "192.168.1.23"
+port: 1000
+protocol: "tcp"
+local_port: 1501
+rate: 100.0
+grasping_force: 30.0
+speed: 50.0
+finger_sensors: "false"

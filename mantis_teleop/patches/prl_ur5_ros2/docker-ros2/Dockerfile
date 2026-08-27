@@ -1,0 +1,306 @@
+################################
+# Base image
+################################
+
+FROM ubuntu:24.04 AS base
+
+# Here you can choose your ros distro
+ENV ROS_DISTRO=jazzy
+
+# Prevents any interaction during installation by selecting the default response
+ENV DEBIAN_FRONTEND=noninteractive
+
+# Check language (compatible ros2)
+RUN apt-get update && apt-get install -y locales \
+    && locale-gen en_US en_US.UTF-8 \
+    && update-locale LC_ALL=en_US.UTF-8 LANG=en_US.UTF-8 \
+    && rm -rf /var/lib/apt-get/lists/*
+ENV LANG=en_US.UTF-8
+ENV TERM=xterm-256color
+ENV SHELL=/bin/bash
+
+RUN apt-get -y update && apt-get -y upgrade 
+
+# Install timezone
+RUN ln -fs /usr/share/zoneinfo/UTC /etc/localtime \
+  && export DEBIAN_FRONTEND=noninteractive \
+  && apt-get update \
+  && apt-get install -y tzdata \
+  && dpkg-reconfigure --frontend noninteractive tzdata \
+  && rm -rf /var/lib/apt-get/lists/*
+
+# Install requirements
+RUN apt-get update && apt-get install -y --no-install-recommends\
+    curl \
+    software-properties-common \
+    sudo \
+    wget \
+    lsb-release gnupg \
+    && rm -rf /var/lib/apt-get/lists/*
+
+# Install ROS2
+RUN sudo add-apt-repository universe
+RUN sudo curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.key -o /usr/share/keyrings/ros-archive-keyring.gpg \
+  && echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/ros-archive-keyring.gpg] http://packages.ros.org/ros2/ubuntu $(. /etc/os-release && echo $UBUNTU_CODENAME) main" | sudo tee /etc/apt/sources.list.d/ros2.list > /dev/null \
+  && apt-get update && apt-get -y upgrade \
+  && apt-get install -y --no-install-recommends \
+  python3-argcomplete \
+  ros-${ROS_DISTRO}-desktop \
+  ros-dev-tools \
+  ros-${ROS_DISTRO}-ros2-control \
+  ros-${ROS_DISTRO}-ros2-controllers \
+  ros-${ROS_DISTRO}-ur \
+  ros-${ROS_DISTRO}-librealsense2* \
+  ros-${ROS_DISTRO}-realsense2-* \
+  ros-${ROS_DISTRO}-moveit \
+  ros-${ROS_DISTRO}-moveit-py \
+  ros-${ROS_DISTRO}-tf-transformations \
+  ros-${ROS_DISTRO}-image-pipeline \
+  && rm -rf /var/lib/apt-get/lists/*
+  
+# Orbbec driver dependencies
+
+RUN sudo apt-get update && apt-get install -y \
+  libgflags-dev nlohmann-json3-dev \
+  ros-${ROS_DISTRO}-image-transport \
+  ros-${ROS_DISTRO}-image-transport-plugins \
+  ros-${ROS_DISTRO}-compressed-image-transport \
+  ros-${ROS_DISTRO}-image-publisher \
+  ros-${ROS_DISTRO}-camera-info-manager \
+  ros-${ROS_DISTRO}-diagnostic-updater \
+  ros-${ROS_DISTRO}-diagnostic-msgs \
+  ros-${ROS_DISTRO}-statistics-msgs \
+  ros-${ROS_DISTRO}-backward-ros libdw-dev \
+  && rm -rf /var/lib/apt-get/lists/*
+
+
+ENV AMENT_PREFIX_PATH=/opt/ros/${ROS_DISTRO}
+ENV COLCON_PREFIX_PATH=/opt/ros/${ROS_DISTRO}
+ENV LD_LIBRARY_PATH=/opt/ros/${ROS_DISTRO}/lib/x86_64-linux-gnu:/opt/ros/${ROS_DISTRO}/lib
+ENV PATH=/opt/ros/${ROS_DISTRO}/bin:$PATH
+ENV PYTHONPATH=/opt/ros/${ROS_DISTRO}/local/lib/python3.10/dist-packages:/opt/ros/${ROS_DISTRO}/lib/python3.10/site-packages
+
+#Source ros
+RUN echo "source /opt/ros/${ROS_DISTRO}/setup.bash" >> ~/.bashrc
+
+RUN rosdep init \
+  &&rosdep update 
+
+
+################################
+# Complete ros2 image with gazebo 
+################################
+
+FROM base AS ros2_complete
+ENV DEBIAN_FRONTEND=noninteractive
+
+RUN wget https://packages.osrfoundation.org/gazebo.gpg -O /usr/share/keyrings/pkgs-osrf-archive-keyring.gpg \
+  && echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/pkgs-osrf-archive-keyring.gpg] http://packages.osrfoundation.org/gazebo/ubuntu-stable $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/gazebo-stable.list > /dev/null \
+  && apt-get update && apt-get install -q -y --no-install-recommends \
+    ros-${ROS_DISTRO}-ros-gz \
+    ros-${ROS_DISTRO}-gz-ros2-control\
+  && rm -rf /var/lib/apt/lists/*
+
+
+################################
+#  Dev tools and non root user
+################################
+
+FROM ros2_complete AS full
+ENV DEBIAN_FRONTEND=noninteractive
+
+# Install xauth for gui applications
+RUN apt-get update && apt-get install -q -y --no-install-recommends \
+    xauth \
+    && rm -rf /var/lib/apt-get/lists/*
+
+# Install docker 
+RUN sudo apt-get update && apt-get install -y ca-certificates curl \
+  && sudo install -m 0755 -d /etc/apt/keyrings \
+  && sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc \
+  && sudo chmod a+r /etc/apt/keyrings/docker.asc \
+  && echo \
+      "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
+      $(. /etc/os-release && echo "${UBUNTU_CODENAME:-$VERSION_CODENAME}") stable" | \
+      sudo tee /etc/apt/sources.list.d/docker.list > /dev/null \
+  && sudo apt-get update
+
+RUN sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+
+# Install dev tools
+RUN apt-get update && apt-get install -y --no-install-recommends\
+  byobu \
+  bash-completion \
+  net-tools \
+  nano \
+  vim \
+  git \
+  tmux \
+  python3-vcstool \
+  terminator \
+  can-utils \
+  && rm -rf /var/lib/apt-get/lists/*
+
+# Install Pinocchio 
+# Installer les dépendances pour la gestion des dépôts
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    ca-certificates \
+    curl \
+    gnupg \
+    lsb-release \
+# Créer le répertoire pour les clés
+ && mkdir -p /etc/apt/keyrings \
+# Télécharger la clé GPG, la convertir et la stocker au bon endroit
+ && curl -fsSL http://robotpkg.openrobots.org/packages/debian/robotpkg.asc | gpg --dearmor -o /etc/apt/keyrings/robotpkg.gpg \
+# Ajouter le dépôt en spécifiant la clé de signature
+ && echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/robotpkg.gpg] http://robotpkg.openrobots.org/packages/debian/pub $(lsb_release -cs) robotpkg" > /etc/apt/sources.list.d/robotpkg.list \
+# Mettre à jour les sources et installer le paquet
+ && apt-get update \
+ && apt-get install -y robotpkg-py3*-pinocchio \
+# Nettoyer le cache apt pour réduire la taille de l'image
+ && rm -rf /var/lib/apt/lists/*
+
+#byobu disable by default 
+RUN byobu-enable 
+
+# Install VISP
+RUN apt-get update && apt-get install -y libvisp-dev libvisp-doc visp-images-data
+
+# Create non root user matching host user
+ARG USERNAME=ros
+ARG USER_UID=1001
+ARG USER_GID=1001
+ARG DOCKER_GRP=999
+ARG INPUT_GRP=106
+ARG RENDER_GRP=107
+
+
+
+# Allowing high uid/gid for user creation
+# This is to avoid issues when the host user has a high uid/gid
+RUN sed -i 's/^UID_MAX.*/UID_MAX\t999999999/' /etc/login.defs \
+ && sed -i 's/^GID_MAX.*/GID_MAX\t999999999/' /etc/login.defs
+
+# Delete existing user/group with same uid/gid if any
+# Delete the USER first: groupdel refuses to remove a group that is still someone's
+# primary group, and Ubuntu 24.04 ships user 'ubuntu' (UID 1000) in group 'ubuntu'.
+RUN if getent passwd ${USER_UID} >/dev/null 2>&1; then \
+        EXISTING_USER_NAME=$(getent passwd ${USER_UID} | cut -d: -f1); \
+        echo "Deleting conflicting user ${EXISTING_USER_NAME} with UID ${USER_UID}"; \
+        deluser --remove-home ${EXISTING_USER_NAME}; \
+    fi \
+ && if getent group ${USER_GID} >/dev/null 2>&1; then \
+        EXISTING_GROUP_NAME=$(getent group ${USER_GID} | cut -d: -f1); \
+        echo "Deleting conflicting group ${EXISTING_GROUP_NAME} with GID ${USER_GID}"; \
+        delgroup ${EXISTING_GROUP_NAME}; \
+    fi
+
+# Create host groups if not already present
+RUN if getent group docker >/dev/null 2>&1; then \
+      groupmod -g ${DOCKER_GRP} docker; \
+    else \
+      groupadd -g ${DOCKER_GRP} docker; \
+    fi
+RUN if getent group input >/dev/null 2>&1; then \
+      groupmod -g ${INPUT_GRP} input; \
+    else \
+      groupadd -g ${INPUT_GRP} input; \
+    fi
+    
+RUN if getent group render >/dev/null 2>&1; then \
+      groupmod -g ${RENDER_GRP} render; \
+    else \
+      groupadd -g ${RENDER_GRP} render; \
+    fi
+
+
+# Create new user and his home directory
+RUN getent group $USER_GID || groupadd -g $USER_GID $USERNAME \
+  && useradd --uid $USER_UID --gid $USER_GID --create-home --shell /bin/bash $USERNAME \
+  && echo "$USERNAME ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/$USERNAME \
+  && chmod 0440 /etc/sudoers.d/$USERNAME \
+  && echo "source /opt/ros/${ROS_DISTRO}/setup.bash " >> /home/${USERNAME}/.bashrc \
+  && echo 'export PS1="\[\e]0;\u@$ROS_DISTRO-container: \w\a\]${debian_chroot:+($debian_chroot)}\[\033[01;34m\]\u@$ROS_DISTRO-container\[\033[00m\]:\[\033[01;35m\]\w\[\033[00m\]\$ "' >> /home/${USERNAME}/.bashrc \
+  && echo "export ROS_AUTOMATIC_DISCOVERY_RANGE=LOCALHOST" >> /home/${USERNAME}/.bashrc 
+
+
+# Config Tmux
+COPY --chown=${USERNAME}:${USERNAME} utils/tmux.conf /home/${USERNAME}/.tmux.conf
+
+## ADD pinocchio 
+RUN echo "export PATH=/opt/openrobots/bin:\$PATH" >> /home/${USERNAME}/.bashrc \
+ && echo "export PKG_CONFIG_PATH=/opt/openrobots/lib/pkgconfig:\$PKG_CONFIG_PATH" >> /home/${USERNAME}/.bashrc \
+ && echo "export LD_LIBRARY_PATH=/opt/openrobots/lib:\$LD_LIBRARY_PATH" >> /home/${USERNAME}/.bashrc \
+ && echo "export PYTHONPATH=/opt/openrobots/lib/python3.10/site-packages:\$PYTHONPATH" >> /home/${USERNAME}/.bashrc \
+ && echo "export CMAKE_PREFIX_PATH=/opt/openrobots:\$CMAKE_PREFIX_PATH" >> /home/${USERNAME}/.bashrc \
+ && echo "export PYTHONPATH=$PYTHONPATH:/opt/openrobots/lib/python3.12/site-packages" >> /home/${USERNAME}/.bashrc \
+ && echo "export PYTHONPATH=$PYTHONPATH:/home/ros/share/install/lib/python3.12/site-packages" >> /home/${USERNAME}/.bashrc \
+ && echo "export PYTHONPATH=$PYTHONPATH:/openrobots/lib/python3.12/site-packages" >> /home/${USERNAME}/.bashrc \
+# The pip pinocchio 4.0.0 installed below must win over the robotpkg 3.9.0 above,
+# otherwise `import pinocchio` dies on an undefined symbol.
+ && echo "export LD_LIBRARY_PATH=/home/${USERNAME}/.local/lib/python3.12/site-packages/cmeel.prefix/lib:\$LD_LIBRARY_PATH" >> /home/${USERNAME}/.bashrc
+
+## Define entrypoint
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+
+ENTRYPOINT ["/entrypoint.sh"]
+CMD ["bash"]
+
+# Set default user ros
+USER ${USERNAME}
+# Set default working directory
+WORKDIR /home/${USERNAME}
+# Create a directory to store data
+RUN mkdir share
+
+## pip is not pulled in by any of the layers above, and everything below needs it.
+RUN sudo apt-get update \
+ && sudo apt-get install -y --no-install-recommends python3-pip \
+ && sudo rm -rf /var/lib/apt/lists/*
+
+## VR teleop python stack: pinocchio + pink (collision barrier) + the QP solver.
+## typing_extensions is an undeclared dependency of pink.tasks.
+RUN pip3 install --user --break-system-packages --no-cache-dir \
+      "pin==4.0.0" "pin-pink==4.2.0" "coal==3.0.3" "scipy>=1.14" qpsolvers daqp \
+      typing_extensions \
+ && python3 -c "import pinocchio, coal; from pink.barriers import SelfCollisionBarrier; import qpsolvers; assert 'daqp' in qpsolvers.available_solvers; print('teleop deps OK:', pinocchio.__version__)"
+
+## LeRobot episode recording and replay. torch is pinned to the CPU build (lerobot
+## alone pulls ~5 GB of CUDA wheels this container has no GPU for) and numpy is
+## constrained so the pinocchio ABI stays intact. setuptools is held below 80, which
+## dropped the `develop` command colcon needs for --symlink-install.
+RUN printf 'numpy==2.5.1\nsetuptools<80\n' > /tmp/np.txt \
+ && pip3 install --user --break-system-packages --no-cache-dir -c /tmp/np.txt \
+      "torch==2.10.0+cpu" "torchvision==0.25.0+cpu" --index-url https://download.pytorch.org/whl/cpu \
+ && pip3 install --user --break-system-packages --no-cache-dir -c /tmp/np.txt \
+      "lerobot==0.4.4" \
+ && pip3 install --user --break-system-packages --no-cache-dir --force-reinstall --no-deps \
+      "torch==2.10.0+cpu" "torchvision==0.25.0+cpu" --index-url https://download.pytorch.org/whl/cpu \
+ && pip3 uninstall -y --break-system-packages triton $(pip3 list --user 2>/dev/null | grep -oE '^nvidia-[a-z0-9-]+') || true \
+ && python3 -c "import lerobot, torch, numpy; assert numpy.__version__=='2.5.1'; print('lerobot OK:', lerobot.__version__, 'torch', torch.__version__)"
+
+################################
+# Dependencies that need to be built from source
+################################
+SHELL ["/bin/bash", "-c"]
+
+RUN mkdir -p ~/ros2_utils_ws/src && \
+    cd ~/ros2_utils_ws/src && \
+    git clone https://github.com/orbbec/OrbbecSDK_ROS2.git -b v2-main && \
+    #git clone https://github.com/lagadic/vision_visp.git -b rolling && \
+    # Go to the workspace root
+    cd ~/ros2_utils_ws && \
+    # Source the ROS 2 environment directly
+    source /opt/ros/${ROS_DISTRO}/setup.bash && \
+    # Now, the environment is correctly loaded for the build command.
+    colcon build --cmake-args -DCMAKE_BUILD_TYPE=Release
+
+# --- UPDATE .bashrc ---
+# Sourcing the new workspace for future interactive shells
+RUN echo "source ~/ros2_utils_ws/install/setup.bash" >> ~/.bashrc
+# Add mantis workspace to the bashrc
+RUN echo "source ~/share/mantis_ws/install/setup.bash" >> ~/.bashrc
+
+# Add gazebo models and plugins to the path
+RUN echo "export GZ_SIM_RESOURCE_PATH=$GZ_SIM_RESOURCE_PATH:/opt/ros/humble/share:~/ros2_utils_ws/install/orbbec_description/share:~/share/mantis_ws/install/robotiq_ft_sensor_description/share" >> ~/.bashrc 

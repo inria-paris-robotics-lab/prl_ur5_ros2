@@ -182,15 +182,17 @@ RUN sed -i 's/^UID_MAX.*/UID_MAX\t999999999/' /etc/login.defs \
  && sed -i 's/^GID_MAX.*/GID_MAX\t999999999/' /etc/login.defs
 
 # Delete existing user/group with same uid/gid if any
-RUN if getent group ${USER_GID} >/dev/null 2>&1; then \
-        EXISTING_GROUP_NAME=$(getent group ${USER_GID} | cut -d: -f1); \
-        echo "Deleting conflicting group ${EXISTING_GROUP_NAME} with GID ${USER_GID}"; \
-        delgroup ${EXISTING_GROUP_NAME}; \
-    fi \
- && if getent passwd ${USER_UID} >/dev/null 2>&1; then \
+# Delete the USER first: groupdel refuses to remove a group that is still someone's
+# primary group, and Ubuntu 24.04 ships user 'ubuntu' (UID 1000) in group 'ubuntu'.
+RUN if getent passwd ${USER_UID} >/dev/null 2>&1; then \
         EXISTING_USER_NAME=$(getent passwd ${USER_UID} | cut -d: -f1); \
         echo "Deleting conflicting user ${EXISTING_USER_NAME} with UID ${USER_UID}"; \
         deluser --remove-home ${EXISTING_USER_NAME}; \
+    fi \
+ && if getent group ${USER_GID} >/dev/null 2>&1; then \
+        EXISTING_GROUP_NAME=$(getent group ${USER_GID} | cut -d: -f1); \
+        echo "Deleting conflicting group ${EXISTING_GROUP_NAME} with GID ${USER_GID}"; \
+        delgroup ${EXISTING_GROUP_NAME}; \
     fi
 
 # Create host groups if not already present
@@ -233,7 +235,10 @@ RUN echo "export PATH=/opt/openrobots/bin:\$PATH" >> /home/${USERNAME}/.bashrc \
  && echo "export CMAKE_PREFIX_PATH=/opt/openrobots:\$CMAKE_PREFIX_PATH" >> /home/${USERNAME}/.bashrc \
  && echo "export PYTHONPATH=$PYTHONPATH:/opt/openrobots/lib/python3.12/site-packages" >> /home/${USERNAME}/.bashrc \
  && echo "export PYTHONPATH=$PYTHONPATH:/home/ros/share/install/lib/python3.12/site-packages" >> /home/${USERNAME}/.bashrc \
- && echo "export PYTHONPATH=$PYTHONPATH:/openrobots/lib/python3.12/site-packages" >> /home/${USERNAME}/.bashrc
+ && echo "export PYTHONPATH=$PYTHONPATH:/openrobots/lib/python3.12/site-packages" >> /home/${USERNAME}/.bashrc \
+# The pip pinocchio 4.0.0 installed below must win over the robotpkg 3.9.0 above,
+# otherwise `import pinocchio` dies on an undefined symbol.
+ && echo "export LD_LIBRARY_PATH=/home/${USERNAME}/.local/lib/python3.12/site-packages/cmeel.prefix/lib:\$LD_LIBRARY_PATH" >> /home/${USERNAME}/.bashrc
 
 ## Define entrypoint
 COPY entrypoint.sh /entrypoint.sh
@@ -248,6 +253,37 @@ USER ${USERNAME}
 WORKDIR /home/${USERNAME}
 # Create a directory to store data
 RUN mkdir share
+
+## pip is not pulled in by any of the layers above, and everything below needs it.
+RUN sudo apt-get update \
+ && sudo apt-get install -y --no-install-recommends python3-pip \
+ && sudo rm -rf /var/lib/apt/lists/*
+
+## VR teleop python stack: pinocchio + pink (collision barrier) + the QP solver.
+## typing_extensions is an undeclared dependency of pink.tasks.
+RUN pip3 install --user --break-system-packages --no-cache-dir \
+      "pin==4.0.0" "pin-pink==4.2.0" "coal==3.0.3" "scipy>=1.14" qpsolvers daqp \
+      typing_extensions \
+ && python3 -c "import pinocchio, coal; from pink.barriers import SelfCollisionBarrier; import qpsolvers; assert 'daqp' in qpsolvers.available_solvers; print('teleop deps OK:', pinocchio.__version__)"
+
+## LeRobot episode recording, replay and async inference. torch is pinned to the CPU build
+## (lerobot alone pulls ~5 GB of CUDA wheels this container has no GPU for). numpy is capped
+## below 2.3 because that is lerobot's own requirement; pinocchio was verified to run fine
+## there (PinkIK builds and margin_at(HOME) returns the same 4.03 mm as on 2.5.1). setuptools
+## is held below 80, which dropped the `develop` command colcon needs for --symlink-install.
+## protobuf is capped below 7 because wandb, a lerobot dependency, refuses 7.x.
+## [async] brings grpcio+protobuf for the robot client, [dataset] brings datasets+torchcodec
+## which 0.6 needs for recording and replay; installing them
+## here rather than at runtime means they survive `docker rm`.
+RUN printf 'numpy<2.3.0\nsetuptools<80\nprotobuf<7\n' > /tmp/np.txt \
+ && pip3 install --user --break-system-packages --no-cache-dir -c /tmp/np.txt \
+      "torch==2.10.0+cpu" "torchvision==0.25.0+cpu" --index-url https://download.pytorch.org/whl/cpu \
+ && pip3 install --user --break-system-packages --no-cache-dir -c /tmp/np.txt \
+      "lerobot[async,dataset]==0.6.1" \
+ && pip3 install --user --break-system-packages --no-cache-dir --force-reinstall --no-deps \
+      "torch==2.10.0+cpu" "torchvision==0.25.0+cpu" --index-url https://download.pytorch.org/whl/cpu \
+ && pip3 uninstall -y --break-system-packages triton $(pip3 list --user 2>/dev/null | grep -oE '^nvidia-[a-z0-9-]+') || true \
+ && python3 -c "import lerobot, torch, numpy, grpc; from lerobot.transport import services_pb2; import importlib.metadata as m; print('lerobot OK:', m.version('lerobot'), 'torch', torch.__version__, 'numpy', numpy.__version__)"
 
 ################################
 # Dependencies that need to be built from source

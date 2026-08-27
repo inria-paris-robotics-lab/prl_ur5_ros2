@@ -1,0 +1,65 @@
+# left arm configuration
+left:
+  arm_kinematics: "kinematics/ur5_left.yaml"
+  # Wide wrist limits for teleop; regenerate both URDFs after changing this.
+  arm_joint_limits: "limits/teleop_joint_limits.yaml"
+  arm_pose:
+    x: -0.765
+    y: -0.09
+    z: 0.01
+    roll: 0
+    pitch: 0
+    yaw: 0
+
+  ft_sensor: "None" #["robotiq_ft300","none"]
+
+  gripper: "weiss-wsg50"
+  gripper_controller: "weiss-gripper"
+  gripper_pose:
+    x: 0.0
+    y: 0.0
+    z: 0.01
+    roll: 0.0
+    pitch: 0.0
+    yaw: 0.0
+  # camera: "realsense-d435i"
+  # camera_pose:
+  #   x: -1.8195086181012343e-05
+  #   y: 0.021319877717104876
+  #   z: 0.17293318092151708
+  #   roll: 0.2835816306216423
+  #   pitch: -1.5613233179664476
+  #   yaw: -1.8675144444458067
+
+# right arm configuration
+right:
+  arm_kinematics: "kinematics/ur5_right.yaml"
+  arm_joint_limits: "limits/half_joint_limits.yaml"
+  arm_pose:
+    x: 0.765
+    y: -0.09
+    z: 0.01
+    roll: 0.0
+    pitch: 0
+    yaw: 0.0
+  ft_sensor: "None" #["robotiq_ft300","none"]
+  gripper: "custom:no_gripper"
+  gripper_controller: "none"
+  gripper_pose:
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    roll: 0.0
+    pitch: 0.0
+    yaw: 1.5708
+  # camera: "realsense-d435i"
+  # camera_pose:
+  #   x: 0.0
+  #   y: 0.02
+  #   z: 0.15
+  #   roll: -1.57
+  #   pitch: -1.57
+  #   yaw: 0.0
+
+# Fixed cameras
+fixed_cameras_file: "fixed_cameras/dataset_collection.yaml"

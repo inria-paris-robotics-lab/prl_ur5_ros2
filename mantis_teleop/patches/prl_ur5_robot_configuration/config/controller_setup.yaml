@@ -1,0 +1,24 @@
+controllers:
+  active_controllers: 
+  - forward_position_controller
+  inactive_controllers:
+  - forward_velocity_controller
+  - left_joint_trajectory_controller
+  - right_joint_trajectory_controller
+  unused_controllers:
+  - left_speed_scaling_state_broadcaster
+  - right_speed_scaling_state_broadcaster
+  - left_force_torque_sensor_broadcaster
+  - right_force_torque_sensor_broadcaster
+  - left_scaled_joint_trajectory_controller
+  - right_scaled_joint_trajectory_controller
+  - left_force_mode_controller
+  - right_force_mode_controller
+  - left_freedrive_mode_controller
+  - right_freedrive_mode_controller
+  - left_passthrough_trajectory_controller
+  - right_passthrough_trajectory_controller
+  - left_tcp_pose_broadcaster
+  - right_tcp_pose_broadcaster
+  - left_arm_configuration_controller
+  - right_arm_configuration_controller

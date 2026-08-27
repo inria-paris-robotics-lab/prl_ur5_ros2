@@ -1,0 +1,14 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "lerobot_robot_mantis"
+version = "0.1.0"
+description = "LeRobot Robot plugin: PRL mantis dual-UR5 left arm over ROS2 (teleop_mantis stack)"
+requires-python = ">=3.10"
+# lerobot, rclpy, numpy and the teleop stack come from the container environment
+dependencies = []
+
+[tool.setuptools]
+packages = ["lerobot_robot_mantis"]

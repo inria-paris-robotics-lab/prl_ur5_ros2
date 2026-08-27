@@ -1,0 +1,192 @@
+cameras:
+  # ==========================================
+  # CAMÉRAS REALSENSE
+  # ==========================================
+  alpha_camera:
+    type: realsense
+    serial_no: "_145422071857"
+    activate: false 
+    enable_depth: true
+    enable_infra: true
+    enable_infra1: true
+    enable_infra2: true 
+    enable_color: true
+    enable_gyro: false
+    enable_accel: false 
+    enable_rgbd: false
+    pointcloud: true
+    enable_sync: false
+    align_depth: false
+    
+  bravo_camera:
+    type: realsense
+    serial_no: "_031522071313"
+    activate: false
+    enable_depth: true
+    enable_infra: true
+    enable_infra1: true
+    enable_infra2: true 
+    enable_color: true
+    enable_gyro: false
+    enable_accel: false 
+    enable_rgbd: false
+    pointcloud: true
+
+  charlie_camera:
+    type: realsense
+    serial_no: "_143122078418"
+    activate: false
+    enable_depth: true
+    enable_infra: true
+    enable_infra1: true
+    enable_infra2: true 
+    enable_color: true
+    enable_gyro: false
+    enable_accel: false 
+    enable_rgbd: false
+    pointcloud: true
+
+  # ==========================================
+  # CAMÉRAS ORBBEC FEMTO MEGA 
+  # ==========================================
+  
+  # CAMÉRA PRIMARY
+  echo_camera:
+    type: "femto-mega"
+    activate: true
+    ip: "192.168.1.10"
+    port: "8090"
+    sync_mode: "primary"
+    
+    # --- FLUX AND RESOLUTION---
+    enable_color: true
+    enable_depth: true
+    enable_ir: false
+    color_fps: 15
+    depth_fps: 15
+    ir_fps: 15
+    enable_point_cloud: true
+    
+    enable_colored_point_cloud: true
+    depth_registration: true
+    enable_frame_sync: true
+    
+    # --- SYNCHRONISATION ---
+    depth_delay_us: 0
+    color_delay_us: 0
+    trigger2image_delay_us: 0
+    trigger_out_delay_us: 0
+    trigger_out_enabled: true
+    time_domain: "system"
+    
+    # --- NOISE FILTERING ---
+    enable_decimation_filter: false
+    enable_spatial_filter: true
+    spatial_filter_alpha: 0.5
+    spatial_filter_magnitude: 2
+    spatial_filter_radius: 2
+    enable_temporal_filter: true
+    temporal_filter_weight: 0.4
+    temporal_filter_diff_threshold: 20
+    enable_hole_filling_filter: true
+    hole_filling_filter_mode: 1
+    enable_threshold_filter: true
+    threshold_filter_max: 5000
+    threshold_filter_min: 300
+    enable_noise_removal_filter: true
+    noise_removal_filter_min_diff: 256
+    noise_removal_filter_max_size: 80
+
+  # CAMÉRA SECONDARY 1
+  foxtrot_camera:
+    type: "femto-mega"
+    activate: true
+    ip: "192.168.1.12"
+    port: "8090"
+    sync_mode: "secondary_synced"
+    
+    # --- FLUX AND RESOLUTION---
+    enable_color: true
+    enable_depth: true
+    enable_ir: false
+    color_fps: 15
+    depth_fps: 15
+    ir_fps: 15
+    enable_point_cloud: true
+    
+    enable_colored_point_cloud: true
+    depth_registration: true
+    enable_frame_sync: true
+    
+    # --- SYNCHRONISATION ---
+    depth_delay_us: 160
+    color_delay_us: 0
+    trigger2image_delay_us: 0
+    trigger_out_delay_us: 0
+    trigger_out_enabled: false
+    time_domain: "system"
+    
+    # --- NOISE FILTERING ---
+    enable_decimation_filter: false
+    enable_spatial_filter: true
+    spatial_filter_alpha: 0.5
+    spatial_filter_magnitude: 2
+    spatial_filter_radius: 2
+    enable_temporal_filter: true
+    temporal_filter_weight: 0.4
+    temporal_filter_diff_threshold: 20
+    enable_hole_filling_filter: true
+    hole_filling_filter_mode: 1
+    enable_threshold_filter: true
+    threshold_filter_max: 5000
+    threshold_filter_min: 300
+    enable_noise_removal_filter: true
+    noise_removal_filter_min_diff: 256
+    noise_removal_filter_max_size: 80
+
+  # CAMÉRA SECONDARY 2
+  golf_camera:
+    type: "femto-mega"
+    activate: false
+    ip: "192.168.1.11"
+    port: "8090"
+    sync_mode: "secondary_synced"
+    
+    # --- FLUX AND RESOLUTION---
+    enable_color: true
+    enable_depth: true
+    enable_ir: false
+    color_fps: 15
+    depth_fps: 15
+    ir_fps: 15
+    enable_point_cloud: true
+    
+    enable_colored_point_cloud: true
+    depth_registration: true
+    enable_frame_sync: true
+    
+    # --- SYNCHRONISATION ---
+    depth_delay_us: 320
+    color_delay_us: 0
+    trigger2image_delay_us: 0
+    trigger_out_delay_us: 0
+    trigger_out_enabled: false
+    time_domain: "system"
+    
+    # --- NOISE FILTERING ---
+    enable_decimation_filter: false
+    enable_spatial_filter: true
+    spatial_filter_alpha: 0.5
+    spatial_filter_magnitude: 2
+    spatial_filter_radius: 2
+    enable_temporal_filter: true
+    temporal_filter_weight: 0.4
+    temporal_filter_diff_threshold: 20
+    enable_hole_filling_filter: true
+    hole_filling_filter_mode: 1
+    enable_threshold_filter: true
+    threshold_filter_max: 5000
+    threshold_filter_min: 300
+    enable_noise_removal_filter: true
+    noise_removal_filter_min_diff: 256
+    noise_removal_filter_max_size: 80

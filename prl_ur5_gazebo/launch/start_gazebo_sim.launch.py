@@ -104,9 +104,11 @@ def launch_setup(context):
 
     gripper = config.get('left', {}).get('gripper_controller', {})
 
-    if gripper == 'onrobot-rg':
+    # Grippers with mimic-joint linkages (OnRobot RG, Weiss WSG50) crash dartsim's
+    # LCP solver — use the bullet-featherstone world for them.
+    if gripper in ('onrobot-rg', 'weiss-gripper'):
         world_file = onrobot_world_file
-        print("Using OnRobot world file for simulation.")
+        print("Using OnRobot (bullet-featherstone) world file for simulation.")
     else:
         world_file = default_world_file
 

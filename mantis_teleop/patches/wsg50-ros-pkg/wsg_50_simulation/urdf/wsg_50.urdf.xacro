@@ -1,0 +1,490 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro" name="wsg_50">
+
+<!-- finger_length: Length of finger from gripper base. (was 0.023) -->
+<!-- finger_tip:    Offset of finger tip along fingers' motion direction.
+                    Use e.g. for single contact point tip on finger. (default 0) -->
+<xacro:macro name="wsg_50_xacro" params="prefix parent finger_length finger_tip *origin sim_standalone:=false real_hardware:=false finger_type:='soft' config_file:=${xacro.load_yaml('$(find wsg_50_driver)/config/wsg50_setup.yaml')}">
+
+    <link name="${prefix}_base"/>
+
+    <joint name="${prefix}_base_joint" type="fixed">
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <parent link="${parent}"/>
+        <child link="${prefix}_base"/>
+    </joint>
+
+
+    <joint name="${prefix}_mounting_plate_joint" type="fixed">
+        <xacro:insert_block name="origin"/>
+        <parent link="${parent}"/>
+        <child link="${prefix}_mounting_plate"/>
+    </joint>
+
+    <link name="${prefix}_mounting_plate">
+        <inertial>
+            <mass value="0.13" />
+            <origin xyz="0 0 0" />
+                <inertia ixx="2.82e-5" ixy="0.0" ixz="0.0"
+                iyy="1.70e-4" iyz="0.0"
+                izz="1.96e-4"/>
+        </inertial>
+        <visual>
+            <origin xyz="0.0 0 0" rpy="0 0 0" />
+            <geometry>
+                 <mesh filename="file://$(find wsg_50_simulation)/meshes/FL_ISO50_WSG50.stl" scale="0.001 0.001 0.001"/>
+            </geometry>
+            <material name="black">
+                <color rgba="0 0 0 1"/>
+            </material>
+        </visual>
+        <collision>
+            <origin xyz="0.0 0 0" rpy="0 0 0" />
+            <geometry>
+                 <mesh filename="file://$(find wsg_50_simulation)/meshes/FL_ISO50_WSG50.stl" scale="0.001 0.001 0.001"/>
+            </geometry>
+         </collision>
+    </link>
+    
+    
+    <joint name="${prefix}_anterior_gripper_joint" type="fixed">
+        <parent link="${prefix}_mounting_plate"/>
+        <child link="${prefix}_base_link"/>
+        <origin xyz="0 0 0" rpy="0 0 ${pi}" />
+    </joint>
+
+    <!-- BASE LINK -->
+    <link name="${prefix}_base_link">
+        <inertial>
+            <mass value="1.1" /> 
+            <origin xyz="0 0 0.03625" />
+            <inertia ixx="7.11e-4" ixy="0.0" ixz="0.0" iyy="1.91e-3" iyz="0.0" izz="1.66e-3"/>
+        </inertial>
+
+        <visual>
+            <origin xyz="0.0 0 0" rpy="0 0 0" />
+            <geometry>
+                <mesh filename="file://$(find wsg_50_simulation)/meshes/WSG50_110.stl" scale="1 1 1"/>
+            </geometry>
+                <material name="Robotiq-LightGrey">
+                <color rgba="1 1 1 1"/>
+            </material>
+        </visual>
+
+        <collision>
+            <origin xyz="0.0 0 0" rpy="0 0 0" />
+            <geometry>
+                <mesh filename="file://$(find wsg_50_simulation)/meshes/WSG50_110.stl" scale="1.2 1.2 1.2"/>
+            </geometry>
+        </collision>
+    </link>
+
+    <link name="${prefix}_connector_link">
+        <visual>
+            <origin xyz="0.0 0 0" rpy="0 0 0" />
+            <geometry>
+                <box size="0.05 0.05 0.08" />
+            </geometry>
+            <material name="grey">
+                <color rgba="1 1 1 0.02"/>
+            </material>
+        </visual>
+
+        <collision>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <geometry>
+                <box size="0.05 0.05 0.08" />
+            </geometry>
+        </collision>
+    </link>
+
+    <joint name="${prefix}_connector_joint" type="fixed">
+        <origin xyz="-0.095 0 0" rpy="0 0 0" />   
+        <parent link="${prefix}_base_link"/>
+        <child link="${prefix}_connector_link" />
+    </joint>
+
+    <gazebo reference="${prefix}_base_link">
+        <material>Gazebo/Grey</material>
+    </gazebo>
+
+    <joint name="${prefix}_center_joint" type="fixed">
+        <origin xyz="0 0 ${finger_length}" rpy="0 0 0" />   
+        <parent link="${prefix}_base_link"/>
+        <child link="${prefix}_center" />
+    </joint>
+
+
+    <!-- Width LINK -->
+
+    <link name="${prefix}_center"/>
+    <link name ="${prefix}_width">
+        <inertial>
+            <mass value="0.01e-10" />
+            <origin xyz="0 0 0" />
+            <inertia ixx="0.0" ixy="0.0" ixz="0.0"
+                    iyy="0.0" iyz="0.0" 
+                    izz="0.0" />
+        </inertial>
+    </link>
+     <gazebo reference="${prefix}_width">
+        <material>Gazebo/Red</material>
+        <turnGravityOff>true</turnGravityOff>
+    </gazebo>
+    
+    
+    <joint name="${prefix}_joint" type="prismatic">
+        <limit lower="0.0" upper="0.11" effort="100" velocity="100"/>
+        <origin xyz="0 0 0" rpy="0 -1.5708 0" />
+        <parent link="${prefix}_base_link"/>
+        <child link="${prefix}_width" />
+        <axis xyz="1 0 0"/>
+    </joint>
+
+    <transmission name="${prefix}_base_trans" type="pr2_mechanism_model/SimpleTransmission">
+        <actuator name="${prefix}_base_motor" />
+        <joint name="${prefix}_joint" />
+        <mechanicalReduction>1</mechanicalReduction>
+        <motorTorqueConstant>1</motorTorqueConstant>
+    </transmission>
+
+    <joint name="${prefix}_base_joint_gripper_left" type="prismatic">
+        <mimic joint="${prefix}_joint" multiplier="0.5" offset="0.0"/>
+        <limit lower="0.0" upper="0.055" effort="100" velocity="100"/>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <parent link="${prefix}_base_link"/>
+        <child link="${prefix}_gripper_left" />
+        <axis xyz="-1 0 0"/>
+        <limit effort="100" velocity="100"/>
+        <dynamics friction="0" damping="25" />
+    </joint>
+
+    <link name="${prefix}_gripper_left">
+        <inertial>
+            <mass value="0.03" />
+            <origin xyz="0 0 0.03625" />
+            <inertia ixx="3.81e-6" ixy="0.0" ixz="0.0"
+            iyy="2.37e-6" iyz="0.0"
+            izz="3.06e-6"/>
+        </inertial>
+
+        <visual>
+            <origin xyz="0.0 0 0" rpy="0 0 0" />
+            <geometry>
+                <mesh filename="file://$(find wsg_50_simulation)/meshes/GUIDE_WSG50_110.stl" scale="0.001 0.001 0.001"/>
+            </geometry>
+            <material name="black">
+            <color rgba="0 0 0 1"/>
+            </material>
+        </visual>
+
+        <collision>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <geometry>
+                <mesh filename="file://$(find wsg_50_simulation)/meshes/GUIDE_WSG50_110.stl" scale="0.001 0.001 0.001"/>
+            </geometry>
+        </collision>
+        <contact_coefficients kd="1.0" kp="1000.0" mu="0"/>
+    </link>
+
+    <gazebo reference="${prefix}_gripper_left">
+        <material>Gazebo/Black</material>
+    </gazebo>
+
+
+
+    <!-- LEFT FINGER -->
+    <joint name="${prefix}_guide_joint_finger_left" type="fixed">
+        <origin xyz="${finger_tip} 0 ${finger_length}" rpy="0 0 0" />
+        <parent link="${prefix}_gripper_left"/>
+        <child link="${prefix}_finger_left" />
+        <dynamics friction="100" damping="100" />
+        <axis xyz="1 0 0"/>
+        <limit effort="100" velocity="100"/>
+    </joint>
+
+    <xacro:unless value="${finger_type == 'soft'}">
+        <link name="${prefix}_finger_left">
+            <inertial>
+                <mass value="0.052" />
+                <origin xyz="0 0 0.085" />
+                <inertia ixx="2.50e-5" ixy="0.0" ixz="0.0"
+                iyy="2.50e-5" iyz="0.0"
+                izz="2.60e-6"/>
+            </inertial>
+            
+            <visual>
+                <origin xyz="0.0 0 0" rpy="0 0 0" />
+                <geometry>
+                    <mesh filename="file://$(find wsg_50_simulation)/meshes/WSG-FMF.stl" scale="0.001 0.001 0.001"/>
+                </geometry>
+                <material name="black">
+                <color rgba="0 0 0 1"/>
+                </material>
+            </visual>
+
+            <collision>
+                <origin xyz="0 0 0" rpy="0 0 0" />
+                <geometry>
+                    <mesh filename="file://$(find wsg_50_simulation)/meshes/WSG-FMF.stl" scale="0.001 0.001 0.001"/>
+                </geometry>
+            </collision>
+            <contact_coefficients kd="1.0" kp="1000.0" mu="0"/>
+        </link>
+        <gazebo reference="${prefix}_finger_left">
+            <material>Gazebo/Black</material>
+        </gazebo>
+    </xacro:unless>
+    <xacro:if value="${finger_type == 'soft'}">
+        <link name="${prefix}_finger_left">
+            <inertial>
+                <mass value="0.052" />
+                <origin xyz="0 0 0" />
+                <inertia ixx="2.50e-5" ixy="0.0" ixz="0.0"
+                        iyy="2.50e-5" iyz="0.0"
+                        izz="2.60e-6"/>
+            </inertial>
+
+            <!-- Visual for finger_base -->
+            <visual>
+                <origin xyz="0 0 -0.023" rpy="-1.5708 0 0" />
+                <geometry>
+                    <mesh filename="file://$(find wsg_50_simulation)/meshes/finger_base.stl" scale="1. 1. 1."/>
+                </geometry>
+                <material name="orange">
+                    <color rgba="0.98 0.29 0.08 1"/>
+                </material>
+            </visual>
+
+            <!-- Visual for finger_body -->
+            <visual>
+                <origin xyz="0 0.013 0.078" rpy="3.14 0 3.14" />
+                <geometry>
+                    <mesh filename="file://$(find wsg_50_simulation)/meshes/finger_body.stl" scale="1. 1. 1."/>
+                </geometry>
+                <material name="orange">
+                    <color rgba="0.98 0.29 0.08 1"/>
+                </material>
+            </visual>
+            
+            <!-- Collision -->
+            <collision>
+                <origin xyz="0 0 -0.023" rpy="-1.5708 0 0" />
+                <geometry>
+                    <mesh filename="file://$(find wsg_50_simulation)/meshes/finger_base.stl" scale="1. 1. 1."/>
+                </geometry>
+            </collision>
+            <collision>
+                <origin xyz="0 0.013 0.078" rpy="3.14 0 3.14" />
+                <geometry>
+                    <mesh filename="file://$(find wsg_50_simulation)/meshes/finger_body.stl" scale="1. 1. 1."/>
+                </geometry>
+            </collision>
+            <contact_coefficients kd="1.0" kp="1000.0" mu="0"/>
+        </link>
+        <gazebo reference="${prefix}_finger_left">
+            <material>Gazebo/Orange</material>
+        </gazebo>
+    </xacro:if>
+
+    
+
+
+    <!-- GRIPPER RIGHT -->
+
+    <joint name="${prefix}_base_joint_gripper_right" type="prismatic">
+        <mimic joint="${prefix}_joint" multiplier="0.5" offset="0.0"/>
+        <limit lower="0.0" upper="0.055" effort="100" velocity="100"/>
+        <origin xyz="0 0 0" rpy="0 0 3.14159" />
+        <parent link="${prefix}_base_link"/>
+        <child link="${prefix}_gripper_right" />
+        <axis xyz="-1 0 0"/>
+        <limit effort="100" velocity="100"/>
+        <dynamics friction="0" damping="25" />
+    </joint>
+    
+    <link name="${prefix}_gripper_right">
+        <inertial>
+            <mass value="0.03" />
+            <origin xyz="0 0 0" />
+        <inertia ixx="3.81e-6" ixy="0.0" ixz="0.0"
+           iyy="2.37e-6" iyz="0.0"
+           izz="3.06e-6"/>
+        </inertial>
+
+        <visual>
+            <origin xyz="0.0 0 0" rpy="0 0 0" />
+            <geometry>
+                <mesh filename="file://$(find wsg_50_simulation)/meshes/GUIDE_WSG50_110.stl" scale="0.001 0.001 0.001"/>
+            </geometry>
+            <material name="black">
+                <color rgba="0 0 0 1"/>
+            </material>
+        </visual>
+
+        <collision>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <geometry>
+                <mesh filename="file://$(find wsg_50_simulation)/meshes/GUIDE_WSG50_110.stl" scale="0.001 0.001 0.001"/>
+            </geometry>
+        </collision>
+        <contact_coefficients kd="1.0" kp="1000.0" mu="0"/>
+    </link>
+
+    <gazebo reference="gripper_right">
+        <material>Gazebo/White</material>
+    </gazebo>
+
+    <!-- RIGHT FINGER -->
+
+    <joint name="${prefix}_guide_joint_finger_right" type="fixed">
+        <origin xyz="${finger_tip} 0 ${finger_length}" rpy="0 0 0" />
+        <parent link="${prefix}_gripper_right"/>
+        <child link="${prefix}_finger_right" />
+        <dynamics friction="100" damping="100" />
+        <axis xyz="1 0 0"/>
+        <limit effort="100" velocity="100"/>
+    </joint>
+
+    <xacro:unless value="${finger_type == 'soft'}">
+        <link name="${prefix}_finger_right">
+            <inertial>
+                <mass value="0.052" />
+                <origin xyz="0 0 0.085" />
+                <inertia ixx="2.50e-5" ixy="0.0" ixz="0.0"
+                iyy="2.50e-5" iyz="0.0"
+                izz="2.60e-6"/>
+            </inertial>
+            
+            <visual>
+                <origin xyz="0.0 0 0" rpy="0 0 0" />
+                <geometry>
+                    <mesh filename="file://$(find wsg_50_simulation)/meshes/WSG-FMF.stl" scale="0.001 0.001 0.001"/>
+                </geometry>
+                <material name="black">
+                <color rgba="0 0 0 1"/>
+                </material>
+            </visual>
+
+            <collision>
+                <origin xyz="0 0 0" rpy="0 0 0" />
+                <geometry>
+                    <mesh filename="file://$(find wsg_50_simulation)/meshes/WSG-FMF.stl" scale="0.001 0.001 0.001"/>
+                </geometry>
+            </collision>
+            <contact_coefficients kd="1.0" kp="1000.0" mu="0"/>
+        </link>
+        <gazebo reference="${prefix}_finger_right">
+            <material>Gazebo/Black</material>
+        </gazebo>
+    </xacro:unless>
+    <xacro:if value="${finger_type == 'soft'}">
+        <link name="${prefix}_finger_right">
+            <inertial>
+                <mass value="0.052" />
+                <origin xyz="0 0 0" />
+                <inertia ixx="2.50e-5" ixy="0.0" ixz="0.0"
+                        iyy="2.50e-5" iyz="0.0"
+                        izz="2.60e-6"/>
+            </inertial>
+
+            <!-- Visual for finger_base -->
+            <visual>
+                <origin xyz="0 0 -0.023" rpy="-1.5708 0 0" />
+                <geometry>
+                    <mesh filename="file://$(find wsg_50_simulation)/meshes/finger_base.stl" scale="1. 1. 1."/>
+                </geometry>
+                <material name="orange">
+                    <color rgba="0.98 0.29 0.08 1"/>
+                </material>
+            </visual>
+
+            <!-- Visual for finger_body -->
+            <visual>
+                <origin xyz="0 0.013 0.078" rpy="3.14 0 3.14" />
+                <geometry>
+                    <mesh filename="file://$(find wsg_50_simulation)/meshes/finger_body.stl" scale="1. 1. 1."/>
+                </geometry>
+                <material name="orange">
+                    <color rgba="0.98 0.29 0.08 1"/>
+                </material>
+            </visual>
+            
+            <!-- Collision -->
+            <collision>
+                <origin xyz="0 0 -0.023" rpy="-1.5708 0 0" />
+                <geometry>
+                    <mesh filename="file://$(find wsg_50_simulation)/meshes/finger_base.stl" scale="1. 1. 1."/>
+                </geometry>
+            </collision>
+            <collision>
+                <origin xyz="0 0.013 0.078" rpy="3.14 0 3.14" />
+                <geometry>
+                    <mesh filename="file://$(find wsg_50_simulation)/meshes/finger_body.stl" scale="1. 1. 1."/>
+                </geometry>
+            </collision>
+            <contact_coefficients kd="1.0" kp="1000.0" mu="0"/>
+        </link>
+        <gazebo reference="${prefix}_finger_right">
+            <material>Gazebo/Orange</material>
+        </gazebo>
+    </xacro:if>
+
+    <ros2_control name="${prefix}" type="system">
+        <xacro:unless value="${real_hardware}">
+            <hardware>
+                <plugin>gz_ros2_control/GazeboSimSystem</plugin>
+            </hardware>
+            <joint name="${prefix}_joint">
+                <command_interface name="velocity"/>
+                <command_interface name="position"/>
+                <state_interface name="velocity"/>
+                <state_interface name="position">
+                    <param name="initial_value">0.05</param>
+                </state_interface>
+                <state_interface name="effort"/>
+            </joint>
+            <joint name="${prefix}_base_joint_gripper_left">
+                <state_interface name="position">
+                </state_interface>
+            </joint>
+            <joint name="${prefix}_base_joint_gripper_right">
+                <state_interface name="position"/>
+            </joint>
+        </xacro:unless>
+        <xacro:if value="${real_hardware}">
+            <hardware>
+                <plugin>wsg_50_interface::WSG50HardwareInterface</plugin>
+                <param name="gripper_name">${config_file.get('name')}</param>
+                <param name="ip_address">${config_file.get('ip_address')}</param>
+                <param name="port">${config_file.get('port')}</param>
+                <param name="protocol">${config_file.get('protocol')}</param>
+                <param name="local_port">${config_file.get('local_port')}</param>
+                <param name="rate">${config_file.get('rate')}</param>
+                <param name="grasping_force">${config_file.get('grasping_force')}</param>
+                <param name="speed">${config_file.get('speed')}</param>
+                <param name="finger_sensors">${config_file.get('finger_sensors')}</param>
+            </hardware>
+            <joint name="${prefix}_joint">
+                <command_interface name="position"/>
+                <state_interface name="position"/>
+                <state_interface name="velocity"/>
+                <state_interface name="effort"/>
+            </joint>
+        </xacro:if>
+
+    </ros2_control>
+
+    <xacro:if value="${sim_standalone}">
+        <gazebo>
+            <plugin filename="gz_ros2_control-system" name="gz_ros2_control::GazeboSimROS2ControlPlugin">
+                <parameters>$(find wsg_50_simulation)/controllers/wsg_50_standalone.yaml</parameters>
+            </plugin>
+        </gazebo>
+    </xacro:if>
+
+</xacro:macro>
+
+</robot>
+
+

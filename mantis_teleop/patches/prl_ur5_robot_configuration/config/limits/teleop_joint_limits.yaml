@@ -1,0 +1,62 @@
+# Teleop joint limits for the LEFT (teleoperated) arm.
+#
+# half_joint_limits.yaml clamps every joint to +-180 deg, which breaks wrist
+# rotation: half of the grasp headings cannot complete a 180 deg roll, and the QP
+# windmills the whole arm instead. Shoulders and elbow keep +-180 (workspace
+# safety), the wrists get +-270, which tracks like +-360 while still bounding
+# folds and the WSG50 cable wrap. Velocity and effort limits are unchanged.
+joint_limits:
+  shoulder_pan_joint:
+    has_acceleration_limits: false
+    has_effort_limits: true
+    has_position_limits: true
+    has_velocity_limits: true
+    max_effort: 150.0
+    max_position: !degrees  180.0
+    max_velocity: !degrees  180.0
+    min_position: !degrees -180.0
+  shoulder_lift_joint:
+    has_acceleration_limits: false
+    has_effort_limits: true
+    has_position_limits: true
+    has_velocity_limits: true
+    max_effort: 150.0
+    max_position: !degrees  180.0
+    max_velocity: !degrees  180.0
+    min_position: !degrees -180.0
+  elbow_joint:
+    has_acceleration_limits: false
+    has_effort_limits: true
+    has_position_limits: true
+    has_velocity_limits: true
+    max_effort: 150.0
+    max_position: !degrees  180.0
+    max_velocity: !degrees  180.0
+    min_position: !degrees -180.0
+  wrist_1_joint:
+    has_acceleration_limits: false
+    has_effort_limits: true
+    has_position_limits: true
+    has_velocity_limits: true
+    max_effort: 28.0
+    max_position: !degrees  270.0
+    max_velocity: !degrees  180.0
+    min_position: !degrees -270.0
+  wrist_2_joint:
+    has_acceleration_limits: false
+    has_effort_limits: true
+    has_position_limits: true
+    has_velocity_limits: true
+    max_effort: 28.0
+    max_position: !degrees  270.0
+    max_velocity: !degrees  180.0
+    min_position: !degrees -270.0
+  wrist_3_joint:
+    has_acceleration_limits: false
+    has_effort_limits: true
+    has_position_limits: true
+    has_velocity_limits: true
+    max_effort: 28.0
+    max_position: !degrees  270.0
+    max_velocity: !degrees  180.0
+    min_position: !degrees -270.0
