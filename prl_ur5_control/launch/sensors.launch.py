@@ -1,5 +1,5 @@
 from launch import LaunchDescription
-from launch.actions import OpaqueFunction, IncludeLaunchDescription, TimerAction
+from launch.actions import DeclareLaunchArgument, OpaqueFunction, IncludeLaunchDescription, TimerAction
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch_ros.substitutions import FindPackageShare
 import yaml
@@ -9,7 +9,9 @@ from launch.actions import GroupAction
 from launch_ros.actions import PushRosNamespace, SetParameter
 
 def launch_setup(context):
-    config_file = Path(get_package_share_directory('prl_ur5_robot_configuration')) / 'config/fixed_cameras/cameras_config.yaml'
+    # cameras_config: file name in prl_ur5_robot_configuration/config/fixed_cameras, or an absolute path
+    config_file = Path(get_package_share_directory('prl_ur5_robot_configuration')) / 'config/fixed_cameras' / \
+        context.launch_configurations.get('cameras_config', 'cameras_config.yaml')
     
     with config_file.open('r') as setup_file:
         config = yaml.safe_load(setup_file)
@@ -66,6 +68,10 @@ def launch_setup(context):
                 "enable_depth": str(camera_info.get('enable_depth', True)).lower(),
                 "enable_ir": str(camera_info.get('enable_ir', False)).lower(),
                 
+                "color_width": str(camera_info.get('color_width', 1280)),
+                "color_height": str(camera_info.get('color_height', 720)),
+                "depth_width": str(camera_info.get('depth_width', 640)),
+                "depth_height": str(camera_info.get('depth_height', 576)),
                 "color_fps": str(camera_info.get('color_fps', 15)),
                 "depth_fps": str(camera_info.get('depth_fps', 15)),
                 "ir_fps": str(camera_info.get('ir_fps', 15)),
@@ -161,4 +167,8 @@ def launch_setup(context):
     return camera_launches
 
 def generate_launch_description():
-    return LaunchDescription([OpaqueFunction(function=launch_setup)])
+    return LaunchDescription([
+        DeclareLaunchArgument("cameras_config", default_value="cameras_config.yaml",
+                              description="cameras file of prl_ur5_robot_configuration/config/fixed_cameras, or a path"),
+        OpaqueFunction(function=launch_setup),
+    ])
