@@ -24,6 +24,8 @@
 #               - update_rate_config_file: Update rate configuration file
 #               - launch_moveit: Launch MoveIt
 #               - activate_cameras: Activate cameras
+#               - cameras_config: cameras file of prl_ur5_robot_configuration/config/fixed_cameras
+#                 (default cameras_config.yaml) or a path
 # Usage:
 #               $ ros2 launch prl_ur5_control reel.launch.py left_robot_ip:=<left_robot_ip> right_robot_ip:=<right_robot_ip> 
 ############################################################################################################
@@ -296,6 +298,7 @@ def launch_setup(context):
             'sensors.launch.py',
             ])
         ]),
+        launch_arguments={"cameras_config": LaunchConfiguration("cameras_config")}.items(),
         condition=IfCondition(activate_cameras),
     )
 
@@ -368,6 +371,13 @@ def generate_launch_description():
             "activate_cameras",
             default_value="false",
             description="Activate cameras?",
+        )
+    )
+    declared_arguments.append(
+        DeclareLaunchArgument(
+            "cameras_config",
+            default_value="cameras_config.yaml",
+            description="Cameras file of prl_ur5_robot_configuration/config/fixed_cameras, or a path",
         )
     )
     declared_arguments.append(

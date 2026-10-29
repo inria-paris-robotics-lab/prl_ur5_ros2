@@ -8,7 +8,7 @@
   <xacro:macro name="gripper" params="gripper prefix parent pose hardware_interface gz_sim">
 
     <!-- check gripper type -->
-    <xacro:unless value="${gripper in [None, 'onrobot-rg2', 'onrobot-rg6', 'onrobot-rg6-v2', 'weiss-wsg50'] or gripper.startswith('custom:') or gripper.startswith('allegro-hand:')}">
+    <xacro:unless value="${gripper in [None, 'onrobot-rg2', 'onrobot-rg6', 'onrobot-rg6-v2', 'weiss-wsg50', 'calib-cube'] or gripper.startswith('custom:') or gripper.startswith('allegro-hand:')}">
       <xacro:unknown_gripper_type/>
     </xacro:unless>
 
@@ -52,6 +52,21 @@
           <parent link="${prefix}gripper_palm_link"/>
           <child link="${prefix}gripper_grasp_frame"/>
           <origin rpy="0 0 0" xyz="0.05 0 -0.025"/>
+      </joint>
+    </xacro:if>
+
+    <!-- if calib-cube -->
+    <xacro:if value="${gripper == 'calib-cube'}">
+      <xacro:include filename="$(find calib_tool)/urdf/calib_tool.urdf.xacro"/>
+      <xacro:calib_tool prefix="${prefix}gripper_" name="calib_tool" parent="${parent}">
+        <origin xyz="${pose['x']} ${pose['y']} ${pose['z']}" rpy="${pose['roll']} ${pose['pitch']} ${pose['yaw']}"/>
+      </xacro:calib_tool>
+      <!-- repère outil commun aux autres grippers, placé au centre du cube -->
+      <link name="${prefix}gripper_grasp_frame"/>
+      <joint name="${prefix}gripper_grasp_frame_joint" type="fixed">
+        <parent link="${prefix}gripper_calib_tool_cube"/>
+        <child link="${prefix}gripper_grasp_frame"/>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
       </joint>
     </xacro:if>
 
