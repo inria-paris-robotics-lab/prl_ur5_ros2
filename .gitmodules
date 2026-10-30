@@ -1,3 +1,0 @@
-[submodule "prl_camera_calib"]
-	path = prl_camera_calib
-	url = https://github.com/inria-paris-robotics-lab/prl_camera_calib.git

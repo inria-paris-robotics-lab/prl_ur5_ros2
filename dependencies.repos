@@ -15,8 +15,8 @@
     local-name: wsg50-ros-pkg
     uri: https://github.com/inria-paris-robotics-lab/wsg50-ros-pkg.git
 - git:
-    local-name: prl_ur5_calibration
-    uri: https://github.com/inria-paris-robotics-lab/prl_ur5_calibration.git
+    local-name: prl_camera_calib
+    uri: https://github.com/inria-paris-robotics-lab/prl_camera_calib.git
 - git:
     local-name: allegro_hand_ros_v4
     uri: https://github.com/inria-paris-robotics-lab/allegro_hand_ros_v4.git
