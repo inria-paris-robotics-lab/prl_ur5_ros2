@@ -45,7 +45,8 @@ int main(int argc, char *argv[]) {
     std::this_thread::sleep_for(50ms);
   }
 
-  // Interrupted (Ctrl-C) before any joint state: fail, so that move_group/rviz are not started during shutdown
+  // Interrupted (Ctrl-C) before any joint state: fail, so that move_group/rviz
+  // are not started during shutdown
   const bool received = node->received();
   rclcpp::shutdown();
   return received ? 0 : 1;
