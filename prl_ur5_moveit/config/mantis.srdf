@@ -7,6 +7,12 @@
     <xacro:arg name="setup_name" default="standard_setup"/>
     <xacro:property name="setup" value="${xacro.load_yaml('$(find prl_ur5_robot_configuration)/config/$(arg setup_name).yaml')}"/>
     <xacro:include filename="$(find onrobot_description)/urdf/onrobot_rg.srdf.xacro"/>
+    <!-- Force sensor per arm (ft_sensor in the setup, as in ur5_complete_arm.urdf.xacro): without it, no ft300 links and the gripper is on tool0 -->
+    <xacro:property name="left_ft" value="${setup['left'].get('ft_sensor') == 'robotiq_ft300'}"/>
+    <xacro:property name="right_ft" value="${setup['right'].get('ft_sensor') == 'robotiq_ft300'}"/>
+    <!-- Gripper type per arm, '' if none (None / "None" / missing): string tests below never fail, and the gripper group/EE are skipped -->
+    <xacro:property name="left_gripper" value="${'' if str(setup['left'].get('gripper')).lower() in ['none', ''] else str(setup['left'].get('gripper'))}"/>
+    <xacro:property name="right_gripper" value="${'' if str(setup['right'].get('gripper')).lower() in ['none', ''] else str(setup['right'].get('gripper'))}"/>
 
     <!--GROUPS: Representation of a set of joints and links. This can be useful for specifying DOF to plan for, defining arms, end effectors, etc-->
     <!--LINKS: When a link is specified, the parent joint of that link (if it exists) is automatically included-->
@@ -23,14 +29,15 @@
         <joint name="left_wrist_3_joint"/>
         <joint name="left_wrist_3-flange"/>
         <joint name="left_flange-tool0"/>
-        <joint name="left_ft300_fix"/>
-        <joint name="left_ft300_mounting_plate_joint"/>
-        <joint name="left_measurment_joint"/>
-        <joint name="left_tool_joint"/>
+        <xacro:if value="${left_ft}">
+            <joint name="left_ft300_fix"/>
+            <joint name="left_ft300_mounting_plate_joint"/>
+            <joint name="left_measurment_joint"/>
+            <joint name="left_tool_joint"/>
+        </xacro:if>
     </group>
     <!--RIGHT ARM-->
     <group name="right_arm">
-        <joint name="right_measurment_joint"/>
         <joint name="right_shoulder_pan_joint"/>
         <joint name="right_shoulder_lift_joint"/>
         <joint name="right_elbow_joint"/>
@@ -39,9 +46,12 @@
         <joint name="right_wrist_3_joint"/>
         <joint name="right_wrist_3-flange"/>
         <joint name="right_flange-tool0"/>
-        <joint name="right_ft300_fix"/>
-        <joint name="right_ft300_mounting_plate_joint"/>
-        <joint name="right_tool_joint"/>
+        <xacro:if value="${right_ft}">
+            <joint name="right_ft300_fix"/>
+            <joint name="right_ft300_mounting_plate_joint"/>
+            <joint name="right_measurment_joint"/>
+            <joint name="right_tool_joint"/>
+        </xacro:if>
     </group>
     <!-- BIMANUAL-->
     <group name="mantis">
@@ -51,103 +61,111 @@
     
     <!--LEFT GRIPPER-->
     <!-- if weiss-wsg50 -->
-    <xacro:if value="${setup['left']['gripper'] == 'weiss-wsg50'}">
+    <xacro:if value="${left_gripper == 'weiss-wsg50'}">
         <xacro:include filename="$(find wsg_50_simulation)/urdf/wsg_50.srdf.xacro"/>
         <xacro:property name="left_gripper_name" value="weiss-wsg50"/>
     </xacro:if>
 
     
     <!-- if onrobot-rg2 -->
-    <xacro:if value="${setup['left']['gripper'] == 'onrobot-rg2'}">
+    <xacro:if value="${left_gripper == 'onrobot-rg2'}">
         <xacro:property name="left_gripper_name" value="onrobot_rg2"/>
     </xacro:if>
 
     <!-- if onrobot-rg6 -->
-    <xacro:if value="${setup['left']['gripper'] == 'onrobot-rg6'}">
+    <xacro:if value="${left_gripper == 'onrobot-rg6'}">
         <xacro:property name="left_gripper_name" value="onrobot_rg6"/>
     </xacro:if>
 
     <!-- if onrobot-rg6-v2 -->
-    <xacro:if value="${setup['left']['gripper'] == 'onrobot-rg6-v2'}">
+    <xacro:if value="${left_gripper == 'onrobot-rg6-v2'}">
         <xacro:property name="left_gripper_name" value="onrobot_rg6_v2"/>
     </xacro:if>
 
     <!-- if allegro-hand -->
-    <xacro:if value="${setup['left']['gripper'].startswith('allegro-hand:')}">
+    <xacro:if value="${left_gripper.startswith('allegro-hand:')}">
       <xacro:include filename="$(find allegro_hand_description)/description/allegro_hand_description.srdf.xacro"/>
       <xacro:property name="left_gripper_name" value="allegro_hand"/>
     </xacro:if>
 
-    <xacro:if value="${setup['left']['gripper'].startswith('custom:')}">
-        <xacro:include filename="$(find prl_ur5_robot_configuration)/urdf/${setup['left']['gripper'][7:]}.srdf.xacro"/>
-        <xacro:property name="left_gripper_name" value="${setup['left']['gripper'][7:]}"/>
+    <xacro:if value="${left_gripper.startswith('custom:')}">
+        <xacro:include filename="$(find prl_ur5_robot_configuration)/urdf/${left_gripper[7:]}.srdf.xacro"/>
+        <xacro:property name="left_gripper_name" value="${left_gripper[7:]}"/>
     </xacro:if>
 
     <!-- if calib-cube -->
-    <xacro:if value="${setup['left']['gripper'] == 'calib-cube'}">
+    <xacro:if value="${left_gripper == 'calib-cube'}">
         <xacro:include filename="$(find calib_tool)/urdf/calib_tool.srdf.xacro"/>
         <xacro:property name="left_gripper_name" value="calib-cube"/>
     </xacro:if>
 
-    <!-- Define gripper group and define its states-->
-    <xacro:call macro="${left_gripper_name}_group_define" group_name="left_gripper" prefix='left_gripper'/>
+    <xacro:if value="${left_gripper != ''}">
+        <!-- Define gripper group and define its states-->
+        <xacro:call macro="${left_gripper_name}_group_define" group_name="left_gripper" prefix='left_gripper'/>
 
-    <!-- Create autocolision and collision tags -->
-    <xacro:call macro="${left_gripper_name}_autocol" prefix='left_gripper'/>
-    <xacro:call macro="${left_gripper_name}_col_with" prefix='left_gripper' link='left_wrist_3_link'/>
-    <xacro:call macro="${left_gripper_name}_col_with" prefix='left_gripper' link='left_ft300_mounting_plate'/>
-    <xacro:call macro="${left_gripper_name}_col_with" prefix='left_gripper' link='left_ft300_sensor'/>
-    <xacro:if value="${'camera' in setup['left']}">
-        <xacro:call macro="${left_gripper_name}_col_with" prefix='left_gripper' link='left_camera_link'/>
+        <!-- Create autocolision and collision tags -->
+        <xacro:call macro="${left_gripper_name}_autocol" prefix='left_gripper'/>
+        <xacro:call macro="${left_gripper_name}_col_with" prefix='left_gripper' link='left_wrist_3_link'/>
+        <xacro:if value="${left_ft}">
+            <xacro:call macro="${left_gripper_name}_col_with" prefix='left_gripper' link='left_ft300_mounting_plate'/>
+            <xacro:call macro="${left_gripper_name}_col_with" prefix='left_gripper' link='left_ft300_sensor'/>
+        </xacro:if>
+        <xacro:if value="${'camera' in setup['left']}">
+            <xacro:call macro="${left_gripper_name}_col_with" prefix='left_gripper' link='left_camera_link'/>
+        </xacro:if>
     </xacro:if>
     
     <!-- RIGHT GRIPPER-->
-    <xacro:if value="${setup['right']['gripper'].startswith('custom:')}">
-        <xacro:include filename="$(find prl_ur5_robot_configuration)/urdf/${setup['right']['gripper'][7:]}.srdf.xacro"/>
-        <xacro:property name="right_gripper_name" value="${setup['right']['gripper'][7:]}"/>
+    <xacro:if value="${right_gripper.startswith('custom:')}">
+        <xacro:include filename="$(find prl_ur5_robot_configuration)/urdf/${right_gripper[7:]}.srdf.xacro"/>
+        <xacro:property name="right_gripper_name" value="${right_gripper[7:]}"/>
     </xacro:if>
 
     <!-- if onrobot-rg2 -->
-    <xacro:if value="${setup['right']['gripper'] == 'onrobot-rg2'}">
+    <xacro:if value="${right_gripper == 'onrobot-rg2'}">
         <xacro:property name="right_gripper_name" value="onrobot_rg2"/>
     </xacro:if>
 
     <!-- if onrobot-rg6 -->
-    <xacro:if value="${setup['right']['gripper'] == 'onrobot-rg6'}">
+    <xacro:if value="${right_gripper == 'onrobot-rg6'}">
         <xacro:property name="right_gripper_name" value="onrobot_rg6"/>
     </xacro:if>
 
     <!-- if onrobot-rg6 -->
-    <xacro:if value="${setup['right']['gripper'] == 'onrobot-rg6-v2'}">
+    <xacro:if value="${right_gripper == 'onrobot-rg6-v2'}">
         <xacro:property name="right_gripper_name" value="onrobot_rg6_v2"/>
     </xacro:if>
 
     <!-- if allegro-hand -->
-    <xacro:if value="${setup['right']['gripper'].startswith('allegro-hand:')}">
+    <xacro:if value="${right_gripper.startswith('allegro-hand:')}">
       <xacro:include filename="$(find allegro_hand_description)/description/allegro_hand_description.srdf.xacro"/>
       <xacro:property name="right_gripper_name" value="allegro_hand"/>
     </xacro:if>
 
-    <xacro:if value="${setup['right']['gripper'] == 'weiss-wsg50'}">
+    <xacro:if value="${right_gripper == 'weiss-wsg50'}">
         <xacro:include filename="$(find wsg_50_simulation)/urdf/wsg_50.srdf.xacro"/>
         <xacro:property name="right_gripper_name" value="weiss-wsg50"/>
     </xacro:if>
 
     <!-- if calib-cube -->
-    <xacro:if value="${setup['right']['gripper'] == 'calib-cube'}">
+    <xacro:if value="${right_gripper == 'calib-cube'}">
         <xacro:include filename="$(find calib_tool)/urdf/calib_tool.srdf.xacro"/>
         <xacro:property name="right_gripper_name" value="calib-cube"/>
     </xacro:if>
 
-    <!-- Define gripper group and define its states-->  
-    <xacro:call macro="${right_gripper_name}_group_define" group_name="right_gripper" prefix='right_gripper'/>
-    <!-- Create autocolision and collision tags -->
-    <xacro:call macro="${right_gripper_name}_autocol" prefix='right_gripper'/>
-    <xacro:call macro="${right_gripper_name}_col_with" prefix='right_gripper' link='right_wrist_3_link'/>
-    <xacro:call macro="${right_gripper_name}_col_with" prefix='right_gripper' link='right_ft300_mounting_plate'/>
-    <xacro:call macro="${right_gripper_name}_col_with" prefix='right_gripper' link='right_ft300_sensor'/>
-    <xacro:if value="${'camera' in setup['right']}">
-        <xacro:call macro="${right_gripper_name}_col_with" prefix='right_gripper' link='right_camera_link'/>
+    <xacro:if value="${right_gripper != ''}">
+        <!-- Define gripper group and define its states-->  
+        <xacro:call macro="${right_gripper_name}_group_define" group_name="right_gripper" prefix='right_gripper'/>
+        <!-- Create autocolision and collision tags -->
+        <xacro:call macro="${right_gripper_name}_autocol" prefix='right_gripper'/>
+        <xacro:call macro="${right_gripper_name}_col_with" prefix='right_gripper' link='right_wrist_3_link'/>
+        <xacro:if value="${right_ft}">
+            <xacro:call macro="${right_gripper_name}_col_with" prefix='right_gripper' link='right_ft300_mounting_plate'/>
+            <xacro:call macro="${right_gripper_name}_col_with" prefix='right_gripper' link='right_ft300_sensor'/>
+        </xacro:if>
+        <xacro:if value="${'camera' in setup['right']}">
+            <xacro:call macro="${right_gripper_name}_col_with" prefix='right_gripper' link='right_camera_link'/>
+        </xacro:if>
     </xacro:if>
 
 
@@ -199,8 +217,12 @@
         <joint name="right_wrist_3_joint" value="0.785"/>
     </group_state>
     <!--END EFFECTOR: Purpose: Represent information about an end effector.-->
-    <end_effector name="left" parent_link="left_tool" group="left_gripper" parent_group="left_arm"/>
-    <end_effector name="right" parent_link="right_tool" group="right_gripper" parent_group="right_arm"/>
+    <xacro:if value="${left_gripper != ''}">
+        <end_effector name="left" parent_link="${'left_tool' if left_ft else 'left_tool0'}" group="left_gripper" parent_group="left_arm"/>
+    </xacro:if>
+    <xacro:if value="${right_gripper != ''}">
+        <end_effector name="right" parent_link="${'right_tool' if right_ft else 'right_tool0'}" group="right_gripper" parent_group="right_arm"/>
+    </xacro:if>
     <!--VIRTUAL JOINT: Purpose: this element defines a virtual joint between a robot link and an external frame of reference (considered fixed with respect to the robot)-->
     <virtual_joint name="wrldbase" type="fixed" parent_frame="world" child_link="base_link"/>
     <!--DISABLE COLLISIONS: By default it is assumed that any link of the robot could potentially come into collision with any other link in the robot. This tag disables collision checking between a specified pair of links. -->
@@ -231,10 +253,6 @@
             
         </xacro:macro>
 
-        <!-- Iterate over all cameras using recursive function-->
-        <xacro:property name="fixed_cameras_file" value="$(find prl_ur5_robot_configuration)/config/${setup['fixed_cameras_file']}"/>
-        <xacro:property name="fixed_cameras" value="${xacro.load_yaml(fixed_cameras_file)}"/>
-
         <xacro:macro name="external_cameras_loop" params="cameras number">
             <xacro:if value="${cameras}">
                     <!-- pop first item from list -->
@@ -246,7 +264,12 @@
             </xacro:if>
         </xacro:macro>
 
-        <xacro:external_cameras_loop cameras="${fixed_cameras}" number="0"/>
+        <!-- Iterate over all cameras using recursive function (only if a fixed cameras file is set, as in mantis.urdf.xacro) -->
+        <xacro:if value="${setup.get('fixed_cameras_file') is not None}">
+            <xacro:property name="fixed_cameras_file" value="$(find prl_ur5_robot_configuration)/config/${setup['fixed_cameras_file']}"/>
+            <xacro:property name="fixed_cameras" value="${xacro.load_yaml(fixed_cameras_file)}"/>
+            <xacro:external_cameras_loop cameras="${fixed_cameras}" number="0"/>
+        </xacro:if>
 
     <!-- UR5 COLLISION DISABLES -->
     <disable_collisions link1="backwall_link" link2="left_base_link_inertia" reason="Adjacent"/>
@@ -265,8 +288,6 @@
     <disable_collisions link1="left_base_link_inertia" link2="leftwall_link" reason="Adjacent"/>
     <disable_collisions link1="left_base_link_inertia" link2="right_base_link_inertia" reason="Adjacent"/>
     <disable_collisions link1="left_base_link_inertia" link2="right_forearm_link" reason="Never"/>
-    <disable_collisions link1="left_base_link_inertia" link2="right_ft300_mounting_plate" reason="Never"/>
-    <disable_collisions link1="left_base_link_inertia" link2="right_ft300_sensor" reason="Never"/>
     <disable_collisions link1="left_base_link_inertia" link2="right_shoulder_link" reason="Never"/>
     <disable_collisions link1="left_base_link_inertia" link2="right_upper_arm_link" reason="Never"/>
     <disable_collisions link1="left_base_link_inertia" link2="right_wrist_1_link" reason="Never"/>
@@ -281,39 +302,10 @@
     <disable_collisions link1="left_forearm_link" link2="right_shoulder_link" reason="Never"/>
     <disable_collisions link1="left_forearm_link" link2="right_upper_arm_link" reason="Never"/>
     <disable_collisions link1="left_forearm_link" link2="right_wrist_1_link" reason="Never"/>
-    <disable_collisions link1="left_ft300_mounting_plate" link2="left_ft300_sensor" reason="Adjacent"/>
-    <disable_collisions link1="left_ft300_mounting_plate" link2="left_wrist_1_link" reason="Never"/>
-    <disable_collisions link1="left_ft300_mounting_plate" link2="left_wrist_2_link" reason="Never"/>
-    <disable_collisions link1="left_ft300_mounting_plate" link2="left_wrist_3_link" reason="Adjacent"/>
-    <disable_collisions link1="left_ft300_mounting_plate" link2="left_wrist_connector_link" reason="Never"/>
-    <disable_collisions link1="left_ft300_mounting_plate" link2="right_base_link_inertia" reason="Never"/>
-    <disable_collisions link1="left_ft300_mounting_plate" link2="right_ft300_mounting_plate" reason="Never"/>
-    <disable_collisions link1="left_ft300_mounting_plate" link2="right_ft300_sensor" reason="Never"/>
-    <disable_collisions link1="left_ft300_mounting_plate" link2="right_shoulder_link" reason="Never"/>
-    <disable_collisions link1="left_ft300_mounting_plate" link2="right_upper_arm_link" reason="Never"/>
-    <disable_collisions link1="left_ft300_mounting_plate" link2="right_wrist_1_link" reason="Never"/>
-    <disable_collisions link1="left_ft300_mounting_plate" link2="right_wrist_2_link" reason="Never"/>
-    <disable_collisions link1="left_ft300_mounting_plate" link2="right_wrist_3_link" reason="Never"/>
-    <disable_collisions link1="left_ft300_mounting_plate" link2="right_wrist_connector_link" reason="Never"/>
-    <disable_collisions link1="left_ft300_sensor" link2="left_wrist_1_link" reason="Never"/>
-    <disable_collisions link1="left_ft300_sensor" link2="left_wrist_2_link" reason="Never"/>
-    <disable_collisions link1="left_ft300_sensor" link2="left_wrist_3_link" reason="Never"/>
-    <disable_collisions link1="left_ft300_sensor" link2="left_wrist_connector_link" reason="Never"/>
-    <disable_collisions link1="left_ft300_sensor" link2="right_base_link_inertia" reason="Never"/>
-    <disable_collisions link1="left_ft300_sensor" link2="right_ft300_mounting_plate" reason="Never"/>
-    <disable_collisions link1="left_ft300_sensor" link2="right_ft300_sensor" reason="Never"/>
-    <disable_collisions link1="left_ft300_sensor" link2="right_shoulder_link" reason="Never"/>
-    <disable_collisions link1="left_ft300_sensor" link2="right_upper_arm_link" reason="Never"/>
-    <disable_collisions link1="left_ft300_sensor" link2="right_wrist_1_link" reason="Never"/>
-    <disable_collisions link1="left_ft300_sensor" link2="right_wrist_2_link" reason="Never"/>
-    <disable_collisions link1="left_ft300_sensor" link2="right_wrist_3_link" reason="Never"/>
-    <disable_collisions link1="left_ft300_sensor" link2="right_wrist_connector_link" reason="Never"/>
     <disable_collisions link1="left_shoulder_link" link2="left_upper_arm_link" reason="Adjacent"/>
     <disable_collisions link1="left_shoulder_link" link2="leftwall_link" reason="Never"/>
     <disable_collisions link1="left_shoulder_link" link2="right_base_link_inertia" reason="Never"/>
     <disable_collisions link1="left_shoulder_link" link2="right_forearm_link" reason="Never"/>
-    <disable_collisions link1="left_shoulder_link" link2="right_ft300_mounting_plate" reason="Never"/>
-    <disable_collisions link1="left_shoulder_link" link2="right_ft300_sensor" reason="Never"/>
     <disable_collisions link1="left_shoulder_link" link2="right_shoulder_link" reason="Never"/>
     <disable_collisions link1="left_shoulder_link" link2="right_upper_arm_link" reason="Never"/>
     <disable_collisions link1="left_shoulder_link" link2="right_wrist_1_link" reason="Never"/>
@@ -323,8 +315,6 @@
     <disable_collisions link1="left_upper_arm_link" link2="leftwall_link" reason="Never"/>
     <disable_collisions link1="left_upper_arm_link" link2="right_base_link_inertia" reason="Never"/>
     <disable_collisions link1="left_upper_arm_link" link2="right_forearm_link" reason="Never"/>
-    <disable_collisions link1="left_upper_arm_link" link2="right_ft300_mounting_plate" reason="Never"/>
-    <disable_collisions link1="left_upper_arm_link" link2="right_ft300_sensor" reason="Never"/>
     <disable_collisions link1="left_upper_arm_link" link2="right_shoulder_link" reason="Never"/>
     <disable_collisions link1="left_upper_arm_link" link2="right_upper_arm_link" reason="Never"/>
     <disable_collisions link1="left_upper_arm_link" link2="right_wrist_1_link" reason="Never"/>
@@ -349,8 +339,6 @@
     <disable_collisions link1="left_wrist_2_link" link2="right_wrist_connector_link" reason="Never"/>
     <disable_collisions link1="left_wrist_3_link" link2="left_wrist_connector_link" reason="Adjacent"/>
     <disable_collisions link1="left_wrist_3_link" link2="right_base_link_inertia" reason="Never"/>
-    <disable_collisions link1="left_wrist_3_link" link2="right_ft300_mounting_plate" reason="Never"/>
-    <disable_collisions link1="left_wrist_3_link" link2="right_ft300_sensor" reason="Never"/>
     <disable_collisions link1="left_wrist_3_link" link2="right_shoulder_link" reason="Never"/>
     <disable_collisions link1="left_wrist_3_link" link2="right_upper_arm_link" reason="Never"/>
     <disable_collisions link1="left_wrist_3_link" link2="right_wrist_1_link" reason="Never"/>
@@ -358,8 +346,6 @@
     <disable_collisions link1="left_wrist_3_link" link2="right_wrist_3_link" reason="Never"/>
     <disable_collisions link1="left_wrist_3_link" link2="right_wrist_connector_link" reason="Never"/>
     <disable_collisions link1="left_wrist_connector_link" link2="right_base_link_inertia" reason="Never"/>
-    <disable_collisions link1="left_wrist_connector_link" link2="right_ft300_mounting_plate" reason="Never"/>
-    <disable_collisions link1="left_wrist_connector_link" link2="right_ft300_sensor" reason="Never"/>
     <disable_collisions link1="left_wrist_connector_link" link2="right_shoulder_link" reason="Never"/>
     <disable_collisions link1="left_wrist_connector_link" link2="right_upper_arm_link" reason="Never"/>
     <disable_collisions link1="left_wrist_connector_link" link2="right_wrist_1_link" reason="Never"/>
@@ -368,8 +354,6 @@
     <disable_collisions link1="left_wrist_connector_link" link2="right_wrist_connector_link" reason="Never"/>
     <disable_collisions link1="leftwall_link" link2="right_base_link_inertia" reason="Adjacent"/>
     <disable_collisions link1="leftwall_link" link2="right_forearm_link" reason="Never"/>
-    <disable_collisions link1="leftwall_link" link2="right_ft300_mounting_plate" reason="Never"/>
-    <disable_collisions link1="leftwall_link" link2="right_ft300_sensor" reason="Never"/>
     <disable_collisions link1="leftwall_link" link2="right_shoulder_link" reason="Never"/>
     <disable_collisions link1="leftwall_link" link2="right_upper_arm_link" reason="Never"/>
     <disable_collisions link1="leftwall_link" link2="right_wrist_1_link" reason="Never"/>
@@ -381,15 +365,6 @@
     <disable_collisions link1="right_base_link_inertia" link2="table_link" reason="Adjacent"/>
     <disable_collisions link1="right_forearm_link" link2="right_upper_arm_link" reason="Adjacent"/>
     <disable_collisions link1="right_forearm_link" link2="right_wrist_1_link" reason="Adjacent"/>
-    <disable_collisions link1="right_ft300_mounting_plate" link2="right_ft300_sensor" reason="Adjacent"/>
-    <disable_collisions link1="right_ft300_mounting_plate" link2="right_wrist_1_link" reason="Never"/>
-    <disable_collisions link1="right_ft300_mounting_plate" link2="right_wrist_2_link" reason="Never"/>
-    <disable_collisions link1="right_ft300_mounting_plate" link2="right_wrist_3_link" reason="Adjacent"/>
-    <disable_collisions link1="right_ft300_mounting_plate" link2="right_wrist_connector_link" reason="Never"/>
-    <disable_collisions link1="right_ft300_sensor" link2="right_wrist_1_link" reason="Never"/>
-    <disable_collisions link1="right_ft300_sensor" link2="right_wrist_2_link" reason="Never"/>
-    <disable_collisions link1="right_ft300_sensor" link2="right_wrist_3_link" reason="Never"/>
-    <disable_collisions link1="right_ft300_sensor" link2="right_wrist_connector_link" reason="Never"/>
     <disable_collisions link1="right_shoulder_link" link2="right_upper_arm_link" reason="Adjacent"/>
     <disable_collisions link1="right_wrist_1_link" link2="right_wrist_2_link" reason="Adjacent"/>
     <disable_collisions link1="right_wrist_1_link" link2="right_wrist_3_link" reason="Never"/>
@@ -397,4 +372,60 @@
     <disable_collisions link1="right_wrist_2_link" link2="right_wrist_3_link" reason="Adjacent"/>
     <disable_collisions link1="right_wrist_2_link" link2="right_wrist_connector_link" reason="Never"/>
     <disable_collisions link1="right_wrist_3_link" link2="right_wrist_connector_link" reason="Adjacent"/>
+
+    <!-- FORCE SENSOR COLLISION DISABLES (only when the robotiq ft300 is mounted) -->
+    <xacro:if value="${left_ft}">
+        <disable_collisions link1="left_ft300_mounting_plate" link2="left_ft300_sensor" reason="Adjacent"/>
+        <disable_collisions link1="left_ft300_mounting_plate" link2="left_wrist_1_link" reason="Never"/>
+        <disable_collisions link1="left_ft300_mounting_plate" link2="left_wrist_2_link" reason="Never"/>
+        <disable_collisions link1="left_ft300_mounting_plate" link2="left_wrist_3_link" reason="Adjacent"/>
+        <disable_collisions link1="left_ft300_mounting_plate" link2="left_wrist_connector_link" reason="Never"/>
+        <disable_collisions link1="left_ft300_mounting_plate" link2="right_base_link_inertia" reason="Never"/>
+        <disable_collisions link1="left_ft300_mounting_plate" link2="right_shoulder_link" reason="Never"/>
+        <disable_collisions link1="left_ft300_mounting_plate" link2="right_upper_arm_link" reason="Never"/>
+        <disable_collisions link1="left_ft300_mounting_plate" link2="right_wrist_1_link" reason="Never"/>
+        <disable_collisions link1="left_ft300_mounting_plate" link2="right_wrist_2_link" reason="Never"/>
+        <disable_collisions link1="left_ft300_mounting_plate" link2="right_wrist_3_link" reason="Never"/>
+        <disable_collisions link1="left_ft300_mounting_plate" link2="right_wrist_connector_link" reason="Never"/>
+        <disable_collisions link1="left_ft300_sensor" link2="left_wrist_1_link" reason="Never"/>
+        <disable_collisions link1="left_ft300_sensor" link2="left_wrist_2_link" reason="Never"/>
+        <disable_collisions link1="left_ft300_sensor" link2="left_wrist_3_link" reason="Never"/>
+        <disable_collisions link1="left_ft300_sensor" link2="left_wrist_connector_link" reason="Never"/>
+        <disable_collisions link1="left_ft300_sensor" link2="right_base_link_inertia" reason="Never"/>
+        <disable_collisions link1="left_ft300_sensor" link2="right_shoulder_link" reason="Never"/>
+        <disable_collisions link1="left_ft300_sensor" link2="right_upper_arm_link" reason="Never"/>
+        <disable_collisions link1="left_ft300_sensor" link2="right_wrist_1_link" reason="Never"/>
+        <disable_collisions link1="left_ft300_sensor" link2="right_wrist_2_link" reason="Never"/>
+        <disable_collisions link1="left_ft300_sensor" link2="right_wrist_3_link" reason="Never"/>
+        <disable_collisions link1="left_ft300_sensor" link2="right_wrist_connector_link" reason="Never"/>
+    </xacro:if>
+    <xacro:if value="${right_ft}">
+        <disable_collisions link1="left_base_link_inertia" link2="right_ft300_mounting_plate" reason="Never"/>
+        <disable_collisions link1="left_base_link_inertia" link2="right_ft300_sensor" reason="Never"/>
+        <disable_collisions link1="left_shoulder_link" link2="right_ft300_mounting_plate" reason="Never"/>
+        <disable_collisions link1="left_shoulder_link" link2="right_ft300_sensor" reason="Never"/>
+        <disable_collisions link1="left_upper_arm_link" link2="right_ft300_mounting_plate" reason="Never"/>
+        <disable_collisions link1="left_upper_arm_link" link2="right_ft300_sensor" reason="Never"/>
+        <disable_collisions link1="left_wrist_3_link" link2="right_ft300_mounting_plate" reason="Never"/>
+        <disable_collisions link1="left_wrist_3_link" link2="right_ft300_sensor" reason="Never"/>
+        <disable_collisions link1="left_wrist_connector_link" link2="right_ft300_mounting_plate" reason="Never"/>
+        <disable_collisions link1="left_wrist_connector_link" link2="right_ft300_sensor" reason="Never"/>
+        <disable_collisions link1="leftwall_link" link2="right_ft300_mounting_plate" reason="Never"/>
+        <disable_collisions link1="leftwall_link" link2="right_ft300_sensor" reason="Never"/>
+        <disable_collisions link1="right_ft300_mounting_plate" link2="right_ft300_sensor" reason="Adjacent"/>
+        <disable_collisions link1="right_ft300_mounting_plate" link2="right_wrist_1_link" reason="Never"/>
+        <disable_collisions link1="right_ft300_mounting_plate" link2="right_wrist_2_link" reason="Never"/>
+        <disable_collisions link1="right_ft300_mounting_plate" link2="right_wrist_3_link" reason="Adjacent"/>
+        <disable_collisions link1="right_ft300_mounting_plate" link2="right_wrist_connector_link" reason="Never"/>
+        <disable_collisions link1="right_ft300_sensor" link2="right_wrist_1_link" reason="Never"/>
+        <disable_collisions link1="right_ft300_sensor" link2="right_wrist_2_link" reason="Never"/>
+        <disable_collisions link1="right_ft300_sensor" link2="right_wrist_3_link" reason="Never"/>
+        <disable_collisions link1="right_ft300_sensor" link2="right_wrist_connector_link" reason="Never"/>
+    </xacro:if>
+    <xacro:if value="${left_ft and right_ft}">
+        <disable_collisions link1="left_ft300_mounting_plate" link2="right_ft300_mounting_plate" reason="Never"/>
+        <disable_collisions link1="left_ft300_mounting_plate" link2="right_ft300_sensor" reason="Never"/>
+        <disable_collisions link1="left_ft300_sensor" link2="right_ft300_mounting_plate" reason="Never"/>
+        <disable_collisions link1="left_ft300_sensor" link2="right_ft300_sensor" reason="Never"/>
+    </xacro:if>
 </robot>

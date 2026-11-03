@@ -23,6 +23,7 @@
 #               - right_kinematics_file: Right robot kinematics file
 #               - update_rate_config_file: Update rate configuration file
 #               - launch_moveit: Launch MoveIt
+#               - run_ur_calibration: Extract the arms calibration into the kinematics files (default false)
 #               - activate_cameras: Activate cameras
 #               - cameras_config: cameras file of prl_ur5_robot_configuration/config/fixed_cameras
 #                 (default cameras_config.yaml) or a path
@@ -104,6 +105,7 @@ def launch_setup(context):
             'robot_ip': right_robot_ip,
             'target_filename': right_kinematics_file,
         }.items(),
+        condition=IfCondition(LaunchConfiguration("run_ur_calibration")),
     )
 
     left_calib = IncludeLaunchDescription(
@@ -118,6 +120,7 @@ def launch_setup(context):
             'robot_ip': left_robot_ip,
             'target_filename': left_kinematics_file,
         }.items(),
+        condition=IfCondition(LaunchConfiguration("run_ur_calibration")),
     )
 
     ###### Controllers ######
@@ -364,6 +367,14 @@ def generate_launch_description():
                 ),
                 "/ur5_right.yaml",
             ],
+        )
+    )
+    declared_arguments.append(
+        DeclareLaunchArgument(
+            "run_ur_calibration",
+            default_value="false",
+            description="Extract the arms calibration into left/right_kinematics_file? Only needed when an arm changes "
+                        "(ur_calibration 3.9.0 never connects, fixed in 3.10.0)",
         )
     )
     declared_arguments.append(

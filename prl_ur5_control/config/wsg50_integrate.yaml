@@ -12,6 +12,6 @@ left_gripper_controller:
     type: position_controllers/GripperActionController
     action_monitor_rate: 100.0
     allow_stalling: false
-    goal_tolerance: 0.0002
+    goal_tolerance: 0.002
     joint: left_gripper_joint
     max_effort: 0.0

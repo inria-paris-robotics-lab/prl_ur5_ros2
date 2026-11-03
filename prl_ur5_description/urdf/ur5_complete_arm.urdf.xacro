@@ -80,6 +80,7 @@
             <xacro:ur_ros2_control
                 name="${prefix}arm"
                 tf_prefix="${prefix}"
+                ur_type="${ur_type}"
                 kinematics_parameters_file="${kinematics_parameters_file}"
                 robot_ip="${network['ip']}"
                 script_filename="${ur_script_filename}"
@@ -140,7 +141,7 @@
 
         <!-- hand-eye camera -->
         <xacro:unless value="${camera is None}">
-            <xacro:camera_sensor camera="${camera}" prefix='${prefix}' parent="${prefix}tool" pose="${camera_pose}" turn_on="${sensors}"/>
+            <xacro:camera_sensor camera="${camera}" prefix='${prefix}' parent="${gripper_parent}" pose="${camera_pose}" turn_on="${sensors}"/>
         </xacro:unless>
 
     </xacro:macro>

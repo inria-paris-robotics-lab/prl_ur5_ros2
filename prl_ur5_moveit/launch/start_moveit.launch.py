@@ -81,10 +81,10 @@ def launch_setup(context):
         RegisterEventHandler(
             event_handler=OnProcessExit(
             target_action=wait_for_joint_states,
-            on_exit=[
-                    node_move_group,
-                    rviz_node,
-                        ],
+            # Only start MoveIt if joint states were received (exit code 0), not on Ctrl-C
+            on_exit=lambda event, context: (
+                [node_move_group, rviz_node] if event.returncode == 0 else []
+            ),
             )
         ),
     ]

@@ -39,9 +39,9 @@ def launch_setup(context):
     active_controller = LaunchConfiguration("active_controller").perform(context)
     loaded_controllers = LaunchConfiguration("loaded_controllers").perform(context)
 
-    # Convert string to list
-    controllers_to_activate = active_controller.split(",")
-    controllers_to_load = loaded_controllers.split(",") 
+    # Convert string to list (drop empty entries: "".split(",") == [""], and trailing commas)
+    controllers_to_activate = [c.strip() for c in active_controller.split(",") if c.strip()]
+    controllers_to_load = [c.strip() for c in loaded_controllers.split(",") if c.strip()]
 
     # Default active controllers
     joint_state_broadcaster_spawner = Node(
@@ -59,12 +59,14 @@ def launch_setup(context):
     # Default inactive controllers
     controllers_inactive = []
     # Update active and inactive controllers with initial joint controller
+    # If activation is disabled, the "active" controllers are still loaded, but inactive
     if activate_joint_controller.lower() == "true":
-        for controller in controllers_to_activate:
-            controllers_active.append(controller)
-        for controller in controllers_to_load:
-            if controller not in controllers_active :
-                controllers_inactive.append(controller)
+        controllers_active = list(dict.fromkeys(controllers_to_activate))
+    else:
+        controllers_to_load = controllers_to_activate + controllers_to_load
+    for controller in controllers_to_load:
+        if controller not in controllers_active and controller not in controllers_inactive:
+            controllers_inactive.append(controller)
 
     controller_spawners = (
         controller_spawner(controllers_active)+
