@@ -7,34 +7,37 @@
   <!-- Macro to generate gripper -->
   <xacro:macro name="gripper" params="gripper prefix parent pose hardware_interface gz_sim">
 
+    <!-- No gripper: None, "None"/"none" (as written in the setup yaml) or empty. Normalized to '' so string tests never fail on None -->
+    <xacro:property name="gtype" value="${'' if gripper is None or str(gripper).lower() in ['none', ''] else str(gripper)}"/>
+
     <!-- check gripper type -->
-    <xacro:unless value="${gripper in [None, 'onrobot-rg2', 'onrobot-rg6', 'onrobot-rg6-v2', 'weiss-wsg50', 'calib-cube'] or gripper.startswith('custom:') or gripper.startswith('allegro-hand:')}">
+    <xacro:unless value="${gtype in ['', 'onrobot-rg2', 'onrobot-rg6', 'onrobot-rg6-v2', 'weiss-wsg50', 'calib-cube'] or gtype.startswith('custom:') or gtype.startswith('allegro-hand:')}">
       <xacro:unknown_gripper_type/>
     </xacro:unless>
 
     <!-- if onrobot-rg2 -->
-    <xacro:if value="${gripper == 'onrobot-rg2'}">
+    <xacro:if value="${gtype == 'onrobot-rg2'}">
       <xacro:onrobot_rg prefix='${prefix}' parent="${parent}" model="rg2_v1" real_hardware="${not gz_sim}" standalone="false">
         <origin xyz="${pose['x']} ${pose['y']} ${pose['z']}" rpy="${pose['roll']} ${pose['pitch']} ${pose['yaw']}"/>
       </xacro:onrobot_rg>
     </xacro:if>
 
     <!-- if onrobot-rg6 -->
-    <xacro:if value="${gripper == 'onrobot-rg6'}">
+    <xacro:if value="${gtype == 'onrobot-rg6'}">
       <xacro:onrobot_rg prefix='${prefix}' parent="${parent}" model="rg6_v1" safety_shield="true" real_hardware="${not gz_sim}" standalone="false">
         <origin xyz="${pose['x']} ${pose['y']} ${pose['z']}" rpy="${pose['roll']} ${pose['pitch']} ${pose['yaw']}"/>
       </xacro:onrobot_rg>
     </xacro:if>
 
     <!-- if onrobot-rg6-v2 -->
-    <xacro:if value="${gripper == 'onrobot-rg6-v2'}">
+    <xacro:if value="${gtype == 'onrobot-rg6-v2'}">
       <xacro:onrobot_rg prefix='${prefix}' parent="${parent}" model="rg6_v2" safety_shield="true" real_hardware="${not gz_sim}" standalone="false">
         <origin xyz="${pose['x']} ${pose['y']} ${pose['z']}" rpy="${pose['roll']} ${pose['pitch']} ${pose['yaw']}"/>
       </xacro:onrobot_rg>
     </xacro:if>
 
     <!-- if weiss-wsg50 -->
-    <xacro:if value="${gripper == 'weiss-wsg50'}">
+    <xacro:if value="${gtype == 'weiss-wsg50'}">
       <xacro:include filename="$(find wsg_50_simulation)/urdf/wsg_50.urdf.xacro"/>
       <xacro:wsg_50_xacro prefix="${prefix}gripper" parent="${parent}" finger_length="0.023" finger_tip="0.0" real_hardware="${not gz_sim}" sim_standalone="false">
         <origin xyz="${pose['x']} ${pose['y']} ${pose['z']}" rpy="${pose['roll']} ${pose['pitch']} ${pose['yaw']}"/>
@@ -42,9 +45,9 @@
     </xacro:if>
 
     <!-- if allegro-hand -->
-    <xacro:if value="${gripper.startswith('allegro-hand:')}">
+    <xacro:if value="${gtype.startswith('allegro-hand:')}">
       <xacro:include filename="$(find allegro_hand_description)/description/allegro_hand_description.urdf.xacro"/>
-      <xacro:allegro_hand chirality='${gripper[13:]}' prefix='${prefix}gripper' parent="${parent}" real_hardware="${not gz_sim}" ur5_attachment="true" standalone="false">
+      <xacro:allegro_hand chirality='${gtype[13:]}' prefix='${prefix}gripper' parent="${parent}" real_hardware="${not gz_sim}" ur5_attachment="true" standalone="false">
         <origin xyz="${pose['x']} ${pose['y']} ${pose['z']}" rpy="${pose['roll']} ${pose['pitch']} ${pose['yaw']}"/>
       </xacro:allegro_hand>
       <link name="${prefix}gripper_grasp_frame"/>
@@ -56,7 +59,7 @@
     </xacro:if>
 
     <!-- if calib-cube -->
-    <xacro:if value="${gripper == 'calib-cube'}">
+    <xacro:if value="${gtype == 'calib-cube'}">
       <xacro:include filename="$(find calib_tool)/urdf/calib_tool.urdf.xacro"/>
       <xacro:calib_tool prefix="${prefix}gripper_" name="calib_tool" parent="${parent}">
         <origin xyz="${pose['x']} ${pose['y']} ${pose['z']}" rpy="${pose['roll']} ${pose['pitch']} ${pose['yaw']}"/>
@@ -71,10 +74,10 @@
     </xacro:if>
 
     <!-- if custom gripper -->
-    <xacro:if value="${gripper.startswith('custom:')}">
-      <xacro:include filename="$(find prl_ur5_robot_configuration)/urdf/${gripper[7:]}.urdf.xacro"/>
+    <xacro:if value="${gtype.startswith('custom:')}">
+      <xacro:include filename="$(find prl_ur5_robot_configuration)/urdf/${gtype[7:]}.urdf.xacro"/>
 
-        <xacro:call macro="${gripper[7:]}" prefix='${prefix}gripper' parent="${parent}" transmission_hw_interface="${hardware_interface}">
+        <xacro:call macro="${gtype[7:]}" prefix='${prefix}gripper' parent="${parent}" transmission_hw_interface="${hardware_interface}">
         <origin xyz="${pose['x']} ${pose['y']} ${pose['z']}" rpy="${pose['roll']} ${pose['pitch']} ${pose['yaw']}"/>
       </xacro:call>
     </xacro:if>

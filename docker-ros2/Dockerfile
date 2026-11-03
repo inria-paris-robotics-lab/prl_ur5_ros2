@@ -14,7 +14,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update && apt-get install -y locales \
     && locale-gen en_US en_US.UTF-8 \
     && update-locale LC_ALL=en_US.UTF-8 LANG=en_US.UTF-8 \
-    && rm -rf /var/lib/apt-get/lists/*
+    && rm -rf /var/lib/apt/lists/*
 ENV LANG=en_US.UTF-8
 ENV TERM=xterm-256color
 ENV SHELL=/bin/bash
@@ -27,7 +27,7 @@ RUN ln -fs /usr/share/zoneinfo/UTC /etc/localtime \
   && apt-get update \
   && apt-get install -y tzdata \
   && dpkg-reconfigure --frontend noninteractive tzdata \
-  && rm -rf /var/lib/apt-get/lists/*
+  && rm -rf /var/lib/apt/lists/*
 
 # Install requirements
 RUN apt-get update && apt-get install -y --no-install-recommends\
@@ -36,7 +36,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends\
     sudo \
     wget \
     lsb-release gnupg \
-    && rm -rf /var/lib/apt-get/lists/*
+    && rm -rf /var/lib/apt/lists/*
 
 # Install ROS2
 RUN sudo add-apt-repository universe
@@ -56,7 +56,7 @@ RUN sudo curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.ke
   ros-${ROS_DISTRO}-moveit-py \
   ros-${ROS_DISTRO}-tf-transformations \
   ros-${ROS_DISTRO}-image-pipeline \
-  && rm -rf /var/lib/apt-get/lists/*
+  && rm -rf /var/lib/apt/lists/*
   
 # Orbbec driver dependencies
 
@@ -71,14 +71,14 @@ RUN sudo apt-get update && apt-get install -y \
   ros-${ROS_DISTRO}-diagnostic-msgs \
   ros-${ROS_DISTRO}-statistics-msgs \
   ros-${ROS_DISTRO}-backward-ros libdw-dev \
-  && rm -rf /var/lib/apt-get/lists/*
+  && rm -rf /var/lib/apt/lists/*
 
 
 ENV AMENT_PREFIX_PATH=/opt/ros/${ROS_DISTRO}
 ENV COLCON_PREFIX_PATH=/opt/ros/${ROS_DISTRO}
 ENV LD_LIBRARY_PATH=/opt/ros/${ROS_DISTRO}/lib/x86_64-linux-gnu:/opt/ros/${ROS_DISTRO}/lib
 ENV PATH=/opt/ros/${ROS_DISTRO}/bin:$PATH
-ENV PYTHONPATH=/opt/ros/${ROS_DISTRO}/local/lib/python3.10/dist-packages:/opt/ros/${ROS_DISTRO}/lib/python3.10/site-packages
+ENV PYTHONPATH=/opt/ros/${ROS_DISTRO}/local/lib/python3.12/dist-packages:/opt/ros/${ROS_DISTRO}/lib/python3.12/site-packages
 
 #Source ros
 RUN echo "source /opt/ros/${ROS_DISTRO}/setup.bash" >> ~/.bashrc
@@ -112,7 +112,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 # Install xauth for gui applications
 RUN apt-get update && apt-get install -q -y --no-install-recommends \
     xauth \
-    && rm -rf /var/lib/apt-get/lists/*
+    && rm -rf /var/lib/apt/lists/*
 
 # Install docker 
 RUN sudo apt-get update && apt-get install -y ca-certificates curl \
@@ -139,7 +139,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends\
   python3-vcstool \
   terminator \
   can-utils \
-  && rm -rf /var/lib/apt-get/lists/*
+  && rm -rf /var/lib/apt/lists/*
 
 # Install Pinocchio 
 # Installer les dépendances pour la gestion des dépôts
@@ -229,11 +229,9 @@ COPY --chown=${USERNAME}:${USERNAME} utils/tmux.conf /home/${USERNAME}/.tmux.con
 RUN echo "export PATH=/opt/openrobots/bin:\$PATH" >> /home/${USERNAME}/.bashrc \
  && echo "export PKG_CONFIG_PATH=/opt/openrobots/lib/pkgconfig:\$PKG_CONFIG_PATH" >> /home/${USERNAME}/.bashrc \
  && echo "export LD_LIBRARY_PATH=/opt/openrobots/lib:\$LD_LIBRARY_PATH" >> /home/${USERNAME}/.bashrc \
- && echo "export PYTHONPATH=/opt/openrobots/lib/python3.10/site-packages:\$PYTHONPATH" >> /home/${USERNAME}/.bashrc \
  && echo "export CMAKE_PREFIX_PATH=/opt/openrobots:\$CMAKE_PREFIX_PATH" >> /home/${USERNAME}/.bashrc \
- && echo "export PYTHONPATH=$PYTHONPATH:/opt/openrobots/lib/python3.12/site-packages" >> /home/${USERNAME}/.bashrc \
- && echo "export PYTHONPATH=$PYTHONPATH:/home/ros/share/install/lib/python3.12/site-packages" >> /home/${USERNAME}/.bashrc \
- && echo "export PYTHONPATH=$PYTHONPATH:/openrobots/lib/python3.12/site-packages" >> /home/${USERNAME}/.bashrc
+ && echo "export PYTHONPATH=/opt/openrobots/lib/python3.12/site-packages:\$PYTHONPATH" >> /home/${USERNAME}/.bashrc \
+ && echo "export PYTHONPATH=\$PYTHONPATH:/home/${USERNAME}/share/install/lib/python3.12/site-packages" >> /home/${USERNAME}/.bashrc
 
 ## Define entrypoint
 COPY entrypoint.sh /entrypoint.sh
@@ -272,4 +270,4 @@ RUN echo "source ~/ros2_utils_ws/install/setup.bash" >> ~/.bashrc
 RUN echo "source ~/share/mantis_ws/install/setup.bash" >> ~/.bashrc
 
 # Add gazebo models and plugins to the path
-RUN echo "export GZ_SIM_RESOURCE_PATH=$GZ_SIM_RESOURCE_PATH:/opt/ros/humble/share:~/ros2_utils_ws/install/orbbec_description/share:~/share/mantis_ws/install/robotiq_ft_sensor_description/share" >> ~/.bashrc 
+RUN echo "export GZ_SIM_RESOURCE_PATH=\$GZ_SIM_RESOURCE_PATH:/opt/ros/${ROS_DISTRO}/share:~/ros2_utils_ws/install/orbbec_description/share:~/share/mantis_ws/install/robotiq_ft_sensor_description/share" >> ~/.bashrc 

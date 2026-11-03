@@ -4,6 +4,8 @@
   <!-- realsense d435i -->
   <xacro:include filename="$(find realsense2_description)/urdf/_d435i.urdf.xacro"/>
   <xacro:include filename="$(find prl_ur5_description)/urdf/_d435_gazebo.urdf.xacro"/>
+  <!-- orbbec femto (femto-mega) -->
+  <xacro:include filename="$(find orbbec_description)/urdf/femto_bolt.urdf.xacro"/>
 
   <xacro:macro name="camera_sensor" params="prefix parent camera pose turn_on:=false">
 
