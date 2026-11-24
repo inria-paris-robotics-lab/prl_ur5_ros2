@@ -105,6 +105,8 @@
                  joint_limits_parameters_file="$(find prl_ur5_robot_configuration)/config/${left.get('arm_joint_limits')}"
                  kinematics_parameters_file="$(find prl_ur5_robot_configuration)/config/${left.get('arm_kinematics')}"
                  network = "${left_network}"
+                 servoj_gain="${left.get('servoj_gain', 2000)}"
+                 servoj_lookahead_time="${left.get('servoj_lookahead_time', 0.03)}"
                  />
   <!-- Right Arm -->
   <xacro:property name="right" value="${setup_file.get('right')}"/>
@@ -122,6 +124,8 @@
                  joint_limits_parameters_file="$(find prl_ur5_robot_configuration)/config/${right.get('arm_joint_limits')}"
                  kinematics_parameters_file="$(find prl_ur5_robot_configuration)/config/${right.get('arm_kinematics')}"
                  network = "${right_network}"
+                 servoj_gain="${right.get('servoj_gain', 2000)}"
+                 servoj_lookahead_time="${right.get('servoj_lookahead_time', 0.03)}"
                  />
   <!-- Gazebosim plugin -->
   <xacro:if value="$(arg gz_sim)">
