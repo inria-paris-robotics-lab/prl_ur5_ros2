@@ -320,7 +320,29 @@ def launch_setup(context):
         condition=IfCondition(launch_moveit),
     )
 
+    ###### SRDF (latched topic, read by the teleop IK and the safety controller) ######
+    robot_srdf_publisher_node = Node(
+        package="utils",
+        executable="string_publisher",
+        name="robot_srdf_description_publisher",
+        output="screen",
+        parameters=[
+            {
+                "topic_name": "robot_srdf_description",
+                "string_value": ParameterValue(
+                    Command([
+                        PathJoinSubstitution([FindExecutable(name="xacro")]),
+                        " ",
+                        PathJoinSubstitution([FindPackageShare("prl_ur5_moveit"), "config", "mantis.srdf"]),
+                    ]),
+                    value_type=str,
+                ),
+            }
+        ],
+    )
+
     return can_setup_actions + [
+        robot_srdf_publisher_node,
         right_calib,
         left_calib,
         control_node,

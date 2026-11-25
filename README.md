@@ -11,6 +11,7 @@
 3. [Prerequisites](#prerequisites)
 4. [Installation](#installation)
    - [Docker Setup](#1-docker-setup-for-docker-ros2)
+   - [Orbbec Femto Mega: network and DDS setup](#orbbec-femto-mega-network-and-dds-setup)
    - [Build and Source Workspace](#rebuild-and-source-the-workspace)
    - [Setup Your Environment](#3-setup-your-environment)
 5. [Usage Tips](#4-usage-tips)
@@ -93,6 +94,18 @@ cd OrbbecSDK_ROS2/orbbec_camera/scripts
 sudo bash install_udev_rules.sh
 sudo udevadm control --reload-rules && sudo udevadm trigger
 ```
+
+### Orbbec Femto Mega: network and DDS setup
+
+Raw camera images are large (~2.7 MB for 720p color): with default Fast DDS they get dropped (~7 Hz instead of 15). The mantis image (`prl_docker`) therefore uses **CycloneDDS** (`RMW_IMPLEMENTATION=rmw_cyclonedds_cpp`, config in `/etc/cyclonedds/cyclonedds.xml`).
+
+**On each host PC (once)**, allow large socket buffers, otherwise frames are dropped again:
+```bash
+sudo cp prl_docker/robots/mantis/10-ros-dds.conf /etc/sysctl.d/
+sudo sysctl --system
+```
+
+In `cameras_config.yaml`, use `time_domain: "global"` (capture time on the host clock) to synchronize the cameras with `joint_states`.
 
 ---
 
